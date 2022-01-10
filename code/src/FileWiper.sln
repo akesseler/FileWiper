@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWiper", "FileWiper\FileWiper.csproj", "{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cmd", "cmd", "{F57EB1AB-BC90-45E5-9051-AE801AA31C9B}"
+	ProjectSection(SolutionItems) = preProject
+		clean_all.cmd = clean_all.cmd
+		copy_release.cmd = copy_release.cmd
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - EMBATTLED|Any CPU = Debug - EMBATTLED|Any CPU
+		Debug - SIMULATION|Any CPU = Debug - SIMULATION|Any CPU
+		Release - EMBATTLED|Any CPU = Release - EMBATTLED|Any CPU
+		Release - SIMULATION|Any CPU = Release - SIMULATION|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Debug - EMBATTLED|Any CPU.ActiveCfg = Debug - EMBATTLED|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Debug - EMBATTLED|Any CPU.Build.0 = Debug - EMBATTLED|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Debug - SIMULATION|Any CPU.ActiveCfg = Debug - SIMULATION|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Debug - SIMULATION|Any CPU.Build.0 = Debug - SIMULATION|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Release - EMBATTLED|Any CPU.ActiveCfg = Release - EMBATTLED|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Release - EMBATTLED|Any CPU.Build.0 = Release - EMBATTLED|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Release - SIMULATION|Any CPU.ActiveCfg = Release - SIMULATION|Any CPU
+		{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}.Release - SIMULATION|Any CPU.Build.0 = Release - SIMULATION|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

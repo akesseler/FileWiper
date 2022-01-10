@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug - SIMULATION</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>plexdata.FileWiper</RootNamespace>
+    <AssemblyName>FileWiper</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - SIMULATION|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\simulation\debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SIMULATION</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - SIMULATION|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\simulation\release\</OutputPath>
+    <DefineConstants>TRACE;SIMULATION</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug - EMBATTLED|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\embattled\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release - EMBATTLED|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\embattled\release\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\MainIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dialogs\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DestroyConfirmationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DestroyConfirmationDialog.Designer.cs">
+      <DependentUpon>DestroyConfirmationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ExceptionView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ExceptionView.Designer.cs">
+      <DependentUpon>ExceptionView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FavoritesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FavoritesDialog.Designer.cs">
+      <DependentUpon>FavoritesDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FirstLaunchWarning.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FirstLaunchWarning.Designer.cs">
+      <DependentUpon>FirstLaunchWarning.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\DetailsView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\DetailsView.Designer.cs">
+      <DependentUpon>DetailsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\HelpDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\HelpDialog.Designer.cs">
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RelaunchConfirmationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\RelaunchConfirmationDialog.Designer.cs">
+      <DependentUpon>RelaunchConfirmationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemPowerStatus.cs" />
+    <Compile Include="ShutdownTracker.cs" />
+    <Compile Include="Utilities\CapacityConverter.cs" />
+    <Compile Include="DataExchanger.cs" />
+    <Compile Include="Dialogs\ErrorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ErrorDialog.Designer.cs">
+      <DependentUpon>ErrorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.Toolbar.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Statusbar.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.TrayIcon.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Helper.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Receiver.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Wiping.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParameterParser.cs" />
+    <Compile Include="PermissionCheck.cs" />
+    <Compile Include="PlatformCheck.cs" />
+    <Compile Include="Controls\ProgressBar3D.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RunningCheck.cs" />
+    <Compile Include="SelfElevation.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Dialogs\SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WipingAlgorithms.cs" />
+    <Compile Include="WipingListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WipingThread.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ShellExtensionHandler.cs" />
+    <EmbeddedResource Include="Dialogs\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DestroyConfirmationDialog.resx">
+      <DependentUpon>DestroyConfirmationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ErrorDialog.resx">
+      <DependentUpon>ErrorDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ExceptionView.resx">
+      <DependentUpon>ExceptionView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FavoritesDialog.resx">
+      <DependentUpon>FavoritesDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FirstLaunchWarning.resx">
+      <DependentUpon>FirstLaunchWarning.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\DetailsView.resx">
+      <DependentUpon>DetailsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\HelpDialog.resx">
+      <DependentUpon>HelpDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\RelaunchConfirmationDialog.resx">
+      <DependentUpon>RelaunchConfirmationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Dialogs\SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Abort.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\About.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Apply.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cancel.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Exit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MainIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pause.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Continue.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Recycle1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Recycle2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Recycle3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Recycle4.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Recycle5.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Settings.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Show.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Background.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MainLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Error.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="External\pdcmse.config.filewiper.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="External\pdcmse32.dll" />
+    <Content Include="External\pdcmse64.dll" />
+    <None Include="Resources\Help.ico" />
+    <None Include="Resources\MainHelpPage.html" />
+    <None Include="Resources\Next.ico" />
+    <None Include="Resources\Folder.ico" />
+    <None Include="Resources\File.ico" />
+    <None Include="Resources\Open.ico" />
+    <None Include="Resources\ItemRemove.ico" />
+    <None Include="Resources\ItemAdd.ico" />
+    <None Include="Resources\Favorites.ico" />
+    <None Include="Resources\RelaunchConfirmationImage.png" />
+    <None Include="Resources\Details.ico" />
+    <None Include="Resources\DestroyConfirmationImage.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "$(TargetDir)\pdcmse??.dll" (
+    copy /y /v "$(ProjectDir)external\pdcmse??.dll" "$(TargetDir)"
+)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
