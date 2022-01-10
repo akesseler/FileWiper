@@ -1,16 +1,28 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     partial class SettingsDialog
     {
@@ -44,14 +56,14 @@ namespace plexdata.FileWiper
             this.btnDefault = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.tabSettings = new plexdata.FileWiper.TabControlEx();
+            this.tabSettings = new Plexdata.FileWiper.TabControlEx();
             this.tcpBehaviour = new System.Windows.Forms.TabPage();
             this.tcpWipingSettings = new System.Windows.Forms.TabPage();
             this.grpAlgorithm = new System.Windows.Forms.GroupBox();
             this.cmbAlgorithmAlgorithm = new System.Windows.Forms.ComboBox();
             this.numAlgorithmRepeats = new System.Windows.Forms.NumericUpDown();
             this.lblAlgorithmDescription = new System.Windows.Forms.Label();
-            this.txtAlgorithmDescription = new plexdata.FileWiper.RichTextBoxEx();
+            this.txtAlgorithmDescription = new Plexdata.FileWiper.RichTextBoxEx();
             this.lblAlgorithmRepeats = new System.Windows.Forms.Label();
             this.lblAlgorithmAlgorithm = new System.Windows.Forms.Label();
             this.grpParallelProcessing = new System.Windows.Forms.GroupBox();
@@ -68,14 +80,14 @@ namespace plexdata.FileWiper
             this.lblWarning = new System.Windows.Forms.Label();
             this.lblDisplayText = new System.Windows.Forms.Label();
             this.chkEnableIcon = new System.Windows.Forms.CheckBox();
-            this.chkIncludeFolderNames = new plexdata.FileWiper.FocusCheckBox();
-            this.txtBehaviourDescription = new plexdata.FileWiper.RichTextBoxEx();
+            this.chkIncludeFolderNames = new Plexdata.FileWiper.FocusCheckBox();
+            this.txtBehaviourDescription = new Plexdata.FileWiper.RichTextBoxEx();
             this.lblBehaviourDescription = new System.Windows.Forms.Label();
-            this.chkAllowAutoRelaunch = new plexdata.FileWiper.FocusCheckBox();
-            this.chkSuppressCancelQuestion = new plexdata.FileWiper.FocusCheckBox();
-            this.chkAutoPauseWiping = new plexdata.FileWiper.FocusCheckBox();
-            this.chkUseFullResources = new plexdata.FileWiper.FocusCheckBox();
-            this.chkAllowAutoClose = new plexdata.FileWiper.FocusCheckBox();
+            this.chkAllowAutoRelaunch = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkSuppressCancelQuestion = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkAutoPauseWiping = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkUseFullResources = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkAllowAutoClose = new Plexdata.FileWiper.FocusCheckBox();
             this.tabSettings.SuspendLayout();
             this.tcpBehaviour.SuspendLayout();
             this.tcpWipingSettings.SuspendLayout();
@@ -525,7 +537,7 @@ namespace plexdata.FileWiper
 
         #endregion
 
-        private plexdata.FileWiper.TabControlEx tabSettings;
+        private Plexdata.FileWiper.TabControlEx tabSettings;
         private System.Windows.Forms.TabPage tcpWipingSettings;
         private System.Windows.Forms.TabPage tcpShellExtension;
         private System.Windows.Forms.Button btnDefault;
@@ -544,7 +556,7 @@ namespace plexdata.FileWiper
         private System.Windows.Forms.ComboBox cmbAlgorithmAlgorithm;
         private System.Windows.Forms.NumericUpDown numAlgorithmRepeats;
         private System.Windows.Forms.Label lblAlgorithmDescription;
-        private plexdata.FileWiper.RichTextBoxEx txtAlgorithmDescription;
+        private Plexdata.FileWiper.RichTextBoxEx txtAlgorithmDescription;
         private System.Windows.Forms.Label lblAlgorithmRepeats;
         private System.Windows.Forms.Label lblAlgorithmAlgorithm;
         private System.Windows.Forms.GroupBox grpParallelProcessing;
@@ -552,13 +564,13 @@ namespace plexdata.FileWiper
         private System.Windows.Forms.NumericUpDown numParallelWipings;
         private System.Windows.Forms.CheckBox chkParallelProcessing;
         private System.Windows.Forms.TabPage tcpBehaviour;
-        private plexdata.FileWiper.FocusCheckBox chkIncludeFolderNames;
-        private plexdata.FileWiper.RichTextBoxEx txtBehaviourDescription;
+        private Plexdata.FileWiper.FocusCheckBox chkIncludeFolderNames;
+        private Plexdata.FileWiper.RichTextBoxEx txtBehaviourDescription;
         private System.Windows.Forms.Label lblBehaviourDescription;
-        private plexdata.FileWiper.FocusCheckBox chkAllowAutoRelaunch;
-        private plexdata.FileWiper.FocusCheckBox chkSuppressCancelQuestion;
-        private plexdata.FileWiper.FocusCheckBox chkAutoPauseWiping;
-        private plexdata.FileWiper.FocusCheckBox chkUseFullResources;
-        private plexdata.FileWiper.FocusCheckBox chkAllowAutoClose;
+        private Plexdata.FileWiper.FocusCheckBox chkAllowAutoRelaunch;
+        private Plexdata.FileWiper.FocusCheckBox chkSuppressCancelQuestion;
+        private Plexdata.FileWiper.FocusCheckBox chkAutoPauseWiping;
+        private Plexdata.FileWiper.FocusCheckBox chkUseFullResources;
+        private Plexdata.FileWiper.FocusCheckBox chkAllowAutoClose;
     }
 }
