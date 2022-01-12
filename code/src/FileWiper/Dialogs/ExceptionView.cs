@@ -23,11 +23,9 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
 
 namespace Plexdata.FileWiper
 {
@@ -48,12 +46,12 @@ namespace Plexdata.FileWiper
         {
         }
 
-        public ExceptionView(Exception exception, string message)
+        public ExceptionView(Exception exception, String message)
             : this(new Exception[] { exception }, message, null)
         {
         }
 
-        public ExceptionView(Exception exception, string message, string caption)
+        public ExceptionView(Exception exception, String message, String caption)
             : this(new Exception[] { exception }, message, caption)
         {
         }
@@ -63,12 +61,12 @@ namespace Plexdata.FileWiper
         {
         }
 
-        public ExceptionView(Exception[] exceptions, string message)
+        public ExceptionView(Exception[] exceptions, String message)
             : this(exceptions, message, null)
         {
         }
 
-        public ExceptionView(Exception[] exceptions, string message, string caption)
+        public ExceptionView(Exception[] exceptions, String message, String caption)
             : this()
         {
             this.Exceptions = exceptions;
@@ -80,7 +78,7 @@ namespace Plexdata.FileWiper
 
         #region Public property section.
 
-        private List<Exception> exceptions = new List<Exception>();
+        private readonly List<Exception> exceptions = new List<Exception>();
         public Exception[] Exceptions
         {
             get { return this.exceptions.ToArray(); }
@@ -97,9 +95,9 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public string Caption { get; set; }
+        public String Caption { get; set; }
 
-        public string Message { get; set; }
+        public String Message { get; set; }
 
         #endregion // Public property section.
 
@@ -125,8 +123,8 @@ namespace Plexdata.FileWiper
                 // Or hide message and icon and resize all other controls.
                 else
                 {
-                    int top = this.lblMessage.Top;
-                    int delta = this.lblExceptionTree.Top - top;
+                    Int32 top = this.lblMessage.Top;
+                    Int32 delta = this.lblExceptionTree.Top - top;
 
                     this.lblMessage.Visible = false;
                     this.picImage.Visible = false;
@@ -155,31 +153,29 @@ namespace Plexdata.FileWiper
 
         #region Private event handler section.
 
-        private void OnTreeBeforeExpand(object sender, TreeViewCancelEventArgs args)
+        private void OnTreeBeforeExpand(Object sender, TreeViewCancelEventArgs args)
         {
             if (args.Node.FirstNode != null && args.Node.FirstNode.Text == String.Empty)
             {
                 args.Node.FirstNode.Remove(); // Remove dummy node.
 
-                Exception current = args.Node.Tag as Exception;
-                if (current != null && current.InnerException != null)
+                if (args.Node.Tag is Exception current && current.InnerException != null)
                 {
                     args.Node.Nodes.Add(this.CreateNode(current.InnerException));
                 }
             }
         }
 
-        private void OnTreeAfterSelect(object sender, TreeViewEventArgs args)
+        private void OnTreeAfterSelect(Object sender, TreeViewEventArgs args)
         {
             try
             {
-                const string PLACEHOLDER = "$$PLACEHOLDER$$";
-                const string NEWLINE = "\\par ";
-                const string NEWPARA = "\\par \\par ";
+                const String PLACEHOLDER = "$$PLACEHOLDER$$";
+                const String NEWLINE = "\\par ";
+                const String NEWPARA = "\\par \\par ";
 
-                string details = String.Empty;
-                Exception current = args.Node.Tag as Exception;
-                if (current != null)
+                String details = String.Empty;
+                if (args.Node.Tag is Exception current)
                 {
                     this.txtExceptionDetails.Rtf = String.Empty;
                     this.txtExceptionDetails.Text = PLACEHOLDER;
@@ -258,7 +254,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnDetailsLinkClicked(object sender, LinkClickedEventArgs args)
+        private void OnDetailsLinkClicked(Object sender, LinkClickedEventArgs args)
         {
             try
             {
@@ -273,7 +269,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnCopyToClipboardLinkClicked(object sender, LinkLabelLinkClickedEventArgs args)
+        private void OnCopyToClipboardLinkClicked(Object sender, LinkLabelLinkClickedEventArgs args)
         {
             TreeNode selected = this.tvcExceptionTree.SelectedNode;
             if (selected != null && selected.Tag is Exception)
@@ -331,18 +327,20 @@ namespace Plexdata.FileWiper
 
         private TreeNode CreateNode(Exception exception)
         {
-            TreeNode result = new TreeNode(this.ExtractName(exception));
-            result.Tag = exception;
+            TreeNode result = new TreeNode(this.ExtractName(exception))
+            {
+                Tag = exception
+            };
             result.Nodes.Add(new TreeNode()); // Add dummy node.
             return result;
         }
 
-        private string ExtractName(Exception exception)
+        private String ExtractName(Exception exception)
         {
             if (exception != null)
             {
-                string result = exception.GetType().ToString();
-                int index = result.LastIndexOf('.');
+                String result = exception.GetType().ToString();
+                Int32 index = result.LastIndexOf('.');
                 if (index != -1) { result = result.Substring(index).Replace(".", ""); }
                 return result;
             }
@@ -352,7 +350,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void ShowErrorMessage(string message, Exception exception)
+        private void ShowErrorMessage(String message, Exception exception)
         {
             if (!String.IsNullOrEmpty(message) && !message.EndsWith("\n\n"))
             {

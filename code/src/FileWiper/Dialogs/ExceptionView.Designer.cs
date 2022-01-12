@@ -70,6 +70,7 @@ namespace Plexdata.FileWiper
             // 
             this.tvcExceptionTree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvcExceptionTree.BackColor = System.Drawing.Color.White;
             this.tvcExceptionTree.Location = new System.Drawing.Point(12, 88);
             this.tvcExceptionTree.Name = "tvcExceptionTree";
             this.tvcExceptionTree.Size = new System.Drawing.Size(200, 233);
@@ -77,12 +78,12 @@ namespace Plexdata.FileWiper
             this.tvcExceptionTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeBeforeExpand);
             this.tvcExceptionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeAfterSelect);
             // 
-            // btnOK
+            // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(497, 327);
-            this.btnClose.Name = "btnOK";
+            this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 4;
             this.btnClose.Text = "&Close";
@@ -90,7 +91,7 @@ namespace Plexdata.FileWiper
             // 
             // txtExceptionDetails
             // 
-            this.txtExceptionDetails.BackColor = System.Drawing.SystemColors.Window;
+            this.txtExceptionDetails.BackColor = System.Drawing.Color.White;
             this.txtExceptionDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtExceptionDetails.Location = new System.Drawing.Point(0, 0);
@@ -172,6 +173,7 @@ namespace Plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(584, 362);
             this.Controls.Add(this.picImage);

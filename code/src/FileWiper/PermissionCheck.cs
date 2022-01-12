@@ -23,19 +23,18 @@
  */
 
 using System;
-using System.Windows.Forms;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
     internal static class PermissionCheck
     {
-        internal static bool IsRunAsAdmin { get { return IsUserAnAdmin(); } }
+        internal static Boolean IsRunAsAdmin { get { return IsUserAnAdmin(); } }
 
-        internal static void SetButtonShield(Button button, bool visible)
+        internal static void SetButtonShield(Button button, Boolean visible)
         {
-            const int BCM_SETSHIELD = 0x0000160C;
+            const Int32 BCM_SETSHIELD = 0x0000160C;
 
             if (button != null)
             {
@@ -59,10 +58,10 @@ namespace Plexdata.FileWiper
         // It is recommended to call that function directly to determine Administrator group status 
         // rather than calling IsUserAnAdmin." 
         [DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern bool IsUserAnAdmin();
+        private static extern Boolean IsUserAnAdmin();
 
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr SendMessage(HandleRef hWnd, int message, IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr SendMessage(HandleRef hWnd, Int32 message, IntPtr wParam, IntPtr lParam);
 
         #endregion // Win32 related declaration and implementation section.
     }

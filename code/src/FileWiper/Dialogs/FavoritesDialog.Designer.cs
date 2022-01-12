@@ -67,12 +67,12 @@ namespace Plexdata.FileWiper
             this.cmsFavoritesList.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnOK
+            // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.No;
             this.btnClose.Location = new System.Drawing.Point(305, 231);
-            this.btnClose.Name = "btnOK";
+            this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 0;
             this.btnClose.Text = "&Close";
@@ -122,12 +122,14 @@ namespace Plexdata.FileWiper
             this.lstFavoritesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstFavoritesList.BackColor = System.Drawing.Color.White;
             this.lstFavoritesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colFolderName,
             this.colBaseFolder,
             this.colFolderState});
             this.lstFavoritesList.ContextMenuStrip = this.cmsFavoritesList;
             this.lstFavoritesList.FullRowSelect = true;
+            this.lstFavoritesList.HideSelection = false;
             this.lstFavoritesList.Location = new System.Drawing.Point(12, 12);
             this.lstFavoritesList.Name = "lstFavoritesList";
             this.lstFavoritesList.ShowItemToolTips = true;
@@ -157,20 +159,20 @@ namespace Plexdata.FileWiper
             this.cmiAdd,
             this.cmiRemove});
             this.cmsFavoritesList.Name = "cmsFavoritesList";
-            this.cmsFavoritesList.Size = new System.Drawing.Size(153, 70);
+            this.cmsFavoritesList.Size = new System.Drawing.Size(118, 48);
             this.cmsFavoritesList.Opening += new System.ComponentModel.CancelEventHandler(this.OnFavoritesListMenuOpening);
             // 
             // cmiAdd
             // 
             this.cmiAdd.Name = "cmiAdd";
-            this.cmiAdd.Size = new System.Drawing.Size(152, 22);
+            this.cmiAdd.Size = new System.Drawing.Size(117, 22);
             this.cmiAdd.Text = "&Add";
             this.cmiAdd.Click += new System.EventHandler(this.OnAddButtonClick);
             // 
             // cmiRemove
             // 
             this.cmiRemove.Name = "cmiRemove";
-            this.cmiRemove.Size = new System.Drawing.Size(152, 22);
+            this.cmiRemove.Size = new System.Drawing.Size(117, 22);
             this.cmiRemove.Text = "&Remove";
             this.cmiRemove.Click += new System.EventHandler(this.OnRemoveButtonClick);
             // 
@@ -178,6 +180,8 @@ namespace Plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(392, 266);
             this.Controls.Add(this.lstFavoritesList);
             this.Controls.Add(this.btnRemove);

@@ -24,9 +24,6 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections.Generic;
-
-using System.Runtime.InteropServices;
 
 namespace Plexdata.FileWiper
 {
@@ -47,7 +44,7 @@ namespace Plexdata.FileWiper
         //     The process does not have an identifier, or no process is associated with
         //     the System.Diagnostics.Process.  -or- The associated process has exited.
         //
-        public static bool IsRunning
+        public static Boolean IsRunning
         {
             get
             {

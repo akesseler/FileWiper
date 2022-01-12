@@ -23,17 +23,17 @@
  */
 
 using System;
-using System.Text;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
     internal class StringReceivedEventArgs : EventArgs
     {
-        public StringReceivedEventArgs(string value)
+        public StringReceivedEventArgs(String value)
             : base()
         {
             if (value == null)
@@ -43,12 +43,12 @@ namespace Plexdata.FileWiper
             this.Value = value;
         }
 
-        public string Value { get; private set; }
+        public String Value { get; private set; }
     }
 
     internal class FilenameReceivedEventArgs : StringReceivedEventArgs
     {
-        public FilenameReceivedEventArgs(string value)
+        public FilenameReceivedEventArgs(String value)
             : base(value)
         {
         }
@@ -56,17 +56,17 @@ namespace Plexdata.FileWiper
 
     internal class BufferReceivedEventArgs : EventArgs
     {
-        public BufferReceivedEventArgs(byte[] buffer)
+        public BufferReceivedEventArgs(Byte[] buffer)
             : base()
         {
             if (buffer == null)
             {
-                buffer = new byte[0];
+                buffer = new Byte[0];
             }
             this.Buffer = buffer;
         }
 
-        public byte[] Buffer { get; private set; }
+        public Byte[] Buffer { get; private set; }
     }
 
     internal class DataReceiver : DataExchanger
@@ -81,7 +81,7 @@ namespace Plexdata.FileWiper
         {
         }
 
-        public bool EnableMessageFilter()
+        public Boolean EnableMessageFilter()
         {
             // Be aware, ChangeWindowMessageFilter() is defined since Windows Vista.
             if (PermissionCheck.IsRunAsAdmin && PlatformCheck.IsVistaOrHigher)
@@ -99,7 +99,7 @@ namespace Plexdata.FileWiper
             return true;
         }
 
-        public bool DisableMessageFilter()
+        public Boolean DisableMessageFilter()
         {
             // Be aware, ChangeWindowMessageFilter() is defined since Windows Vista.
             if (PermissionCheck.IsRunAsAdmin && PlatformCheck.IsVistaOrHigher)
@@ -128,39 +128,30 @@ namespace Plexdata.FileWiper
                     COPYDATASTRUCT data = (COPYDATASTRUCT)Marshal.PtrToStructure(
                         message.LParam, typeof(COPYDATASTRUCT));
 
-                    int type = data.nType.ToInt32();
+                    Int32 type = data.nType.ToInt32();
 
                     if (type == CONTENT_BUFFER ||
                         type == CONTENT_STRING ||
                         type == CONTENT_FILENAME)
                     {
-                        byte[] buffer = new byte[data.nBuffer];
+                        Byte[] buffer = new Byte[data.nBuffer];
                         Marshal.Copy(data.pBuffer, buffer, 0, buffer.Length);
 
                         if (type == CONTENT_BUFFER)
                         {
-                            if (this.BufferReceived != null)
-                            {
-                                this.BufferReceived(this, new BufferReceivedEventArgs(buffer));
-                            }
+                            this.BufferReceived?.Invoke(this, new BufferReceivedEventArgs(buffer));
                         }
                         else
                         {
-                            string value = base.Encoding.GetString(buffer);
+                            String value = base.Encoding.GetString(buffer);
 
                             if (type == CONTENT_STRING)
                             {
-                                if (this.StringReceived != null)
-                                {
-                                    this.StringReceived(this, new StringReceivedEventArgs(value));
-                                }
+                                this.StringReceived?.Invoke(this, new StringReceivedEventArgs(value));
                             }
                             else if (type == CONTENT_FILENAME)
                             {
-                                if (this.FilenameReceived != null)
-                                {
-                                    this.FilenameReceived(this, new FilenameReceivedEventArgs(value));
-                                }
+                                this.FilenameReceived?.Invoke(this, new FilenameReceivedEventArgs(value));
                             }
                         }
                         message.Result = (IntPtr)1; // Return true.
@@ -176,12 +167,10 @@ namespace Plexdata.FileWiper
                 // Getting WM_FILEWIPER_COMMAND might throw an exception!
                 else if (message.Msg == WM_FILEWIPER_COMMAND)
                 {
-                    if ((message.WParam == COMMAND_ACTION) && (message.LParam == COMMAND_ACTIVATION))
+                    if ((message.WParam == this.COMMAND_ACTION) && (message.LParam == this.COMMAND_ACTIVATION))
                     {
-                        if (this.ActivationReceived != null)
-                        {
-                            this.ActivationReceived(this, EventArgs.Empty);
-                        }
+                        this.ActivationReceived?.Invoke(this, EventArgs.Empty);
+
                         message.Result = (IntPtr)1; // Return true.
                     }
                     else
@@ -228,16 +217,16 @@ namespace Plexdata.FileWiper
 
         public IntPtr Receiver { get; private set; }
 
-        public bool SendString(string value)
+        public Boolean SendString(String value)
         {
             return this.SendString(this.Receiver, value);
         }
 
-        public bool SendString(IntPtr hReceiver, string value)
+        public Boolean SendString(IntPtr hReceiver, String value)
         {
             // A plain string is always sent as it is.
 
-            bool success = false;
+            Boolean success = false;
             if (!String.IsNullOrEmpty(value))
             {
                 success = base.SendCopyData(hReceiver, CONTENT_STRING, value);
@@ -245,17 +234,17 @@ namespace Plexdata.FileWiper
             return success;
         }
 
-        public bool SendFilename(string filename)
+        public Boolean SendFilename(String filename)
         {
             return this.SendFilename(this.Receiver, filename);
         }
 
-        public bool SendFilename(IntPtr hReceiver, string filename)
+        public Boolean SendFilename(IntPtr hReceiver, String filename)
         {
             // A filename is always trimmed and enclosed 
             // with quotes before it is sent.
 
-            bool success = false;
+            Boolean success = false;
 
             if (filename != null) { filename = filename.Trim(); }
 
@@ -269,24 +258,24 @@ namespace Plexdata.FileWiper
             return success;
         }
 
-        public bool SendBuffer(byte[] buffer)
+        public Boolean SendBuffer(Byte[] buffer)
         {
             return this.SendBuffer(this.Receiver, buffer);
         }
 
-        public bool SendBuffer(IntPtr hReceiver, byte[] buffer)
+        public Boolean SendBuffer(IntPtr hReceiver, Byte[] buffer)
         {
             return base.SendCopyData(hReceiver, CONTENT_BUFFER, buffer);
         }
 
-        public bool SendBringToFront()
+        public Boolean SendBringToFront()
         {
-            return SendBringToFront(this.Receiver);
+            return this.SendBringToFront(this.Receiver);
         }
 
-        public bool SendBringToFront(IntPtr hReceiver)
+        public Boolean SendBringToFront(IntPtr hReceiver)
         {
-            bool success = false;
+            Boolean success = false;
             try
             {
                 Program.TraceLogger.Write("DataDispatcher", ">>> SendBringToFront()");
@@ -296,7 +285,7 @@ namespace Plexdata.FileWiper
                     throw new ArgumentNullException("hReceiver");
                 }
 
-                success = SendMessage(hReceiver, WM_FILEWIPER_COMMAND, COMMAND_ACTION, COMMAND_ACTIVATION);
+                success = SendMessage(hReceiver, WM_FILEWIPER_COMMAND, this.COMMAND_ACTION, this.COMMAND_ACTIVATION);
 
                 // Message might be rejected by UIPI and in this 
                 // case last error is set to 5 (access denied)!
@@ -325,9 +314,9 @@ namespace Plexdata.FileWiper
     internal class DataExchanger : NativeWindow
     {
         // Define additional content types for WM_COPYDATA message.
-        protected const int CONTENT_BUFFER = 0x7000;
-        protected const int CONTENT_STRING = 0x8000;
-        protected const int CONTENT_FILENAME = 0x8001;
+        protected const Int32 CONTENT_BUFFER = 0x7000;
+        protected const Int32 CONTENT_STRING = 0x8000;
+        protected const Int32 CONTENT_FILENAME = 0x8001;
 
         // Define additional command details for WM_FILEWIPER_COMMAND message.
         protected readonly IntPtr COMMAND_ACTION = new IntPtr(0xAFFE);
@@ -340,15 +329,15 @@ namespace Plexdata.FileWiper
 
             if (parent != null)
             {
-                parent.HandleCreated += new EventHandler(OnParentHandleCreated);
-                parent.HandleDestroyed += new EventHandler(OnParentHandleDestroyed);
+                parent.HandleCreated += new EventHandler(this.OnParentHandleCreated);
+                parent.HandleDestroyed += new EventHandler(this.OnParentHandleDestroyed);
             }
         }
 
         public Encoding Encoding { get; set; }
 
-        private static int msgFilewiperCommand = 0;
-        protected static int WM_FILEWIPER_COMMAND
+        private static Int32 msgFilewiperCommand = 0;
+        protected static Int32 WM_FILEWIPER_COMMAND
         {
             get
             {
@@ -365,19 +354,19 @@ namespace Plexdata.FileWiper
             }
         }
 
-        protected bool SendCopyData(IntPtr hReceiver, int type, string value)
+        protected Boolean SendCopyData(IntPtr hReceiver, Int32 type, String value)
         {
-            bool success = false;
+            Boolean success = false;
             if (!String.IsNullOrEmpty(value))
             {
-                success = SendCopyData(hReceiver, type, this.Encoding.GetBytes(value));
+                success = this.SendCopyData(hReceiver, type, this.Encoding.GetBytes(value));
             }
             return success;
         }
 
-        protected bool SendCopyData(IntPtr hReceiver, int type, byte[] buffer)
+        protected Boolean SendCopyData(IntPtr hReceiver, Int32 type, Byte[] buffer)
         {
-            bool success = false;
+            Boolean success = false;
 
             if (hReceiver != IntPtr.Zero)
             {
@@ -397,7 +386,7 @@ namespace Plexdata.FileWiper
                         lParam.pBuffer = IntPtr.Zero;
                     }
 
-                    success = SendCopyData(hReceiver, lParam);
+                    success = this.SendCopyData(hReceiver, lParam);
                 }
                 finally
                 {
@@ -410,9 +399,9 @@ namespace Plexdata.FileWiper
             return success;
         }
 
-        protected bool SendCopyData(IntPtr hReceiver, COPYDATASTRUCT lParam)
+        protected Boolean SendCopyData(IntPtr hReceiver, COPYDATASTRUCT lParam)
         {
-            bool success = false;
+            Boolean success = false;
             try
             {
                 Program.TraceLogger.Write("DataExchanger", ">>> SendCopyData()");
@@ -448,7 +437,7 @@ namespace Plexdata.FileWiper
             return success;
         }
 
-        private void OnParentHandleCreated(object sender, EventArgs args)
+        private void OnParentHandleCreated(Object sender, EventArgs args)
         {
             try
             {
@@ -461,7 +450,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnParentHandleDestroyed(object sender, EventArgs args)
+        private void OnParentHandleDestroyed(Object sender, EventArgs args)
         {
             base.ReleaseHandle();
         }
@@ -472,17 +461,17 @@ namespace Plexdata.FileWiper
 
         // Windows 2000 Professional / Windows 2000 Server
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Auto, SetLastError = true)]
-        protected static extern bool SendMessage([In] IntPtr hWnd, [In] int nMessage, [In] IntPtr wParam, [In] IntPtr lParam);
+        protected static extern Boolean SendMessage([In] IntPtr hWnd, [In] Int32 nMessage, [In] IntPtr wParam, [In] IntPtr lParam);
 
         // Windows 2000 Professional / Windows 2000 Server
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern int RegisterWindowMessage(string message);
+        private static extern Int32 RegisterWindowMessage(String message);
 
         // Windows 2000 Professional / Windows 2000 Server
         [DllImport("user32.dll", EntryPoint = "SendMessage", CallingConvention = CallingConvention.StdCall, PreserveSig = true, CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool SendCopyData([In] IntPtr hWnd, [In] int nMessage, [In] IntPtr wParam, [In] ref COPYDATASTRUCT lParam);
+        private static extern Boolean SendCopyData([In] IntPtr hWnd, [In] Int32 nMessage, [In] IntPtr wParam, [In] ref COPYDATASTRUCT lParam);
 
-        protected const int WM_COPYDATA = 0x004A;
+        protected const Int32 WM_COPYDATA = 0x004A;
 
         // See MSDN for this struct definition!
         [StructLayout(LayoutKind.Sequential)]
@@ -493,12 +482,12 @@ namespace Plexdata.FileWiper
             public IntPtr pBuffer;
         }
 
-        protected const int MSGFLT_ADD = 1;
-        protected const int MSGFLT_REMOVE = 2;
+        protected const Int32 MSGFLT_ADD = 1;
+        protected const Int32 MSGFLT_REMOVE = 2;
 
         // Windows Vista / Windows Server 2008
         [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        protected static extern bool ChangeWindowMessageFilter([In] int message, [In] int flag);
+        protected static extern Boolean ChangeWindowMessageFilter([In] Int32 message, [In] Int32 flag);
 
         #endregion // Win32 API related implementations.
     }

@@ -23,8 +23,8 @@
  */
 
 using System;
-using System.Threading;
 using System.ComponentModel;
+using System.Threading;
 
 namespace Plexdata.FileWiper
 {
@@ -33,7 +33,7 @@ namespace Plexdata.FileWiper
         public event EventHandler<EventArgs> WorkerSuspended;
         public event EventHandler<EventArgs> WorkerContinued;
 
-        private GuiInvokeHelper invoker;
+        private readonly GuiInvokeHelper invoker;
         private Thread thread;
 
         public WipingThread()
@@ -43,8 +43,8 @@ namespace Plexdata.FileWiper
             this.thread = null;
         }
 
-        private volatile bool paused = false;
-        public bool Paused
+        private volatile Boolean paused = false;
+        public Boolean Paused
         {
             get
             {
@@ -59,8 +59,8 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private volatile object argument = null;
-        public object Argument
+        private volatile Object argument = null;
+        public Object Argument
         {
             get
             {
@@ -81,7 +81,7 @@ namespace Plexdata.FileWiper
             {
                 if (this.invoker.InvokeRequired)
                 {
-                    this.invoker.Invoke(this.WorkerSuspended, new object[] { this, EventArgs.Empty });
+                    this.invoker.Invoke(this.WorkerSuspended, new Object[] { this, EventArgs.Empty });
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace Plexdata.FileWiper
             {
                 if (this.invoker.InvokeRequired)
                 {
-                    this.invoker.Invoke(this.WorkerContinued, new object[] { this, EventArgs.Empty });
+                    this.invoker.Invoke(this.WorkerContinued, new Object[] { this, EventArgs.Empty });
                 }
                 else
                 {
@@ -145,19 +145,19 @@ namespace Plexdata.FileWiper
 
             private readonly SynchronizationContext context;
             private readonly Thread thread;
-            private readonly object locker;
+            private readonly Object locker;
 
             public GuiInvokeHelper()
                 : base()
             {
                 this.context = SynchronizationContext.Current;
                 this.thread = Thread.CurrentThread;
-                this.locker = new object();
+                this.locker = new Object();
             }
 
             #region ISynchronizeInvoke member implementation section.
 
-            public bool InvokeRequired
+            public Boolean InvokeRequired
             {
                 get
                 {
@@ -166,18 +166,18 @@ namespace Plexdata.FileWiper
             }
 
             [Obsolete("This method is not supported!", true)]
-            public IAsyncResult BeginInvoke(Delegate method, object[] args)
+            public IAsyncResult BeginInvoke(Delegate method, Object[] args)
             {
                 throw new NotSupportedException();
             }
 
             [Obsolete("This method is not supported!", true)]
-            public object EndInvoke(IAsyncResult result)
+            public Object EndInvoke(IAsyncResult result)
             {
                 throw new NotSupportedException();
             }
 
-            public object Invoke(Delegate method, object[] args)
+            public Object Invoke(Delegate method, Object[] args)
             {
                 if (method == null)
                 {
@@ -186,10 +186,10 @@ namespace Plexdata.FileWiper
 
                 lock (this.locker)
                 {
-                    object result = null;
+                    Object result = null;
 
                     SendOrPostCallback invoker = new SendOrPostCallback(
-                        delegate(object data)
+                        delegate (Object data)
                         {
                             result = method.DynamicInvoke(args);
                         });
@@ -200,9 +200,9 @@ namespace Plexdata.FileWiper
                 }
             }
 
-            public object Invoke(Delegate method)
+            public Object Invoke(Delegate method)
             {
-                return Invoke(method, null);
+                return this.Invoke(method, null);
             }
 
             #endregion // ISynchronizeInvoke member implementation section.

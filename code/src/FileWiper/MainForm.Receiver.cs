@@ -31,7 +31,7 @@ namespace Plexdata.FileWiper
     {
         DataReceiver dataReceiver = null;
 
-        private void InitializeDataReceiver(bool adminMode)
+        private void InitializeDataReceiver(Boolean adminMode)
         {
             this.dataReceiver = new DataReceiver(this);
             this.dataReceiver.FilenameReceived += this.OnDataReceiverFilenameReceived;
@@ -45,7 +45,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnDataReceiverActivationReceived(object sender, EventArgs args)
+        private void OnDataReceiverActivationReceived(Object sender, EventArgs args)
         {
             Program.TraceLogger.Write("MainForm.Receiver", ">>> OnDataReceiverActivationReceived()");
 
@@ -54,9 +54,9 @@ namespace Plexdata.FileWiper
             Program.TraceLogger.Write("MainForm.Receiver", "<<< OnDataReceiverActivationReceived()");
         }
 
-        private void OnDataReceiverFilenameReceived(object sender, FilenameReceivedEventArgs args)
+        private void OnDataReceiverFilenameReceived(Object sender, FilenameReceivedEventArgs args)
         {
-            Program.TraceLogger.Write("MainForm.Receiver", ">>> OnDataReceiverFilenameReceived() value=" + (args.Value != null ? args.Value : "null"));
+            Program.TraceLogger.Write("MainForm.Receiver", ">>> OnDataReceiverFilenameReceived() value=" + (args.Value ?? "null"));
 
             this.AppendWiping(args.Value);
 

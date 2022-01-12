@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
+using Plexdata.Utilities;
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.ComponentModel;
-
-using plexdata.Utilities;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
@@ -53,19 +52,19 @@ namespace Plexdata.FileWiper
                 this.MaxOffset = iconSize.Width - this.Width;
             }
 
-            public bool MoveRight { get; set; }
+            public Boolean MoveRight { get; set; }
 
-            public int MaxOffset { get; private set; }
+            public Int32 MaxOffset { get; private set; }
 
-            public int Delta { get; private set; }
+            public Int32 Delta { get; private set; }
 
-            public int Left { get; set; }
+            public Int32 Left { get; set; }
 
-            public int Top { get; private set; }
+            public Int32 Top { get; private set; }
 
-            public int Width { get; private set; }
+            public Int32 Width { get; private set; }
 
-            public int Height { get; private set; }
+            public Int32 Height { get; private set; }
 
             public Rectangle BoundsWiping
             {
@@ -137,7 +136,7 @@ namespace Plexdata.FileWiper
 
         private void UpdateTrayIconMenuState()
         {
-            bool wiping = this.IsWiping;
+            Boolean wiping = this.IsWiping;
             this.trayIconMenuCancel.Enabled = wiping;
             this.trayIconMenuPause.Enabled = wiping && !this.IsPausing;
             this.trayIconMenuContinue.Enabled = wiping && this.IsPausing;
@@ -163,16 +162,16 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void TrayIconChangeTooltip(double wipedFileSize, double totalFileSize)
+        private void TrayIconChangeTooltip(Double wipedFileSize, Double totalFileSize)
         {
             this.TrayIconChangeTooltip(wipedFileSize, totalFileSize, 0);
         }
 
-        private void TrayIconChangeTooltip(double wipedFileSize, double totalFileSize, int digits)
+        private void TrayIconChangeTooltip(Double wipedFileSize, Double totalFileSize, Int32 digits)
         {
             try
             {
-                double progress = Math.Round(
+                Double progress = Math.Round(
                     // Avoid division by zero for maximum value.
                     (wipedFileSize * 100 / Math.Max(totalFileSize, 1)),
                     // Math.Round() causes an ArgumentOutOfRangeException 
@@ -180,7 +179,7 @@ namespace Plexdata.FileWiper
                     Math.Max(Math.Min(digits, 15), 0),
                     MidpointRounding.AwayFromZero);
 
-                string tooltip = String.Format(
+                String tooltip = String.Format(
                     "{0}: {1}%, Wiped {2}, Total {3}",
                     Application.ProductName,
                     progress.ToString("N0"),
@@ -200,12 +199,12 @@ namespace Plexdata.FileWiper
 
         #region Tray icon context menu event handler implementation.
 
-        private void OnTrayIconMenuOpening(object sender, CancelEventArgs args)
+        private void OnTrayIconMenuOpening(Object sender, CancelEventArgs args)
         {
             this.UpdateTrayIconMenuState();
         }
 
-        private void OnTrayIconMouseClick(object sender, MouseEventArgs args)
+        private void OnTrayIconMouseClick(Object sender, MouseEventArgs args)
         {
             if (args.Button == MouseButtons.Left)
             {
@@ -213,17 +212,17 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnTrayIconMenuContinueClick(object sender, EventArgs args)
+        private void OnTrayIconMenuContinueClick(Object sender, EventArgs args)
         {
             this.ContinueWipings();
         }
 
-        private void OnTrayIconMenuPauseClick(object sender, EventArgs args)
+        private void OnTrayIconMenuPauseClick(Object sender, EventArgs args)
         {
             this.SuspendWipings();
         }
 
-        private void OnTrayIconMenuCancelClick(object sender, EventArgs args)
+        private void OnTrayIconMenuCancelClick(Object sender, EventArgs args)
         {
             this.ForceShowForm();
             if (this.Settings.Behaviour.SuppressCancelQuestion)
@@ -236,7 +235,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnTrayIconMenuShowClick(object sender, EventArgs args)
+        private void OnTrayIconMenuShowClick(Object sender, EventArgs args)
         {
             this.ForceShowForm();
             if (this.Settings.Behaviour.AutoPauseWiping)
@@ -245,7 +244,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnTrayIconMenuAboutClick(object sender, EventArgs args)
+        private void OnTrayIconMenuAboutClick(Object sender, EventArgs args)
         {
             this.PerformAboutBox();
         }
@@ -254,7 +253,7 @@ namespace Plexdata.FileWiper
 
         #region Tray icon update timer event handler implementation.
 
-        private void OnTrayIconUpdaterTick(object sender, EventArgs args)
+        private void OnTrayIconUpdaterTick(Object sender, EventArgs args)
         {
             // Once again spending a lot of hours to find out how to draw an icon on a bitmap 
             // without having an ugly result? But unfortunately, without success! Damn bitmap. 

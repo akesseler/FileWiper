@@ -41,12 +41,15 @@ namespace Plexdata.FileWiper
         /// This exception occurs when getting current version 
         /// information has failed.
         /// </exception>
-        internal static bool IsVistaOrHigher
+        internal static Boolean IsVistaOrHigher
         {
             get
             {
-                OSVERSIONINFO version = new OSVERSIONINFO();
-                version.size = Marshal.SizeOf(typeof(OSVERSIONINFO));
+                OSVERSIONINFO version = new OSVERSIONINFO()
+                {
+                    size = Marshal.SizeOf(typeof(OSVERSIONINFO))
+                };
+
                 if (!GetVersionEx(ref version))
                 {
                     throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -66,15 +69,15 @@ namespace Plexdata.FileWiper
         /// if current platform is either a x86-platform or platform 
         /// type is unknown.
         /// </returns>
-        internal static bool Is64BitPlatform
+        internal static Boolean Is64BitPlatform
         {
             get
             {
                 /// Indicates an Intel or AMD based x64 platform.
-                const int PROCESSOR_ARCHITECTURE_AMD64 = 0x0009;
+                const Int32 PROCESSOR_ARCHITECTURE_AMD64 = 0x0009;
 
                 /// Indicates an Intel Itanium based Processor (IPF).
-                const int PROCESSOR_ARCHITECTURE_IA64 = 0x0006;
+                const Int32 PROCESSOR_ARCHITECTURE_IA64 = 0x0006;
 
                 SYSTEM_INFO info = new SYSTEM_INFO();
                 GetNativeSystemInfo(out info);
@@ -131,7 +134,7 @@ namespace Plexdata.FileWiper
             /// installed, the string is empty.
             /// </summary>
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-            public string servicepack;
+            public String servicepack;
         }
 
         /// <summary>
@@ -242,7 +245,7 @@ namespace Plexdata.FileWiper
         /// True if function call was successful and false otherwise.
         /// </returns>
         [DllImport("kernel32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        private static extern bool GetVersionEx(
+        private static extern Boolean GetVersionEx(
             [In, Out] ref OSVERSIONINFO version
         );
 

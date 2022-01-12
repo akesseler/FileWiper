@@ -22,12 +22,11 @@
  * SOFTWARE.
  */
 
+using Plexdata.Controls;
 using System;
-using System.Drawing;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
-
-using plexdata.Controls;
 
 namespace Plexdata.FileWiper
 {
@@ -45,8 +44,10 @@ namespace Plexdata.FileWiper
             this.sblMode.Text = PermissionCheck.IsRunAsAdmin ? "Administrator" : "Standard";
             this.sblPlatform.Text = PlatformCheck.Is64BitPlatform ? "64 Bit" : "32 Bit";
 
-            this.sbcProgress = new ToolStripProgressBar3D();
-            this.sbcProgress.Visible = false;
+            this.sbcProgress = new ToolStripProgressBar3D()
+            {
+                Visible = false
+            };
             this.mainStatusbar.Items.Add(this.sbcProgress);
         }
 
@@ -55,7 +56,7 @@ namespace Plexdata.FileWiper
             this.UpdateStatusbar(String.Empty);
         }
 
-        private void UpdateStatusbar(string label)
+        private void UpdateStatusbar(String label)
         {
             if (this.IsCanceling)
             {
@@ -120,7 +121,7 @@ namespace Plexdata.FileWiper
         {
         }
 
-        public ToolStripProgressBar3D(string name)
+        public ToolStripProgressBar3D(String name)
             : base(new ProgressBar3D(), name)
         {
             if (this.ProgressBar == null)
@@ -153,13 +154,13 @@ namespace Plexdata.FileWiper
             get { return base.Control as ProgressBar3D; }
         }
 
-        public double Value
+        public Double Value
         {
             get { return this.ProgressBar.Value; }
             set { this.ProgressBar.Value = value; }
         }
 
-        public double Maximum
+        public Double Maximum
         {
             get { return this.ProgressBar.Maximum; }
             set { this.ProgressBar.Maximum = value; }

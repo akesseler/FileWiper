@@ -22,19 +22,17 @@
  * SOFTWARE.
  */
 
+using Plexdata.Utilities;
 using System;
 using System.Drawing;
-using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
-
-using plexdata.Utilities;
 
 namespace Plexdata.FileWiper
 {
     internal partial class DetailsView : Form
     {
-        private WipingListView wipingList = null;
+        private readonly WipingListView wipingList = null;
 
         public DetailsView()
             : base()
@@ -103,10 +101,9 @@ namespace Plexdata.FileWiper
 
         #region Private event handler section.
 
-        private void OnStateCountsValuesChanged(object sender, EventArgs args)
+        private void OnStateCountsValuesChanged(Object sender, EventArgs args)
         {
-            WipingStateCounts counts = sender as WipingStateCounts;
-            if (counts != null)
+            if (sender is WipingStateCounts counts)
             {
                 this.lblRunningLabel.Text = counts.Pausing == 0 ? "Running" : "Pausing";
 
@@ -119,10 +116,9 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnOverallCountsValuesChanged(object sender, EventArgs args)
+        private void OnOverallCountsValuesChanged(Object sender, EventArgs args)
         {
-            WipingOverallCounts counts = sender as WipingOverallCounts;
-            if (counts != null)
+            if (sender is WipingOverallCounts counts)
             {
                 this.lblTotalFileSizeValue.Text = CapacityConverter.Convert(counts.TotalFileSize);
                 this.lblWipedFileSizeValue.Text = CapacityConverter.Convert(counts.WipedFileSize);
@@ -147,14 +143,14 @@ namespace Plexdata.FileWiper
             this.lblTotalWipedSizeValue.Text = CapacityConverter.Convert(0d);
         }
 
-        private string FormatValue(double value)
+        private String FormatValue(Double value)
         {
             return this.FormatValue(value, 0);
         }
 
-        private string FormatValue(double value, int digits)
+        private String FormatValue(Double value, Int32 digits)
         {
-            string format = "N" + Math.Max(Math.Min(digits, 15), 0).ToString();
+            String format = "N" + Math.Max(Math.Min(digits, 15), 0).ToString();
             return value.ToString(format, NumberFormatInfo.CurrentInfo);
         }
 

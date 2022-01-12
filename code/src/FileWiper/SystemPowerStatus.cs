@@ -31,14 +31,14 @@ namespace Plexdata.FileWiper
     // See also: http://msdn.microsoft.com/en-us/library/ms704147(v=vs.85).aspx
     public static class SystemPowerStatus
     {
-        public static bool IsBattery
+        public static Boolean IsBattery
         {
             get
             {
                 SYSTEM_POWER_STATUS powerStatus = new SYSTEM_POWER_STATUS();
                 if (SystemPowerStatus.GetSystemPowerStatus(ref powerStatus))
                 {
-                    return (byte)ACLineStatus.Battery == powerStatus.ACLineStatus;
+                    return (Byte)ACLineStatus.Battery == powerStatus.ACLineStatus;
                 }
                 else
                 {
@@ -52,15 +52,15 @@ namespace Plexdata.FileWiper
         [StructLayout(LayoutKind.Sequential)]
         private struct SYSTEM_POWER_STATUS
         {
-            public byte ACLineStatus;
-            public byte BatteryFlag;
-            public byte BatteryLifePercent;
-            public byte Reserved1;
+            public Byte ACLineStatus;
+            public Byte BatteryFlag;
+            public Byte BatteryLifePercent;
+            public Byte Reserved1;
             public Int32 BatteryLifetime;
             public Int32 BatteryFullLifetime;
         }
 
-        private enum ACLineStatus : byte
+        private enum ACLineStatus : Byte
         {
             Battery = 0,
             ACLine = 1,
@@ -68,7 +68,7 @@ namespace Plexdata.FileWiper
         }
 
         [FlagsAttribute]
-        private enum BatteryFlag : byte
+        private enum BatteryFlag : Byte
         {
             High = 1,
             Low = 2,
@@ -80,7 +80,7 @@ namespace Plexdata.FileWiper
 
         // Windows 2000 Professional / Windows 2000 Server
         [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Auto, SetLastError = true)]
-        private extern static bool GetSystemPowerStatus(ref SYSTEM_POWER_STATUS powerStatus);
+        private extern static Boolean GetSystemPowerStatus(ref SYSTEM_POWER_STATUS powerStatus);
 
         #endregion // Win32 API related implementations.
     }

@@ -23,8 +23,8 @@
  */
 
 using System;
-using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
@@ -32,27 +32,29 @@ namespace Plexdata.FileWiper
     {
         #region Win32 API helper function implementation.
 
-        private const int SW_HIDE = 0;
-        private const int SW_SHOWNORMAL = 1;
-        private const int SW_SHOWMINIMIZED = 2;
-        private const int SW_MAXIMIZE = 3;
-        private const int SW_SHOWMAXIMIZED = 3;
-        private const int SW_SHOWNOACTIVATE = 4;
-        private const int SW_SHOW = 5;
-        private const int SW_MINIMIZE = 6;
-        private const int SW_SHOWMINNOACTIVE = 7;
-        private const int SW_SHOWNA = 8;
-        private const int SW_RESTORE = 9;
-        private const int SW_SHOWDEFAULT = 10;
-        private const int SW_FORCEMINIMIZE = 11;
+#pragma warning disable IDE0051 // Remove unused private members
+        private const Int32 SW_HIDE = 0;
+        private const Int32 SW_SHOWNORMAL = 1;
+        private const Int32 SW_SHOWMINIMIZED = 2;
+        private const Int32 SW_MAXIMIZE = 3;
+        private const Int32 SW_SHOWMAXIMIZED = 3;
+        private const Int32 SW_SHOWNOACTIVATE = 4;
+        private const Int32 SW_SHOW = 5;
+        private const Int32 SW_MINIMIZE = 6;
+        private const Int32 SW_SHOWMINNOACTIVE = 7;
+        private const Int32 SW_SHOWNA = 8;
+        private const Int32 SW_RESTORE = 9;
+        private const Int32 SW_SHOWDEFAULT = 10;
+        private const Int32 SW_FORCEMINIMIZE = 11;
+#pragma warning restore IDE0051 // Remove unused private members
 
         // Windows 2000 Professional / Windows 2000 Server
         [DllImport("user32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true)]
-        private static extern bool ShowWindow(IntPtr hWnd, int command);
+        private static extern Boolean ShowWindow(IntPtr hWnd, Int32 command);
 
         // Windows 2000 Professional / Windows 2000 Server
         [DllImport("user32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true)]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private static extern Boolean SetForegroundWindow(IntPtr hWnd);
 
         #endregion // Win32 API helper function implementation.
     }

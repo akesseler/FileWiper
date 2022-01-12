@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
+using Plexdata.FileWiper.Properties;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Reflection;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
@@ -38,12 +39,12 @@ namespace Plexdata.FileWiper
             this.InitializeComponent();
 
             this.Text += AboutBox.Title;
-            this.Icon = Properties.Resources.About;
+            this.Icon = Resources.About;
 
-            this.btnOK.Image = new Icon(Properties.Resources.Apply, new Size(16, 16)).ToBitmap();
+            this.btnOK.Image = new Icon(Resources.Apply, new Size(16, 16)).ToBitmap();
 
             this.lblProduct.Text = AboutBox.Product;
-            this.lblVersion.Text = String.Format("{0} {1}", this.lblVersion.Text, AboutBox.Version);
+            this.lblVersion.Text = $"Version {AboutBox.Version}";
             this.lblCopyright.Text = AboutBox.Copyright;
             this.txtDescription.Text = AboutBox.Description;
 
@@ -51,12 +52,12 @@ namespace Plexdata.FileWiper
             this.lnkIconAuthor.Links.Add(9, 17, "http://openiconlibrary.sourceforge.net/");
         }
 
-        private void OnLogoImageClick(object sender, EventArgs args)
+        private void OnLogoImageClick(Object sender, EventArgs args)
         {
             Process.Start("http://www.plexdata.de/");
         }
 
-        private void OnIconAuthorClick(object sender, LinkLabelLinkClickedEventArgs args)
+        private void OnIconAuthorClick(Object sender, LinkLabelLinkClickedEventArgs args)
         {
             args.Link.Visited = true;
             Process.Start(args.Link.LinkData.ToString());
@@ -64,11 +65,11 @@ namespace Plexdata.FileWiper
 
         #region Assembly Attribute Accessors
 
-        public static string Title
+        public static String Title
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
                 if (attributes.Length > 0)
                 {
                     AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
@@ -81,20 +82,20 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static string Version
+        public static String Version
         {
             get
             {
                 Version version = Assembly.GetExecutingAssembly().GetName().Version;
-                return String.Format("{0}.{1} ({2})", version.Major, version.Minor, version.Build << 8 | (byte)version.Revision);
+                return $"{version.Major}.{version.Minor}.{version.Build}";
             }
         }
 
-        public static string Description
+        public static String Description
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return String.Empty;
@@ -103,11 +104,11 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static string Product
+        public static String Product
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return String.Empty;
@@ -116,11 +117,11 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static string Copyright
+        public static String Copyright
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return String.Empty;
@@ -129,11 +130,11 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static string Company
+        public static String Company
         {
             get
             {
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+                Object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
                 if (attributes.Length == 0)
                 {
                     return String.Empty;

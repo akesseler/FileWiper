@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
+using Plexdata.Utilities;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using System.Diagnostics;
 using System.Windows.Forms;
-
-using plexdata.Utilities;
 
 namespace Plexdata.FileWiper
 {
@@ -41,10 +40,10 @@ namespace Plexdata.FileWiper
         /// List of handed over command line parameters.
         /// </param>
         [STAThread]
-        static void Main(string[] args)
+        static void Main(String[] args)
         {
             // Firstly, set default exit code.
-            int exitCode = 0;
+            Int32 exitCode = 0;
 
             try
             {
@@ -155,7 +154,7 @@ namespace Plexdata.FileWiper
 
                             // Send Files to running instance and exit afterwards.
                             IntPtr hReceiver = sibling.MainWindowHandle;
-                            foreach (string file in Program.Parameters.Filepaths)
+                            foreach (String file in Program.Parameters.Filepaths)
                             {
                                 // Try to send current filename to sibling process. In case of an 
                                 // error simply end with transmitting (without any error message).
@@ -302,7 +301,7 @@ namespace Plexdata.FileWiper
         /// <param name="args">
         /// An event arguments instance (not used).
         /// </param>
-        private static void OnApplicationExit(object sender, EventArgs args)
+        private static void OnApplicationExit(Object sender, EventArgs args)
         {
             Program.TraceLogger.Write("Program", "<<< Application Exit (ExitCode: " + Environment.ExitCode + ")");
         }
@@ -318,7 +317,7 @@ namespace Plexdata.FileWiper
         /// A <see cref="System.Threading.ThreadExceptionEventArgs">ThreadExceptionEventArgs</see> that 
         /// contains the event data.
         /// </param>
-        private static void OnUnhandledThreadException(object sender, ThreadExceptionEventArgs args)
+        private static void OnUnhandledThreadException(Object sender, ThreadExceptionEventArgs args)
         {
             Program.HandleException(args.Exception);
         }
@@ -333,7 +332,7 @@ namespace Plexdata.FileWiper
         /// An <see cref="System.UnhandledExceptionEventArgs">UnhandledExceptionEventArgs</see> that 
         /// contains the event data.
         /// </param>
-        private static void OnUnhandledGUIException(object sender, UnhandledExceptionEventArgs args)
+        private static void OnUnhandledGUIException(Object sender, UnhandledExceptionEventArgs args)
         {
             Program.HandleException(args.ExceptionObject as Exception);
         }
@@ -342,15 +341,17 @@ namespace Plexdata.FileWiper
 
         #region Internal method implementation section.
 
-        internal static bool ConfirmDestroyItems(string[] fullpaths)
+        internal static Boolean ConfirmDestroyItems(String[] fullpaths)
         {
             return Program.ConfirmDestroyItems(fullpaths, null);
         }
 
-        internal static bool ConfirmDestroyItems(string[] fullpaths, Form parent)
+        internal static Boolean ConfirmDestroyItems(String[] fullpaths, Form parent)
         {
-            DestroyConfirmationDialog dialog = new DestroyConfirmationDialog(fullpaths);
-            dialog.ShowInTaskbar = (parent == null);
+            DestroyConfirmationDialog dialog = new DestroyConfirmationDialog(fullpaths)
+            {
+                ShowInTaskbar = parent == null
+            };
             return dialog.ShowDialog(parent) == DialogResult.Yes;
         }
 
@@ -358,7 +359,8 @@ namespace Plexdata.FileWiper
 
         #region Private method implementation section.
 
-        private static bool ConfirmFirstLaunchWarning()
+#if !DEBUG
+        private static Boolean ConfirmFirstLaunchWarning()
         {
             if (!File.Exists(Settings.Filename))
             {
@@ -384,6 +386,7 @@ namespace Plexdata.FileWiper
                 return true;
             }
         }
+#endif // !DEBUG
 
         /// <summary>
         /// Shows an error dialog and exits the application afterwards.
@@ -431,7 +434,7 @@ namespace Plexdata.FileWiper
                 if (dispatcher == null) { throw new ArgumentNullException("dispatcher"); }
                 if (sibling == null) { throw new ArgumentNullException("sibling"); }
 
-                bool success = false;
+                Boolean success = false;
                 IntPtr hReceiver = sibling.MainWindowHandle;
 
                 if (hReceiver != IntPtr.Zero)
@@ -447,7 +450,7 @@ namespace Plexdata.FileWiper
                         // Elegant is something different! But this 
                         // loop is required to ensure a valid handle.
 
-                        int loops = 10;
+                        Int32 loops = 10;
                         while (sibling.MainWindowHandle == IntPtr.Zero)
                         {
                             Thread.Sleep(10);

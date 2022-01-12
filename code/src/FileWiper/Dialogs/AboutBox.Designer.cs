@@ -65,9 +65,10 @@ namespace Plexdata.FileWiper
             // 
             // picLogo
             // 
+            this.picLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picLogo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picLogo.Image = global::Plexdata.FileWiper.Properties.Resources.MainLogo;
-            this.picLogo.Location = new System.Drawing.Point(158, 12);
+            this.picLogo.Location = new System.Drawing.Point(216, 12);
             this.picLogo.Name = "picLogo";
             this.picLogo.Size = new System.Drawing.Size(156, 66);
             this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -78,50 +79,62 @@ namespace Plexdata.FileWiper
             // 
             // lblProduct
             // 
+            this.lblProduct.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblProduct.Location = new System.Drawing.Point(12, 12);
             this.lblProduct.Margin = new System.Windows.Forms.Padding(3);
             this.lblProduct.Name = "lblProduct";
-            this.lblProduct.Size = new System.Drawing.Size(140, 17);
+            this.lblProduct.Size = new System.Drawing.Size(198, 17);
             this.lblProduct.TabIndex = 0;
             this.lblProduct.Text = "Product";
             this.lblProduct.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblVersion
             // 
+            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblVersion.Location = new System.Drawing.Point(12, 35);
             this.lblVersion.Margin = new System.Windows.Forms.Padding(3);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(140, 17);
+            this.lblVersion.Size = new System.Drawing.Size(198, 17);
             this.lblVersion.TabIndex = 1;
             this.lblVersion.Text = "Version";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblCopyright
             // 
+            this.lblCopyright.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCopyright.Location = new System.Drawing.Point(12, 58);
             this.lblCopyright.Margin = new System.Windows.Forms.Padding(3);
             this.lblCopyright.Name = "lblCopyright";
-            this.lblCopyright.Size = new System.Drawing.Size(140, 17);
+            this.lblCopyright.Size = new System.Drawing.Size(198, 17);
             this.lblCopyright.TabIndex = 2;
             this.lblCopyright.Text = "Copyright";
             this.lblCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtDescription
             // 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDescription.BackColor = System.Drawing.Color.White;
+            this.txtDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDescription.Location = new System.Drawing.Point(12, 84);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtDescription.Size = new System.Drawing.Size(302, 93);
+            this.txtDescription.Size = new System.Drawing.Size(360, 136);
             this.txtDescription.TabIndex = 3;
             this.txtDescription.TabStop = false;
             this.txtDescription.Text = "Description";
             // 
             // lnkIconAuthor
             // 
+            this.lnkIconAuthor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lnkIconAuthor.AutoSize = true;
-            this.lnkIconAuthor.Location = new System.Drawing.Point(12, 188);
+            this.lnkIconAuthor.Location = new System.Drawing.Point(12, 231);
             this.lnkIconAuthor.Name = "lnkIconAuthor";
             this.lnkIconAuthor.Size = new System.Drawing.Size(25, 13);
             this.lnkIconAuthor.TabIndex = 4;
@@ -132,13 +145,15 @@ namespace Plexdata.FileWiper
             // 
             // btnOK
             // 
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnOK.Location = new System.Drawing.Point(239, 183);
+            this.btnOK.Location = new System.Drawing.Point(297, 226);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 5;
             this.btnOK.Text = "&OK";
             this.btnOK.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnOK.UseVisualStyleBackColor = true;
             // 
             // theToolTip
             // 
@@ -146,11 +161,11 @@ namespace Plexdata.FileWiper
             // 
             // AboutBox
             // 
-            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnOK;
-            this.ClientSize = new System.Drawing.Size(326, 218);
+            this.ClientSize = new System.Drawing.Size(384, 261);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblProduct);
             this.Controls.Add(this.picLogo);

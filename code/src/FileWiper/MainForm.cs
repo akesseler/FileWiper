@@ -22,33 +22,30 @@
  * SOFTWARE.
  */
 
-using System;
-using System.IO;
-using System.Security;
-using System.Threading;
-using System.Diagnostics;
-using System.Globalization;
-using System.Windows.Forms;
-using System.Collections.Generic;
-
 using Microsoft.Win32;
-
-using plexdata.Controls;
-using plexdata.Utilities;
+using Plexdata.FileWiper.Properties;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
     public partial class MainForm : Form, IShutdownListener
     {
-        private object critical = new object();
-        private bool suppressAtStartup = false;
-        private bool powerModePausing = false;
+        private readonly Object critical = new Object();
+        private readonly Boolean suppressAtStartup = false;
+        private Boolean powerModePausing = false;
         private AboutBox aboutBox = null;
-        private DetailsView detailsView = null;
+        private readonly DetailsView detailsView = null;
         private HelpDialog helpDialog = null;
-        private string lastOpenFolder = String.Empty;
+        private String lastOpenFolder = String.Empty;
 
-        private ShutdownTracker shutdownTracker = null;
+#pragma warning disable IDE0052 // Remove unread private members
+        private readonly ShutdownTracker shutdownTracker = null;
+#pragma warning restore IDE0052 // Remove unread private members
 
         public MainForm()
             : base()
@@ -62,8 +59,8 @@ namespace Plexdata.FileWiper
             this.suppressAtStartup = false;
 
             // Setup main form icon.
-            this.Icon = Properties.Resources.MainIcon;
-            this.Text += String.Format(" - {0}", AboutBox.Version);
+            this.Icon = Resources.MainIcon;
+            this.Text = $"{AboutBox.Title} - {AboutBox.Version}";
 
 #if SIMULATION
 #if DEBUG
@@ -246,7 +243,7 @@ namespace Plexdata.FileWiper
         /// <param name="pausing">
         /// Value of previous pausing state.
         /// </param>
-        private void EnableAfterConfigureWipings(bool pausing)
+        private void EnableAfterConfigureWipings(Boolean pausing)
         {
             this.IsPausing = pausing;
             this.IsToolbarLocked = false;
@@ -261,8 +258,7 @@ namespace Plexdata.FileWiper
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                Settings helper;
-                if (Settings.Load(Settings.Filename, out helper))
+                if (Settings.Load(Settings.Filename, out Settings helper))
                 {
                     this.Settings = new Settings(helper);
                     this.ApplySettings(true);
@@ -279,7 +275,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void ApplySettings(bool initial)
+        private void ApplySettings(Boolean initial)
         {
             Cursor cursor = this.Cursor;
             try
@@ -353,19 +349,21 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void PerformOpenAction(bool folder)
+        private void PerformOpenAction(Boolean folder)
         {
             try
             {
-                List<string> actionItems = new List<string>();
+                List<String> actionItems = new List<String>();
 
                 if (folder)
                 {
-                    FolderBrowserDialog dialog = new FolderBrowserDialog();
-                    dialog.ShowNewFolderButton = false;
-                    dialog.Description = "Choose a folder to be added to the list of wipings.";
-                    dialog.SelectedPath = this.lastOpenFolder;
-                    dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+                    FolderBrowserDialog dialog = new FolderBrowserDialog()
+                    {
+                        ShowNewFolderButton = false,
+                        Description = "Choose a folder to be added to the list of wipings.",
+                        SelectedPath = this.lastOpenFolder,
+                        RootFolder = Environment.SpecialFolder.MyComputer
+                    };
 
                     if (DialogResult.OK == dialog.ShowDialog(this))
                     {
@@ -375,15 +373,17 @@ namespace Plexdata.FileWiper
                 }
                 else
                 {
-                    OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Filter = "Any file (*.*)|*.*";
-                    dialog.InitialDirectory = this.lastOpenFolder;
-                    dialog.CheckPathExists = true;
-                    dialog.ShowReadOnly = false;
-                    dialog.ReadOnlyChecked = false;
-                    dialog.CheckFileExists = true;
-                    dialog.ValidateNames = true;
-                    dialog.Multiselect = true;
+                    OpenFileDialog dialog = new OpenFileDialog()
+                    {
+                        Filter = "Any file (*.*)|*.*",
+                        InitialDirectory = this.lastOpenFolder,
+                        CheckPathExists = true,
+                        ShowReadOnly = false,
+                        ReadOnlyChecked = false,
+                        CheckFileExists = true,
+                        ValidateNames = true,
+                        Multiselect = true
+                    };
 
                     if (DialogResult.OK == dialog.ShowDialog(this))
                     {
@@ -394,7 +394,7 @@ namespace Plexdata.FileWiper
 
                 if (actionItems.Count > 0)
                 {
-                    string[] helper = actionItems.ToArray();
+                    String[] helper = actionItems.ToArray();
                     if (Program.ConfirmDestroyItems(helper, this))
                     {
                         this.AppendWipings(helper);
@@ -432,10 +432,10 @@ namespace Plexdata.FileWiper
                     //
                     // Do not destroy a favorite base folder!
                     //
-                    List<string> fullpaths = new List<string>();
-                    string[] favorites = Program.MainForm.Settings.Favorites.Folders;
+                    List<String> fullpaths = new List<String>();
+                    String[] favorites = Program.MainForm.Settings.Favorites.Folders;
 
-                    foreach (string favorite in favorites)
+                    foreach (String favorite in favorites)
                     {
                         fullpaths.AddRange(Directory.GetFileSystemEntries(favorite));
                     }
@@ -465,7 +465,7 @@ namespace Plexdata.FileWiper
                 SettingsDialog dialog = new SettingsDialog(this.Settings);
                 if (DialogResult.OK == dialog.ShowDialog(this))
                 {
-                    lock (critical) { this.Settings = new Settings(dialog.Settings); }
+                    lock (this.critical) { this.Settings = new Settings(dialog.Settings); }
                     this.ApplySettings(false);
                 }
             }
@@ -533,7 +533,7 @@ namespace Plexdata.FileWiper
 
             // Determine all remaining base paths as well 
             // as all file names that caused an exception.
-            List<string> fullpaths = new List<string>();
+            List<String> fullpaths = new List<String>();
 #if SIMULATION
             foreach (WipingListItem current in this.failedWipings)
             {
@@ -542,7 +542,7 @@ namespace Plexdata.FileWiper
 #else
             if (this.Settings.Behaviour.IncludeFolderNames)
             {
-                foreach (string current in this.pendingBaseFolders)
+                foreach (String current in this.pendingBaseFolders)
                 {
                     if (Directory.Exists(current))
                     {
@@ -558,7 +558,7 @@ namespace Plexdata.FileWiper
 #endif // SIMULATION
 
             // Build relaunch parameter list.
-            string parameters = ParameterParser.BuildOptionFilepaths(fullpaths.ToArray());
+            String parameters = ParameterParser.BuildOptionFilepaths(fullpaths.ToArray());
 
             if (this.Visible)
             {
@@ -600,18 +600,20 @@ namespace Plexdata.FileWiper
                 exceptions.Add(current.Exception);
             }
 
-            ExceptionView dialog = new ExceptionView();
-            dialog.Caption = "File Wiping Errors";
-            dialog.Exceptions = exceptions.ToArray();
+            ExceptionView dialog = new ExceptionView()
+            {
+                Caption = "File Wiping Errors",
+                Exceptions = exceptions.ToArray()
+            };
             dialog.ShowDialog(this);
         }
 
-        private bool RequestCancelWipings()
+        private Boolean RequestCancelWipings()
         {
-            bool success = false;
+            Boolean success = false;
             if (this.IsWiping)
             {
-                string message = "File wiping is still pending and cancelling " +
+                String message = "File wiping is still pending and cancelling " +
                     "it may cause partly unreadable files!\n\nDo you really want " +
                     "to cancel currently active wiping?";
 
@@ -756,7 +758,7 @@ namespace Plexdata.FileWiper
             this.failedWipings.Clear();
         }
 
-        private void WaitFinishCallback(object state)
+        private void WaitFinishCallback(Object state)
         {
             // Ensure that wiping has really completed!
             while (this.IsWiping)
@@ -772,8 +774,8 @@ namespace Plexdata.FileWiper
             this.WaitFinishCompleted(state);
         }
 
-        private delegate void WaitFinishCompletedDelegate(object state);
-        private void WaitFinishCompleted(object state)
+        private delegate void WaitFinishCompletedDelegate(Object state);
+        private void WaitFinishCompleted(Object state)
         {
             if (this.InvokeRequired)
             {
@@ -807,7 +809,7 @@ namespace Plexdata.FileWiper
 
         #region Private event handler implementation.
 
-        private void OnStateCountsInactivityIndicated(object sender, EventArgs args)
+        private void OnStateCountsInactivityIndicated(Object sender, EventArgs args)
         {
             // Keep in mind, this event handler is called from inside the 
             // background worker's completion routine. Therefore, schedule 
@@ -816,10 +818,9 @@ namespace Plexdata.FileWiper
             ThreadPool.QueueUserWorkItem(this.WaitFinishCallback, sender);
         }
 
-        private void OnOverallCountsValuesChanged(object sender, EventArgs args)
+        private void OnOverallCountsValuesChanged(Object sender, EventArgs args)
         {
-            WipingOverallCounts counts = sender as WipingOverallCounts;
-            if (counts != null)
+            if (sender is WipingOverallCounts counts)
             {
                 // Update tooltip in any case!
                 this.TrayIconChangeTooltip(counts.WipedFileSize, counts.TotalFileSize);
@@ -829,7 +830,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnDetailsViewFormClosing(object sender, FormClosingEventArgs args)
+        private void OnDetailsViewFormClosing(Object sender, FormClosingEventArgs args)
         {
             if (args.CloseReason == CloseReason.UserClosing)
             {
@@ -847,7 +848,7 @@ namespace Plexdata.FileWiper
             // No other action needed!
         }
 
-        public bool RequestSessionEnding(SessionEndReasons reason)
+        public Boolean RequestSessionEnding(SessionEndReasons reason)
         {
             // No other action needed! Therefore, 
             // allow ending of this session.
@@ -862,7 +863,7 @@ namespace Plexdata.FileWiper
             {
                 if (mode == PowerModes.StatusChange)
                 {
-                    bool isBattery = SystemPowerStatus.IsBattery;
+                    Boolean isBattery = SystemPowerStatus.IsBattery;
 
                     Program.TraceLogger.Write("MainForm", "--- HandlePowerModeChanged() IsBattery=" + isBattery);
 

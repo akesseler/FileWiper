@@ -23,16 +23,14 @@
  */
 
 using System;
-using System.IO;
-using System.Xml;
-using System.Linq;
-using System.Drawing;
-using System.Reflection;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Plexdata.FileWiper
 {
@@ -78,7 +76,7 @@ namespace Plexdata.FileWiper
 
         #region Public static property implementation.
 
-        public static string Filename
+        public static String Filename
         {
             get { return Path.ChangeExtension(Application.ExecutablePath, ".cfg"); }
         }
@@ -87,9 +85,9 @@ namespace Plexdata.FileWiper
 
         #region Public static member implementation.
 
-        public static bool Save(string filename, Settings root)
+        public static Boolean Save(String filename, Settings root)
         {
-            bool success = false;
+            Boolean success = false;
             XmlSerializer serializer = null;
             TextWriter writer = null;
 
@@ -115,13 +113,13 @@ namespace Plexdata.FileWiper
             return success;
         }
 
-        public static bool Load(string filename, out Settings root)
+        public static Boolean Load(String filename, out Settings root)
         {
-            bool success = false;
+            Boolean success = false;
             XmlSerializer serializer = null;
             TextReader reader = null;
 
-            root = default(Settings);
+            root = default;
 
             try
             {
@@ -153,7 +151,7 @@ namespace Plexdata.FileWiper
             return success;
         }
 
-        public static bool IsVisibleOnAllScreens(Rectangle bounds)
+        public static Boolean IsVisibleOnAllScreens(Rectangle bounds)
         {
             if (bounds != null && !bounds.IsEmpty)
             {
@@ -172,7 +170,7 @@ namespace Plexdata.FileWiper
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Settings(this);
         }
@@ -209,7 +207,7 @@ namespace Plexdata.FileWiper
             this.DetailsBounds = new Rectangle(other.DetailsBounds.Location, other.DetailsBounds.Size);
             this.FavoritesBounds = new Rectangle(other.FavoritesBounds.Location, other.FavoritesBounds.Size);
             this.HelpBounds = new Rectangle(other.HelpBounds.Location, other.HelpBounds.Size);
-            this.ActiveSettings = other.ActiveSettings.Clone() as string;
+            this.ActiveSettings = other.ActiveSettings.Clone() as String;
             this.ToolbarScaling = other.ToolbarScaling;
             this.ToolbarText = other.ToolbarText;
         }
@@ -246,23 +244,23 @@ namespace Plexdata.FileWiper
         /// <summary>
         /// Gets and sets last active settings page.
         /// </summary>
-        public string ActiveSettings { get; set; }
+        public String ActiveSettings { get; set; }
 
         /// <summary>
         /// Gets and sets last known toolbar button size.
         /// </summary>
-        public string ToolbarScaling { get; set; }
+        public String ToolbarScaling { get; set; }
 
         /// <summary>
         /// Gets and sets last known toolbar text visibility state.
         /// </summary>
-        public bool ToolbarText { get; set; }
+        public Boolean ToolbarText { get; set; }
 
         #endregion // Public property implementation.
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Maintain(this);
         }
@@ -290,13 +288,13 @@ namespace Plexdata.FileWiper
 
         #region Public property implementation.
 
-        private List<string> folders = null;
-        public string[] Folders
+        private List<String> folders = null;
+        public String[] Folders
         {
             get { return this.folders.ToArray(); }
             set
             {
-                this.folders = new List<string>();
+                this.folders = new List<String>();
                 if (value != null && value.Length > 0)
                 {
                     this.folders.AddRange(value);
@@ -308,7 +306,7 @@ namespace Plexdata.FileWiper
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Favorites(this);
         }
@@ -346,23 +344,23 @@ namespace Plexdata.FileWiper
 
         #region Public property implementation.
 
-        public bool AllowAutoClose { get; set; }
+        public Boolean AllowAutoClose { get; set; }
 
-        public bool UseFullResources { get; set; }
+        public Boolean UseFullResources { get; set; }
 
-        public bool IncludeFolderNames { get; set; }
+        public Boolean IncludeFolderNames { get; set; }
 
-        public bool AutoPauseWiping { get; set; }
+        public Boolean AutoPauseWiping { get; set; }
 
-        public bool AllowAutoRelaunch { get; set; }
+        public Boolean AllowAutoRelaunch { get; set; }
 
-        public bool SuppressCancelQuestion { get; set; }
+        public Boolean SuppressCancelQuestion { get; set; }
 
         #endregion // Public property implementation.
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Behaviour(this);
         }
@@ -393,7 +391,7 @@ namespace Plexdata.FileWiper
 
         #region Public static property implementation.
 
-        public static int ThreadCountMinimum
+        public static Int32 ThreadCountMinimum
         {
             get
             {
@@ -401,7 +399,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static int ThreadCountMaximum
+        public static Int32 ThreadCountMaximum
         {
             get
             {
@@ -414,16 +412,16 @@ namespace Plexdata.FileWiper
         #region Public property implementation.
 
         [XmlAttribute]
-        public bool AllowParallel { get; set; }
+        public Boolean AllowParallel { get; set; }
 
         [XmlAttribute]
-        public int ThreadCount { get; set; }
+        public Int32 ThreadCount { get; set; }
 
         #endregion // Public property implementation.
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new WipingProcessing(this);
         }

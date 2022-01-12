@@ -412,7 +412,7 @@ namespace Plexdata.FileWiper
             // tbbAboutAbout
             // 
             this.tbbAboutAbout.Name = "tbbAboutAbout";
-            this.tbbAboutAbout.Size = new System.Drawing.Size(152, 22);
+            this.tbbAboutAbout.Size = new System.Drawing.Size(126, 22);
             this.tbbAboutAbout.Text = "&About";
             this.tbbAboutAbout.Click += new System.EventHandler(this.OnToolbarButtonAboutAboutClick);
             // 
@@ -420,12 +420,13 @@ namespace Plexdata.FileWiper
             // 
             this.tbbAboutHelp.Name = "tbbAboutHelp";
             this.tbbAboutHelp.ShortcutKeyDisplayString = "(F1)";
-            this.tbbAboutHelp.Size = new System.Drawing.Size(152, 22);
+            this.tbbAboutHelp.Size = new System.Drawing.Size(126, 22);
             this.tbbAboutHelp.Text = "&Help";
             this.tbbAboutHelp.Click += new System.EventHandler(this.OnToolbarButtonAboutHelpClick);
             // 
             // mainStatusbar
             // 
+            this.mainStatusbar.BackColor = System.Drawing.Color.White;
             this.mainStatusbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sblGeneral,
             this.sblMode,
@@ -565,12 +566,14 @@ namespace Plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.wipingList);
             this.Controls.Add(this.mainStatusbar);
             this.Controls.Add(this.mainToolbar);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "File Wiper";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.trayIconMenu.ResumeLayout(false);

@@ -35,15 +35,15 @@ namespace Plexdata.FileWiper
 {
     internal class ParameterParser
     {
-        public static string REGISTER = "register";
-        public static string UNREGISTER = "unregister";
-        public static string FORCESHOW = "forceshow";
-        public static string RELAUNCH = "relaunch";
+        public static String REGISTER = "register";
+        public static String UNREGISTER = "unregister";
+        public static String FORCESHOW = "forceshow";
+        public static String RELAUNCH = "relaunch";
 
-        private const string ENABLED = "enabled";
+        private const String ENABLED = "enabled";
 
-        private const string QUOTE = "\"";
-        private const string SPACE = " ";
+        private const String QUOTE = "\"";
+        private const String SPACE = " ";
 
         private StringDictionary parameters = null;
         private StringCollection filepaths = null;
@@ -59,7 +59,7 @@ namespace Plexdata.FileWiper
                 // Remove leading executable file name.
                 helper.RemoveAt(0);
 
-                string[] args = new string[helper.Count];
+                String[] args = new String[helper.Count];
                 helper.CopyTo(args, 0);
                 this.Parse(args);
             }
@@ -70,13 +70,13 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public ParameterParser(string[] args)
+        public ParameterParser(String[] args)
             : base()
         {
             this.Parse(args);
         }
 
-        public void Parse(string[] args)
+        public void Parse(String[] args)
         {
             //
             // Rules:
@@ -109,7 +109,7 @@ namespace Plexdata.FileWiper
 
             Regex spliter = new Regex(@"^-{1,2}|^/|=", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             Regex cleaner = new Regex(@"^[""]?(.*?)[""]?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            string param = null;
+            String param = null;
 
             // Reset member variables.
             this.parameters = new StringDictionary();
@@ -117,19 +117,18 @@ namespace Plexdata.FileWiper
 
             if (args != null)
             {
-                foreach (string current in args)
+                foreach (String current in args)
                 {
                     // Check if current argument is a file path 
                     // without a leading parameter name.
-                    Uri filepath = null;
-                    if (param == null && Uri.TryCreate(current, UriKind.Absolute, out filepath))
+                    if (param == null && Uri.TryCreate(current, UriKind.Absolute, out Uri filepath))
                     {
                         this.filepaths.Add(current);
                         continue;
                     }
 
                     // Try split parameters at (-), (/), (--) and values at (=), ( ).
-                    string[] parts = spliter.Split(current, 3);
+                    String[] parts = spliter.Split(current, 3);
 
                     // Check and assign results.
                     if (parts.Length == 1)
@@ -179,17 +178,17 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static string CombineOptions(params string[] options)
+        public static String CombineOptions(params String[] options)
         {
-            string result = String.Empty;
-            for (int index = 0; index < options.Length; index++)
+            String result = String.Empty;
+            for (Int32 index = 0; index < options.Length; index++)
             {
                 result += options[index].Trim() + SPACE;
             }
             return result.Trim();
         }
 
-        public static string BuildOption(string option)
+        public static String BuildOption(String option)
         {
             if (option == null)
             {
@@ -209,7 +208,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public static string BuildOption(string option, string argument)
+        public static String BuildOption(String option, String argument)
         {
             if (argument != null) { argument = argument.Trim(); }
 
@@ -217,7 +216,7 @@ namespace Plexdata.FileWiper
                 (argument != String.Empty ? SPACE + argument : String.Empty);
         }
 
-        public static string BuildOption(string option, string argument, bool quotes)
+        public static String BuildOption(String option, String argument, Boolean quotes)
         {
             if (quotes && argument != null)
             {
@@ -231,34 +230,34 @@ namespace Plexdata.FileWiper
             return ParameterParser.BuildOption(option, argument);
         }
 
-        public static string BuildOptionRegister(string fullpath)
+        public static String BuildOptionRegister(String fullpath)
         {
             return ParameterParser.BuildOption(ParameterParser.REGISTER, fullpath, true);
         }
 
-        public static string BuildOptionUnregister()
+        public static String BuildOptionUnregister()
         {
             return ParameterParser.BuildOption(ParameterParser.UNREGISTER);
         }
 
-        public static string BuildOptionForceShow()
+        public static String BuildOptionForceShow()
         {
             return ParameterParser.BuildOption(ParameterParser.FORCESHOW);
         }
 
-        public static string BuildOptionRelaunch()
+        public static String BuildOptionRelaunch()
         {
             return ParameterParser.BuildOption(ParameterParser.RELAUNCH);
         }
 
-        public static string BuildOptionFilepaths(string[] filepaths)
+        public static String BuildOptionFilepaths(String[] filepaths)
         {
-            string result = String.Empty;
+            String result = String.Empty;
             if (filepaths != null)
             {
-                foreach (string filepath in filepaths)
+                foreach (String filepath in filepaths)
                 {
-                    string helper = filepath.Trim();
+                    String helper = filepath.Trim();
                     if (!helper.StartsWith(QUOTE)) { helper = QUOTE + helper; }
                     if (!helper.EndsWith(QUOTE)) { helper += QUOTE; }
                     result += helper + SPACE;
@@ -267,7 +266,7 @@ namespace Plexdata.FileWiper
             return result.Trim();
         }
 
-        public bool IsOption(string option)
+        public Boolean IsOption(String option)
         {
             if (String.IsNullOrEmpty(option))
             {
@@ -279,12 +278,12 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public bool IsRegister
+        public Boolean IsRegister
         {
             get { return this.IsOption(REGISTER); }
         }
 
-        public string RegisterOption
+        public String RegisterOption
         {
             get
             {
@@ -299,39 +298,39 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public bool IsUnregister
+        public Boolean IsUnregister
         {
             get { return this.IsOption(UNREGISTER); }
         }
 
-        public bool IsForceShow
+        public Boolean IsForceShow
         {
             get { return this.IsOption(FORCESHOW); }
         }
 
-        public bool IsRelaunch
+        public Boolean IsRelaunch
         {
             get { return this.IsOption(RELAUNCH); }
         }
 
-        public bool HasFilepaths
+        public Boolean HasFilepaths
         {
             get { return this.filepaths != null && this.filepaths.Count > 0; }
         }
 
-        public string[] Filepaths
+        public String[] Filepaths
         {
             get
             {
                 if (this.filepaths != null)
                 {
-                    string[] result = new string[this.filepaths.Count];
+                    String[] result = new String[this.filepaths.Count];
                     this.filepaths.CopyTo(result, 0);
                     return result;
                 }
                 else
                 {
-                    return new string[0];
+                    return new String[0];
                 }
             }
         }
@@ -339,7 +338,7 @@ namespace Plexdata.FileWiper
         // Retrieve a parameter value if it exists.
         // If key is not null and it does not exist 
         // then null is returned or this key is created.
-        public string this[string parameter]
+        public String this[String parameter]
         {
             get
             {
@@ -347,14 +346,14 @@ namespace Plexdata.FileWiper
             }
         }
 
-        public override string ToString()
+        public override String ToString()
         {
-            string result = String.Empty;
+            String result = String.Empty;
 
             if (this.filepaths != null && this.filepaths.Count > 0)
             {
                 result += "Filepaths:\r\n";
-                foreach (string filepath in this.filepaths)
+                foreach (String filepath in this.filepaths)
                 {
                     result += "value[" + filepath + "]\r\n";
                 }
@@ -363,7 +362,7 @@ namespace Plexdata.FileWiper
             if (this.parameters != null && this.parameters.Count > 0)
             {
                 result += "Parameters:\r\n";
-                foreach (string parameter in this.parameters.Keys)
+                foreach (String parameter in this.parameters.Keys)
                 {
                     result += "param[" + parameter + "], value[" + this.parameters[parameter] + "]\r\n";
                 }

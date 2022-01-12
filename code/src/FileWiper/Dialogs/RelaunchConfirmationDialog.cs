@@ -23,7 +23,6 @@
  */
 
 using System;
-using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -31,9 +30,9 @@ namespace Plexdata.FileWiper
 {
     public partial class RelaunchConfirmationDialog : Form
     {
-        private const string DEFAULT_CAPTION = "Confirmation";
+        private const String DEFAULT_CAPTION = "Confirmation";
 
-        private const string DEFAULT_MESSAGE = "During current wiping procedure it came up that some " +
+        private const String DEFAULT_MESSAGE = "During current wiping procedure it came up that some " +
             "of the files need administration privileges!" +
             "\r\n\r\n" +
             "Press button [Show] to display all occurred errors, or press button [Relaunch] to restart " +
@@ -49,33 +48,31 @@ namespace Plexdata.FileWiper
         {
         }
 
-        public RelaunchConfirmationDialog(string message)
+        public RelaunchConfirmationDialog(String message)
             : this(message, DEFAULT_CAPTION)
         {
         }
 
-        public RelaunchConfirmationDialog(string message, string caption)
+        public RelaunchConfirmationDialog(String message, String caption)
             : base()
         {
             this.InitializeComponent();
 
             this.Icon = Properties.Resources.MainIcon;
-
-            if (caption == null) { throw new ArgumentNullException("caption"); }
-            this.Text = caption; // Caption can be empty...
+            this.Text = caption ?? throw new ArgumentNullException("caption"); // Caption can be empty...
 
             if (message == null) { throw new ArgumentNullException("message"); }
 
             this.InitializeLayout(message);
         }
 
-        private void InitializeLayout(string message)
+        private void InitializeLayout(String message)
         {
             this.lblMessage.Text = message;
             this.Size = this.GetPreferedDialogSize(this.lblMessage, message);
         }
 
-        private Size GetPreferedDialogSize(Control reference, string message)
+        private Size GetPreferedDialogSize(Control reference, String message)
         {
             Size result = this.Size;
             using (Graphics graphics = this.CreateGraphics())
@@ -87,8 +84,8 @@ namespace Plexdata.FileWiper
                 Size current = reference.ClientRectangle.Size;
 
                 Size proposed = new Size(
-                    (int)(current.Width * 1.5),
-                    (int)(Screen.FromControl(reference).Bounds.Height * 0.7));
+                    (Int32)(current.Width * 1.5),
+                    (Int32)(Screen.FromControl(reference).Bounds.Height * 0.7));
 
                 Size prefered = TextRenderer.MeasureText(graphics, message, reference.Font, proposed, format);
 

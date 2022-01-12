@@ -23,10 +23,9 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 
 namespace Plexdata.FileWiper
 {
@@ -46,10 +45,10 @@ namespace Plexdata.FileWiper
         /// True if the user pressed button <b>Yes</b> on the Windows elevation dialog box and 
         /// false in case of the user pressed button <b>No</b>.
         /// </returns>
-        /// <seealso cref="Plexdata.FileWiper.SelfElevation.Elevate(string, bool)">
+        /// <seealso cref="Plexdata.FileWiper.SelfElevation.Elevate(String, Boolean)">
         /// Elevate(parameters, wait)
         /// </seealso>
-        public static bool Elevate(string parameters)
+        public static Boolean Elevate(String parameters)
         {
             return Elevate(parameters, false);
         }
@@ -79,13 +78,13 @@ namespace Plexdata.FileWiper
         /// True if the user pressed button <b>Yes</b> on the Windows elevation dialog box 
         /// and false in case of the user pressed button <b>No</b>.
         /// </returns>
-        /// <seealso cref="Plexdata.FileWiper.SelfElevation.Elevate(string)">
+        /// <seealso cref="Plexdata.FileWiper.SelfElevation.Elevate(String)">
         /// Elevate(parameters)
         /// </seealso>
         /// <seealso cref="System.Diagnostics.Process.Start(System.Diagnostics.ProcessStartInfo)">
         /// Process.Start(ProcessStartInfo)
         /// </seealso>
-        public static bool Elevate(string parameters, bool wait)
+        public static Boolean Elevate(String parameters, Boolean wait)
         {
             try
             {
@@ -95,10 +94,12 @@ namespace Plexdata.FileWiper
 
                 Program.TraceLogger.Write("SelfElevation", ">>> Elevate(" + parameters + ", " + wait + ")");
 
-                ProcessStartInfo info = new ProcessStartInfo();
-                info.Verb = "runas";
-                info.Arguments = parameters;
-                info.FileName = Application.ExecutablePath;
+                ProcessStartInfo info = new ProcessStartInfo()
+                {
+                    Verb = "runas",
+                    Arguments = parameters,
+                    FileName = Application.ExecutablePath
+                };
 
                 if (wait)
                 {
@@ -124,7 +125,7 @@ namespace Plexdata.FileWiper
             }
             catch (Win32Exception exception)
             {
-                const int ERROR_CANCELLED = 1223;
+                const Int32 ERROR_CANCELLED = 1223;
 
                 if (exception.NativeErrorCode == ERROR_CANCELLED)
                 {

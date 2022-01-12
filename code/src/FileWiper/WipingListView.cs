@@ -22,21 +22,20 @@
  * SOFTWARE.
  */
 
+using Plexdata.Controls;
+using Plexdata.Utilities;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Threading;
 using System.Reflection;
-using System.Diagnostics;
-using System.Globalization;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-
-using plexdata.Controls;
-using plexdata.Utilities;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
@@ -68,30 +67,32 @@ namespace Plexdata.FileWiper
             }
 
             public Control Control { get; set; }
-            public int Column { get; set; }
-            public int Index { get; set; }
+            public Int32 Column { get; set; }
+            public Int32 Index { get; set; }
             public DockStyle Dock { get; set; }
             public ListViewItem Item { get; set; }
         }
 
-        private List<InnerControl> listViewControls = new List<InnerControl>();
+        private readonly List<InnerControl> listViewControls = new List<InnerControl>();
 
-        private List<WipingListItem> wipingListItems = new List<WipingListItem>();
-
-        private IContainer components = null;
+        private readonly IContainer components = null;
 
         public WipingListView()
             : base()
         {
             this.components = new Container();
 
-            this.SmallImageList = new ImageList(this.components);
-            this.SmallImageList.ImageSize = new Size(16, 16);
-            this.SmallImageList.ColorDepth = ColorDepth.Depth32Bit;
+            this.SmallImageList = new ImageList(this.components)
+            {
+                ImageSize = new Size(16, 16),
+                ColorDepth = ColorDepth.Depth32Bit
+            };
 
-            this.LargeImageList = new ImageList(this.components);
-            this.LargeImageList.ImageSize = new Size(32, 32);
-            this.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
+            this.LargeImageList = new ImageList(this.components)
+            {
+                ImageSize = new Size(32, 32),
+                ColorDepth = ColorDepth.Depth32Bit
+            };
 
             this.View = View.Details;
             this.FullRowSelect = true;
@@ -101,43 +102,53 @@ namespace Plexdata.FileWiper
             this.DoubleBuferring = true;
 
             ColumnHeader header;
-            header = new ColumnHeader();
-            header.Name = WipingListKeys.FILENAME;
-            header.Text = WipingListKeys.FILENAME;
-            header.Width = 200;
-            header.TextAlign = HorizontalAlignment.Left;
+            header = new ColumnHeader()
+            {
+                Name = WipingListKeys.FILENAME,
+                Text = WipingListKeys.FILENAME,
+                Width = 200,
+                TextAlign = HorizontalAlignment.Left
+            };
             header.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             this.Columns.Add(header);
 
-            header = new ColumnHeader();
-            header.Name = WipingListKeys.PROGRESS;
-            header.Text = WipingListKeys.PROGRESS;
-            header.Width = 80;
-            header.TextAlign = HorizontalAlignment.Center;
+            header = new ColumnHeader()
+            {
+                Name = WipingListKeys.PROGRESS,
+                Text = WipingListKeys.PROGRESS,
+                Width = 80,
+                TextAlign = HorizontalAlignment.Center
+            };
             header.AutoResize(ColumnHeaderAutoResizeStyle.HeaderSize);
             this.Columns.Add(header);
 
-            header = new ColumnHeader();
-            header.Name = WipingListKeys.FILESIZE;
-            header.Text = WipingListKeys.FILESIZE;
-            header.Width = 70;
-            header.TextAlign = HorizontalAlignment.Right;
+            header = new ColumnHeader()
+            {
+                Name = WipingListKeys.FILESIZE,
+                Text = WipingListKeys.FILESIZE,
+                Width = 70,
+                TextAlign = HorizontalAlignment.Right
+            };
             header.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             this.Columns.Add(header);
 
-            header = new ColumnHeader();
-            header.Name = WipingListKeys.FILEDATE;
-            header.Text = WipingListKeys.FILEDATE;
-            header.Width = 130;
-            header.TextAlign = HorizontalAlignment.Left;
+            header = new ColumnHeader()
+            {
+                Name = WipingListKeys.FILEDATE,
+                Text = WipingListKeys.FILEDATE,
+                Width = 130,
+                TextAlign = HorizontalAlignment.Left
+            };
             header.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             this.Columns.Add(header);
 
-            header = new ColumnHeader();
-            header.Name = WipingListKeys.FILEPATH;
-            header.Text = WipingListKeys.FILEPATH;
-            header.Width = 250;
-            header.TextAlign = HorizontalAlignment.Left;
+            header = new ColumnHeader()
+            {
+                Name = WipingListKeys.FILEPATH,
+                Text = WipingListKeys.FILEPATH,
+                Width = 250,
+                TextAlign = HorizontalAlignment.Left
+            };
             header.AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             this.Columns.Add(header);
         }
@@ -166,7 +177,7 @@ namespace Plexdata.FileWiper
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public bool DoubleBuferring
+        public Boolean DoubleBuferring
         {
             get
             {
@@ -186,31 +197,31 @@ namespace Plexdata.FileWiper
 
         #region Internal property section.
 
-        private WipingStateCounts wipingStateCounts = new WipingStateCounts();
+        private readonly WipingStateCounts wipingStateCounts = new WipingStateCounts();
         internal WipingStateCounts StateCounts { get { return this.wipingStateCounts; } }
 
-        private WipingOverallCounts wipingOverallCounts = new WipingOverallCounts();
+        private readonly WipingOverallCounts wipingOverallCounts = new WipingOverallCounts();
         internal WipingOverallCounts OverallCounts { get { return this.wipingOverallCounts; } }
 
         #endregion // Internal property section.
 
         #region Internal method section.
 
-        internal List<WipingListItem> Append(string[] pathlist)
+        internal List<WipingListItem> Append(String[] pathlist)
         {
             try
             {
                 // Don't use BeginUpdate() and EndUpdate() because all items are added at once.
                 List<WipingListItem> result = new List<WipingListItem>();
-                List<string> filepaths = new List<string>();
+                List<String> filepaths = new List<String>();
                 this.ResolveFilepaths(pathlist, filepaths);
 
-                double totalFileSize = 0;
+                Double totalFileSize = 0;
 
                 // The list of resolved path names may contain duplicates! 
                 // Therefore, it is necessary to remove them. Using Linq 
                 // for this purpose is quite easy.
-                foreach (string filepath in filepaths.Distinct().ToList())
+                foreach (String filepath in filepaths.Distinct().ToList())
                 {
                     if (this.CanAppend(filepath))
                     {
@@ -246,16 +257,15 @@ namespace Plexdata.FileWiper
             }
         }
 
-        internal bool ShowProgress(ListViewItem item, WipingItemStates state)
+        internal Boolean ShowProgress(ListViewItem item, WipingItemStates state)
         {
             // Don't use BeginUpdate()/EndUpdate() because it 
             // cause massive list flickering under Windows XP.
             try
             {
-                WipingListItem current = item as WipingListItem;
-                if (current != null)
+                if (item is WipingListItem current)
                 {
-                    int column = this.Columns[WipingListKeys.PROGRESS].Index;
+                    Int32 column = this.Columns[WipingListKeys.PROGRESS].Index;
                     if (this.GetControl(column, item.Index) == null)
                     {
                         current.State = state;
@@ -283,8 +293,7 @@ namespace Plexdata.FileWiper
             // cause massive list flickering under Windows XP.
             try
             {
-                WipingListItem current = item as WipingListItem;
-                if (current != null)
+                if (item is WipingListItem current)
                 {
                     current.State = state;
                     current.Progress.Visible = false;
@@ -306,7 +315,7 @@ namespace Plexdata.FileWiper
 
         #region Protected method section.
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(Boolean disposing)
         {
             if (disposing && (this.components != null))
             {
@@ -322,9 +331,9 @@ namespace Plexdata.FileWiper
         protected override void WndProc(ref Message message)
         {
             // Windows Messages
-            const int WM_PAINT = 0x000F;
+            const Int32 WM_PAINT = 0x000F;
 
-            if (message.Msg == WM_PAINT && View == View.Details)
+            if (message.Msg == WM_PAINT && this.View == View.Details)
             {
                 // Calculate the position of all embedded controls
                 foreach (InnerControl current in this.listViewControls)
@@ -396,7 +405,7 @@ namespace Plexdata.FileWiper
 
         #region Private method section.
 
-        private void ResolveFilepaths(string basepath, List<string> result)
+        private void ResolveFilepaths(String basepath, List<String> result)
         {
             try
             {
@@ -432,11 +441,11 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void ResolveFilepaths(string[] basepaths, List<string> result)
+        private void ResolveFilepaths(String[] basepaths, List<String> result)
         {
             if (basepaths != null && result != null)
             {
-                foreach (string basepath in basepaths)
+                foreach (String basepath in basepaths)
                 {
                     // Resolve all children for current path.
                     this.ResolveFilepaths(basepath, result);
@@ -444,7 +453,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private bool CanAppend(string fullpath)
+        private Boolean CanAppend(String fullpath)
         {
             if (fullpath != null)
             {
@@ -467,7 +476,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private Control GetControl(int column, int index)
+        private Control GetControl(Int32 column, Int32 index)
         {
             foreach (InnerControl embedded in this.listViewControls)
             {
@@ -479,23 +488,25 @@ namespace Plexdata.FileWiper
             return null;
         }
 
-        private void AddControl(Control control, int column, int index)
+        private void AddControl(Control control, Int32 column, Int32 index)
         {
             this.AddControl(control, column, index, DockStyle.Fill);
         }
 
-        private void AddControl(Control control, int column, int index, DockStyle dock)
+        private void AddControl(Control control, Int32 column, Int32 index, DockStyle dock)
         {
             if (control != null && column < this.Columns.Count && index < this.Items.Count)
             {
-                InnerControl embedded = new InnerControl();
-                embedded.Control = control;
-                embedded.Column = column;
-                embedded.Index = index;
-                embedded.Dock = dock;
-                embedded.Item = this.Items[index];
+                InnerControl embedded = new InnerControl()
+                {
+                    Control = control,
+                    Column = column,
+                    Index = index,
+                    Dock = dock,
+                    Item = this.Items[index]
+                };
 
-                embedded.Control.Bounds = 
+                embedded.Control.Bounds =
                     this.GetInflatedControlBounds(this.GetSubItemBounds(embedded.Item, embedded.Column));
 
                 this.listViewControls.Add(embedded);
@@ -508,7 +519,7 @@ namespace Plexdata.FileWiper
         {
             if (control != null)
             {
-                for (int index = 0; index < this.listViewControls.Count; index++)
+                for (Int32 index = 0; index < this.listViewControls.Count; index++)
                 {
                     InnerControl embedded = (InnerControl)this.listViewControls[index];
                     if (embedded.Control == control)
@@ -521,18 +532,18 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private int[] GetColumnOrder()
+        private Int32[] GetColumnOrder()
         {
             // ListView messages
-            const int LVM_FIRST = 0x1000;
-            const int LVM_GETCOLUMNORDERARRAY = (LVM_FIRST + 59);
+            const Int32 LVM_FIRST = 0x1000;
+            const Int32 LVM_GETCOLUMNORDERARRAY = (LVM_FIRST + 59);
 
-            int[] result = null;
+            Int32[] result = null;
             IntPtr lParam = IntPtr.Zero;
 
             try
             {
-                lParam = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(int)) * this.Columns.Count);
+                lParam = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(Int32)) * this.Columns.Count);
 
                 IntPtr lResult = SendMessage(
                     this.Handle, LVM_GETCOLUMNORDERARRAY,
@@ -540,7 +551,7 @@ namespace Plexdata.FileWiper
 
                 if (lResult.ToInt32() != 0)
                 {
-                    result = new int[this.Columns.Count];
+                    result = new Int32[this.Columns.Count];
                     Marshal.Copy(lParam, result, 0, this.Columns.Count);
                 }
             }
@@ -554,11 +565,11 @@ namespace Plexdata.FileWiper
             return result;
         }
 
-        private Rectangle GetSubItemBounds(ListViewItem item, int subItem)
+        private Rectangle GetSubItemBounds(ListViewItem item, Int32 subItem)
         {
             if (item == null) { throw new ArgumentNullException("item"); }
 
-            int[] order = GetColumnOrder();
+            Int32[] order = this.GetColumnOrder();
             if (order == null) { return Rectangle.Empty; }
 
             if (subItem >= order.Length)
@@ -571,7 +582,7 @@ namespace Plexdata.FileWiper
 
             // Calculate the X position of the SubItem.
             ColumnHeader columnHeader;
-            for (int index = 0; index < order.Length; index++)
+            for (Int32 index = 0; index < order.Length; index++)
             {
                 columnHeader = this.Columns[order[index]];
                 if (columnHeader.Index == subItem)
@@ -596,18 +607,18 @@ namespace Plexdata.FileWiper
         #region Win32 API function declarations.
 
         [DllImport("user32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, PreserveSig = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int message, IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr SendMessage(IntPtr hWnd, Int32 message, IntPtr wParam, IntPtr lParam);
 
         #endregion // Win32 API function declarations.
     }
 
     internal static class WipingListKeys
     {
-        public static string FILENAME = "Filename";
-        public static string PROGRESS = "Progress";
-        public static string FILESIZE = "Filesize";
-        public static string FILEDATE = "Filedate";
-        public static string FILEPATH = "Filepath";
+        public static String FILENAME = "Filename";
+        public static String PROGRESS = "Progress";
+        public static String FILESIZE = "Filesize";
+        public static String FILEDATE = "Filedate";
+        public static String FILEPATH = "Filepath";
     }
 
     internal class WipingStateCounts
@@ -616,7 +627,7 @@ namespace Plexdata.FileWiper
 
         public event EventHandler<EventArgs> InactivityIndicated;
 
-        private object critical = new object();
+        private readonly Object critical = new Object();
 
         public WipingStateCounts()
             : base()
@@ -624,21 +635,21 @@ namespace Plexdata.FileWiper
             this.Reset();
         }
 
-        public int Failed { get; private set; }
+        public Int32 Failed { get; private set; }
 
-        public int Missing { get; private set; }
+        public Int32 Missing { get; private set; }
 
-        public int Unknown { get; private set; }
+        public Int32 Unknown { get; private set; }
 
-        public int Pending { get; private set; }
+        public Int32 Pending { get; private set; }
 
-        public int Pausing { get; private set; }
+        public Int32 Pausing { get; private set; }
 
-        public int Processing { get; private set; }
+        public Int32 Processing { get; private set; }
 
-        public int Finished { get; private set; }
+        public Int32 Finished { get; private set; }
 
-        public int Canceled { get; private set; }
+        public Int32 Canceled { get; private set; }
 
         public void Attach(WipingItemStates state)
         {
@@ -812,7 +823,7 @@ namespace Plexdata.FileWiper
             this.Canceled = 0;
         }
 
-        public override string ToString()
+        public override String ToString()
         {
             return
                 "Failed: " + this.Failed + " Missing: " + this.Missing +
@@ -823,10 +834,7 @@ namespace Plexdata.FileWiper
 
         private void RaiseValuesChanged()
         {
-            if (this.ValuesChanged != null)
-            {
-                this.ValuesChanged(this, EventArgs.Empty);
-            }
+            this.ValuesChanged?.Invoke(this, EventArgs.Empty);
 
             // Be aware, indicating an inactivity 
             // really depends on current values!
@@ -851,7 +859,7 @@ namespace Plexdata.FileWiper
     {
         public event EventHandler<EventArgs> ValuesChanged;
 
-        private object critical = new object();
+        private readonly Object critical = new Object();
 
         public WipingOverallCounts()
             : base()
@@ -862,19 +870,19 @@ namespace Plexdata.FileWiper
         /// <summary>
         /// Total sum of sizes of all files.
         /// </summary>
-        public double TotalFileSize { get; private set; }
+        public Double TotalFileSize { get; private set; }
 
         /// <summary>
         /// Total sum of wiped file sizes.
         /// </summary>
-        public double WipedFileSize { get; private set; }
+        public Double WipedFileSize { get; private set; }
 
         /// <summary>
         /// Total sum of finished wiping sizes.
         /// </summary>
-        public double TotalWipedSize { get; private set; }
+        public Double TotalWipedSize { get; private set; }
 
-        public void AddTotalFileSize(double fileSize)
+        public void AddTotalFileSize(Double fileSize)
         {
             lock (this.critical)
             {
@@ -883,7 +891,7 @@ namespace Plexdata.FileWiper
             this.RaiseValuesChanged();
         }
 
-        public void DelTotalFileSize(double fileSize)
+        public void DelTotalFileSize(Double fileSize)
         {
             lock (this.critical)
             {
@@ -892,7 +900,7 @@ namespace Plexdata.FileWiper
             this.RaiseValuesChanged();
         }
 
-        public void AddWipingSizes(double fileSize, double wipedSize)
+        public void AddWipingSizes(Double fileSize, Double wipedSize)
         {
             lock (this.critical)
             {
@@ -909,7 +917,7 @@ namespace Plexdata.FileWiper
             this.TotalWipedSize = 0;
         }
 
-        public override string ToString()
+        public override String ToString()
         {
             return
                 "Total File Size: " + this.TotalFileSize.ToString("N0", NumberFormatInfo.CurrentInfo) +
@@ -919,16 +927,13 @@ namespace Plexdata.FileWiper
 
         private void RaiseValuesChanged()
         {
-            if (this.ValuesChanged != null)
-            {
-                this.ValuesChanged(this, EventArgs.Empty);
-            }
+            this.ValuesChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
     internal enum WipingItemStates
     {
-        Other = int.MaxValue,
+        Other = Int32.MaxValue,
         Failed = -2,
         Missing,
         Unknown,
@@ -941,7 +946,7 @@ namespace Plexdata.FileWiper
 
     internal class WipingListItem : ListViewItem
     {
-        private GuiInvokeHelper invoker = null;
+        private readonly GuiInvokeHelper invoker = null;
 
         public WipingListItem()
             : base()
@@ -954,14 +959,14 @@ namespace Plexdata.FileWiper
             this.Exception = null;
         }
 
-        public WipingListItem(string fullpath)
+        public WipingListItem(String fullpath)
             : this()
         {
-            string filename = "<empty>";
-            string filepath = String.Empty;
-            string filedate = String.Empty;
-            string filesize = String.Empty;
-            string imagekey = String.Empty;
+            String filename = "<empty>";
+            String filepath = String.Empty;
+            String filedate = String.Empty;
+            String filesize = String.Empty;
+            String imagekey = String.Empty;
             WipingItemStates state = WipingItemStates.Unknown;
             ListViewSubItem subitem = null;
 
@@ -970,21 +975,25 @@ namespace Plexdata.FileWiper
             fullpath = fullpath.Replace("\"", "").Trim();
             this.FileInfo = new FileInfo(fullpath);
 
-            this.Worker = new WipingThread();
-            this.Worker.WorkerSupportsCancellation = true;
+            this.Worker = new WipingThread()
+            {
+                WorkerSupportsCancellation = true
+            };
 
-            this.Progress = new ProgressBar3D();
-            this.Progress.Font = new Font(this.Font.FontFamily, this.Font.Size - 1.5f);
-            this.Progress.Value = 0;
-            this.Progress.Maximum = 0;
-            this.Progress.ForeColorLight = Color.FromArgb(128, 128, 255);
-            this.Progress.ForeColorDark = Color.FromArgb(192, 192, 255);
-            this.Progress.BackColorLight = Color.FromArgb(224, 224, 224);
-            this.Progress.BackColorDark = Color.FromArgb(255, 255, 255);
-            this.Progress.BorderColor = Color.FromArgb(192, 192, 192);
-            this.Progress.TextColorLight = Color.FromArgb(0, 0, 64);
-            this.Progress.TextColorDark = Color.FromArgb(0, 0, 64);
-            this.Progress.RedirectHitTest = true;
+            this.Progress = new ProgressBar3D()
+            {
+                Font = new Font(this.Font.FontFamily, this.Font.Size - 1.5f),
+                Value = 0,
+                Maximum = 0,
+                ForeColorLight = Color.FromArgb(128, 128, 255),
+                ForeColorDark = Color.FromArgb(192, 192, 255),
+                BackColorLight = Color.FromArgb(224, 224, 224),
+                BackColorDark = Color.FromArgb(255, 255, 255),
+                BorderColor = Color.FromArgb(192, 192, 192),
+                TextColorLight = Color.FromArgb(0, 0, 64),
+                TextColorDark = Color.FromArgb(0, 0, 64),
+                RedirectHitTest = true
+            };
 
             filename = this.FileInfo.Name;
             filepath = this.FileInfo.DirectoryName;
@@ -1015,28 +1024,36 @@ namespace Plexdata.FileWiper
             this.ImageKey = imagekey;
             this.UseItemStyleForSubItems = false;
 
-            subitem = new ListViewSubItem();
-            subitem.Text = state.ToString();
-            subitem.Name = WipingListKeys.PROGRESS;
+            subitem = new ListViewSubItem()
+            {
+                Text = state.ToString(),
+                Name = WipingListKeys.PROGRESS
+            };
             this.SubItems.Add(subitem);
 
             // Set status here; otherwise 
             // item text is not reflected.
             this.State = state;
 
-            subitem = new ListViewSubItem();
-            subitem.Text = filesize;
-            subitem.Name = WipingListKeys.FILESIZE;
+            subitem = new ListViewSubItem()
+            {
+                Text = filesize,
+                Name = WipingListKeys.FILESIZE
+            };
             this.SubItems.Add(subitem);
 
-            subitem = new ListViewSubItem();
-            subitem.Text = filedate;
-            subitem.Name = WipingListKeys.FILEDATE;
+            subitem = new ListViewSubItem()
+            {
+                Text = filedate,
+                Name = WipingListKeys.FILEDATE
+            };
             this.SubItems.Add(subitem);
 
-            subitem = new ListViewSubItem();
-            subitem.Text = filepath;
-            subitem.Name = WipingListKeys.FILEPATH;
+            subitem = new ListViewSubItem()
+            {
+                Text = filepath,
+                Name = WipingListKeys.FILEPATH
+            };
             this.SubItems.Add(subitem);
         }
 
@@ -1103,7 +1120,7 @@ namespace Plexdata.FileWiper
         // It is really necessary to decouple file size from current file info 
         // because after the file has been deleted getting the file's length 
         // throws an exception when accessing the file info.
-        public long FileSize { get; private set; }
+        public Int64 FileSize { get; private set; }
 
         public ProgressBar3D Progress { get; private set; }
 
@@ -1111,7 +1128,7 @@ namespace Plexdata.FileWiper
 
         public Exception Exception { get; set; }
 
-        public void UpdateProgress(int repeats, int steps)
+        public void UpdateProgress(Int32 repeats, Int32 steps)
         {
             this.Progress.Value = 0;
             this.Progress.Maximum = this.FileSize * repeats;
@@ -1123,7 +1140,7 @@ namespace Plexdata.FileWiper
             this.Progress.Increment();
         }
 
-        public void HandleProgress(double steps)
+        public void HandleProgress(Double steps)
         {
             this.Progress.Increment(steps);
         }
@@ -1167,7 +1184,7 @@ namespace Plexdata.FileWiper
             {
                 if (this.invoker.InvokeRequired)
                 {
-                    this.invoker.Invoke(new ShowProgressDelegate(this.ShowProgress), new object[] { state });
+                    this.invoker.Invoke(new ShowProgressDelegate(this.ShowProgress), new Object[] { state });
                 }
                 else
                 {
@@ -1191,7 +1208,7 @@ namespace Plexdata.FileWiper
             {
                 if (this.invoker.InvokeRequired)
                 {
-                    this.invoker.Invoke(new HideProgressDelegate(this.HideProgress), new object[] { state });
+                    this.invoker.Invoke(new HideProgressDelegate(this.HideProgress), new Object[] { state });
                 }
                 else
                 {
@@ -1208,28 +1225,28 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private Icon GetFileIcon(string filename, bool small)
+        private Icon GetFileIcon(String filename, Boolean small)
         {
-            const int FILE_ATTRIBUTE_NORMAL = 0x00000080;
-            const int SHGFI_ICON = 0x100;
-            const int SHGFI_LARGEICON = 0x0;
-            const int SHGFI_SMALLICON = 0x1;
-            const int SHGFI_USEFILEATTRIBUTES = 0x10;
+            const Int32 FILE_ATTRIBUTE_NORMAL = 0x00000080;
+            const Int32 SHGFI_ICON = 0x100;
+            const Int32 SHGFI_LARGEICON = 0x0;
+            const Int32 SHGFI_SMALLICON = 0x1;
+            const Int32 SHGFI_USEFILEATTRIBUTES = 0x10;
 
             Icon result = null;
             SHFILEINFO info = new SHFILEINFO();
             try
             {
-                int size = Marshal.SizeOf(info);
-                int attr = FILE_ATTRIBUTE_NORMAL;
-                int flags = SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | (small ? SHGFI_SMALLICON : SHGFI_LARGEICON);
+                Int32 size = Marshal.SizeOf(info);
+                Int32 attr = FILE_ATTRIBUTE_NORMAL;
+                Int32 flags = SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | (small ? SHGFI_SMALLICON : SHGFI_LARGEICON);
 
                 // Use wildcard in case given file does not exist.
                 filename = "*" + Path.GetExtension(filename);
 
                 SHGetFileInfo(filename, attr, ref info, size, flags);
 
-                int error = Marshal.GetLastWin32Error();
+                Int32 error = Marshal.GetLastWin32Error();
 
                 result = (Icon)Icon.FromHandle(info.hIcon).Clone();
 
@@ -1259,18 +1276,18 @@ namespace Plexdata.FileWiper
         {
             public IntPtr hIcon;
             public IntPtr nIcon;
-            public uint attributes;
+            public UInt32 attributes;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] // MAX_PATH
-            public string displayName;
+            public String displayName;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string typeName;
+            public String typeName;
         };
 
         [DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, PreserveSig = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr SHGetFileInfo(string fullpath, int fileAttributes, ref SHFILEINFO fileInfo, int sizeFileInfo, int flags);
+        private static extern IntPtr SHGetFileInfo(String fullpath, Int32 fileAttributes, ref SHFILEINFO fileInfo, Int32 sizeFileInfo, Int32 flags);
 
         [DllImport("user32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, PreserveSig = true)]
-        private static extern bool DestroyIcon(IntPtr hIcon);
+        private static extern Boolean DestroyIcon(IntPtr hIcon);
 
         #endregion // Win32 API function declarations.
 
@@ -1281,19 +1298,19 @@ namespace Plexdata.FileWiper
 
             private readonly SynchronizationContext context;
             private readonly Thread thread;
-            private readonly object locker;
+            private readonly Object locker;
 
             public GuiInvokeHelper()
                 : base()
             {
                 this.context = SynchronizationContext.Current;
                 this.thread = Thread.CurrentThread;
-                this.locker = new object();
+                this.locker = new Object();
             }
 
             #region ISynchronizeInvoke member implementation section.
 
-            public bool InvokeRequired
+            public Boolean InvokeRequired
             {
                 get
                 {
@@ -1302,18 +1319,18 @@ namespace Plexdata.FileWiper
             }
 
             [Obsolete("This method is not supported!", true)]
-            public IAsyncResult BeginInvoke(Delegate method, object[] args)
+            public IAsyncResult BeginInvoke(Delegate method, Object[] args)
             {
                 throw new NotSupportedException();
             }
 
             [Obsolete("This method is not supported!", true)]
-            public object EndInvoke(IAsyncResult result)
+            public Object EndInvoke(IAsyncResult result)
             {
                 throw new NotSupportedException();
             }
 
-            public object Invoke(Delegate method, object[] args)
+            public Object Invoke(Delegate method, Object[] args)
             {
                 if (method == null)
                 {
@@ -1322,10 +1339,10 @@ namespace Plexdata.FileWiper
 
                 lock (this.locker)
                 {
-                    object result = null;
+                    Object result = null;
 
                     SendOrPostCallback invoker = new SendOrPostCallback(
-                        delegate(object data)
+                        delegate (Object data)
                         {
                             result = method.DynamicInvoke(args);
                         });
@@ -1336,7 +1353,7 @@ namespace Plexdata.FileWiper
                 }
             }
 
-            public object Invoke(Delegate method)
+            public Object Invoke(Delegate method)
             {
                 return this.Invoke(method, null);
             }

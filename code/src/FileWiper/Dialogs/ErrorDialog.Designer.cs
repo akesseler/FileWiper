@@ -68,7 +68,7 @@ namespace Plexdata.FileWiper
             // 
             // buttonPanel
             // 
-            this.buttonPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonPanel.BackColor = System.Drawing.Color.White;
             this.buttonPanel.Controls.Add(this.clipboardLink);
             this.buttonPanel.Controls.Add(this.closeButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -93,13 +93,14 @@ namespace Plexdata.FileWiper
             // 
             // closeButton
             // 
-            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.closeButton.Location = new System.Drawing.Point(361, 8);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 0;
             this.closeButton.Text = "&Close";
+            this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.OnCloseButtonClick);
             // 
             // messageIcon
@@ -134,7 +135,7 @@ namespace Plexdata.FileWiper
             // 
             // errorText
             // 
-            this.errorText.BackColor = System.Drawing.SystemColors.Window;
+            this.errorText.BackColor = System.Drawing.Color.White;
             this.errorText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.errorText.Location = new System.Drawing.Point(8, 0);
             this.errorText.Multiline = true;
@@ -148,7 +149,7 @@ namespace Plexdata.FileWiper
             // 
             // errorPanel
             // 
-            this.errorPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.errorPanel.BackColor = System.Drawing.Color.White;
             this.errorPanel.Controls.Add(this.errorText);
             this.errorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.errorPanel.Location = new System.Drawing.Point(0, 55);
@@ -161,6 +162,8 @@ namespace Plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.CancelButton = this.closeButton;
             this.ClientSize = new System.Drawing.Size(444, 292);
             this.Controls.Add(this.errorPanel);
             this.Controls.Add(this.buttonPanel);

@@ -23,10 +23,10 @@
  */
 
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
@@ -37,7 +37,7 @@ namespace Plexdata.FileWiper
         {
         }
 
-        public HelpDialog(bool hideOnClose)
+        public HelpDialog(Boolean hideOnClose)
             : base()
         {
             this.InitializeComponent();
@@ -45,12 +45,12 @@ namespace Plexdata.FileWiper
             this.Text = AboutBox.Title + " " + this.Text;
             this.Icon = Properties.Resources.Help;
 
-            this.btnOK.Image = new Icon(Properties.Resources.Apply, new Size(16, 16)).ToBitmap();
+            this.btnClose.Image = new Icon(Properties.Resources.Apply, new Size(16, 16)).ToBitmap();
 
             this.HideOnClose = hideOnClose;
         }
 
-        public bool HideOnClose { get; set; }
+        public Boolean HideOnClose { get; set; }
 
         protected override void OnLoad(EventArgs args)
         {
@@ -91,7 +91,7 @@ namespace Plexdata.FileWiper
             base.OnFormClosing(args);
         }
 
-        private void OnOkButtonClick(object sender, EventArgs args)
+        private void OnCloseButtonClick(Object sender, EventArgs args)
         {
             this.Close();
         }
@@ -143,8 +143,8 @@ namespace Plexdata.FileWiper
             {
                 // Very smart because client rectangle is also adjusted! 
                 // See also: http://support.microsoft.com/kb/316574
-                const int WS_BORDER = unchecked((int)0x00800000);
-                const int WS_EX_STATICEDGE = unchecked((int)0x00020000);
+                const Int32 WS_BORDER = unchecked(0x00800000);
+                const Int32 WS_EX_STATICEDGE = unchecked(0x00020000);
 
                 CreateParams createParams = base.CreateParams;
                 createParams.ExStyle &= (~WS_EX_STATICEDGE);

@@ -367,7 +367,7 @@ namespace Plexdata.FileWiper
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(233, 331);
+            this.ClientSize = new System.Drawing.Size(234, 331);
             this.Controls.Add(this.grpProcessingDetails);
             this.Controls.Add(this.grpDiskSizeDetails);
             this.Controls.Add(this.grpWipingDetails);

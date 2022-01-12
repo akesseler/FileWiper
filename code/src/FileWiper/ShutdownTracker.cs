@@ -23,6 +23,7 @@
  */
 
 using Microsoft.Win32;
+using System;
 
 namespace Plexdata.FileWiper
 {
@@ -31,14 +32,14 @@ namespace Plexdata.FileWiper
         void HandleSessionSwitch(SessionSwitchReason reason);
 
         // Return false to refuse session ending...
-        bool RequestSessionEnding(SessionEndReasons reason);
+        Boolean RequestSessionEnding(SessionEndReasons reason);
 
         void HandlePowerModeChanged(PowerModes mode);
     }
 
     internal class ShutdownTracker
     {
-        private object locked = new object();
+        private readonly Object locked = new Object();
         private IShutdownListener listener = null;
 
         public ShutdownTracker()
@@ -84,7 +85,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnSessionSwitch(object sender, SessionSwitchEventArgs args)
+        private void OnSessionSwitch(Object sender, SessionSwitchEventArgs args)
         {
             if (this.Listener != null)
             {
@@ -92,7 +93,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnSessionEnding(object sender, SessionEndingEventArgs args)
+        private void OnSessionEnding(Object sender, SessionEndingEventArgs args)
         {
             if (this.Listener != null)
             {
@@ -101,7 +102,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs args)
+        private void OnPowerModeChanged(Object sender, PowerModeChangedEventArgs args)
         {
             if (this.Listener != null)
             {

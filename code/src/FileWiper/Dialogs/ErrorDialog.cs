@@ -23,15 +23,14 @@
  */
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
     public partial class ErrorDialog : Form
     {
-        private string caption = null;
-        private string message = null;
+        private String caption = null;
+        private String message = null;
         private Exception exception = null;
 
         public ErrorDialog()
@@ -58,25 +57,25 @@ namespace Plexdata.FileWiper
             this.exception = exception;
         }
 
-        public ErrorDialog(Exception exception, string message)
+        public ErrorDialog(Exception exception, String message)
             : this(exception)
         {
             this.message = message;
         }
 
-        public ErrorDialog(Exception exception, string message, string caption)
+        public ErrorDialog(Exception exception, String message, String caption)
             : this(exception, message)
         {
             this.caption = caption;
         }
 
-        public string Caption
+        public String Caption
         {
             get { return this.caption; }
             set { this.caption = value; }
         }
 
-        public string Message
+        public String Message
         {
             get { return this.message; }
             set { this.message = value; }
@@ -88,7 +87,7 @@ namespace Plexdata.FileWiper
             set { this.exception = value; }
         }
 
-        private void OnLoad(object sender, EventArgs args)
+        private void OnLoad(Object sender, EventArgs args)
         {
             if (!String.IsNullOrEmpty(this.caption))
             {
@@ -107,13 +106,13 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnClipboardLinkClicked(object sender, LinkLabelLinkClickedEventArgs args)
+        private void OnClipboardLinkClicked(Object sender, LinkLabelLinkClickedEventArgs args)
         {
             Clipboard.SetText(this.errorText.Text);
             args.Link.Visited = true;
         }
 
-        private void OnCloseButtonClick(object sender, EventArgs args)
+        private void OnCloseButtonClick(Object sender, EventArgs args)
         {
             this.Close();
         }

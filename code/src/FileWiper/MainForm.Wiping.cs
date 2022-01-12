@@ -23,24 +23,24 @@
  */
 
 using System;
-using System.IO;
-using System.Drawing;
-using System.Threading;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Security.Principal;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
     public partial class MainForm : Form
     {
-        List<WipingListItem> activeWipings = new List<WipingListItem>();
-        List<WipingListItem> pendingWipings = new List<WipingListItem>();
-        List<WipingListItem> failedWipings = new List<WipingListItem>();
-        List<string> pendingBaseFolders = new List<string>();
+        private readonly List<WipingListItem> activeWipings = new List<WipingListItem>();
+        private readonly List<WipingListItem> pendingWipings = new List<WipingListItem>();
+        private readonly List<WipingListItem> failedWipings = new List<WipingListItem>();
+        private readonly List<String> pendingBaseFolders = new List<String>();
 
         #region Private property implementation.
 
@@ -53,7 +53,7 @@ namespace Plexdata.FileWiper
         /// as the state of the tray-icon. Further, this flag also prevents 
         /// startups of another pending wipings.
         /// </remarks>
-        private volatile bool IsPausing = false;
+        private volatile Boolean IsPausing = false;
 
         /// <summary>
         /// This flag is basically necessary to suppress the listview's 
@@ -64,13 +64,13 @@ namespace Plexdata.FileWiper
         /// wipings. But this happens just rarely and a forecast is not 
         /// possible because of using a multi-threading environment!
         /// </remarks>
-        private volatile bool IsCanceling = false;
+        private volatile Boolean IsCanceling = false;
 
         /// <summary>
         /// This flag is basically necessary to prevent an application 
         /// restart in case of some files need administration rights.
         /// </summary>
-        private volatile bool IsCanceled = false;
+        private volatile Boolean IsCanceled = false;
 
         /// <summary>
         /// This flag is needed to make appropriated decisions about how 
@@ -80,7 +80,7 @@ namespace Plexdata.FileWiper
         /// Determine the sizes of the active and pending wiping lists 
         /// is really good enough to make a reliable decision.
         /// </remarks>
-        private bool IsWiping
+        private Boolean IsWiping
         {
             get
             {
@@ -88,7 +88,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private bool IsWipingFault
+        private Boolean IsWipingFault
         {
             get
             {
@@ -111,7 +111,7 @@ namespace Plexdata.FileWiper
             this.wipingListMenuRemove.Image = new Icon(Properties.Resources.ItemRemove, scaling).ToBitmap();
         }
 
-        private void OnWipingListMenuOpening(object sender, CancelEventArgs args)
+        private void OnWipingListMenuOpening(Object sender, CancelEventArgs args)
         {
             // Assume the context menu cannot be shown.
             args.Cancel = true;
@@ -192,7 +192,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnWipingListMenuItemClick(object sender, EventArgs args)
+        private void OnWipingListMenuItemClick(Object sender, EventArgs args)
         {
             try
             {
@@ -222,18 +222,19 @@ namespace Plexdata.FileWiper
                         // Keep in mind accessing the list-view-items in this way might cause 
                         // an exception! But only if at least one non-wiping-list-item is in 
                         // the list, which should never be the case.
-                        ExceptionView dialog = new ExceptionView();
-                        dialog.Caption = "File Wiping Error";
-                        dialog.Exceptions = new Exception[] { 
-                            (this.wipingList.SelectedItems[0] as WipingListItem).Exception };
+                        ExceptionView dialog = new ExceptionView()
+                        {
+                            Caption = "File Wiping Error",
+                            Exceptions = new Exception[] { (this.wipingList.SelectedItems[0] as WipingListItem).Exception }
+                        };
                         dialog.ShowDialog(this);
                     }
                 }
 
                 if (sender == this.wipingListMenuFindError)
                 {
-                    int offset = 0;
-                    int repeats = this.wipingList.Items.Count;
+                    Int32 offset = 0;
+                    Int32 repeats = this.wipingList.Items.Count;
 
                     if (this.wipingList.SelectedIndices.Count > 0)
                     {
@@ -245,7 +246,7 @@ namespace Plexdata.FileWiper
                         this.wipingList.FocusedItem.Selected = true;
                     }
 
-                    for (int index = offset; repeats > 0; index++, repeats--)
+                    for (Int32 index = offset; repeats > 0; index++, repeats--)
                     {
                         // Keep in mind accessing the list-view-items in this way might cause 
                         // an exception! But only if at least one non-wiping-list-item is in 
@@ -293,13 +294,13 @@ namespace Plexdata.FileWiper
         private void RemoveListViewItems(WipingItemStates state)
         {
             Cursor cursor = this.Cursor;
-            bool pausing = this.IsPausing;
+            Boolean pausing = this.IsPausing;
             try
             {
                 this.Cursor = Cursors.WaitCursor;
                 this.DisableWhileConfigureWipings();
 
-                for (int index = 0; index < this.wipingList.Items.Count; index++)
+                for (Int32 index = 0; index < this.wipingList.Items.Count; index++)
                 {
                     // Keep in mind accessing the list-view-items in this way might cause 
                     // an exception! But only if at least one non-wiping-list-item is in 
@@ -344,23 +345,23 @@ namespace Plexdata.FileWiper
 
         #region Private member function implementation.
 
-        private void AppendWiping(string fullpath)
+        private void AppendWiping(String fullpath)
         {
-            this.AppendWipings(new string[] { fullpath });
+            this.AppendWipings(new String[] { fullpath });
         }
 
-        private void AppendWipings(string[] fullpaths)
+        private void AppendWipings(String[] fullpaths)
         {
             Program.TraceLogger.Write("MainForm.Wiping", ">>> AppendWipings()");
 
             Cursor cursor = this.Cursor;
-            bool pausing = this.IsPausing;
+            Boolean pausing = this.IsPausing;
             try
             {
                 this.Cursor = Cursors.WaitCursor;
                 this.DisableWhileConfigureWipings();
 
-                bool added = false;
+                Boolean added = false;
                 foreach (WipingListItem wiping in this.wipingList.Append(fullpaths))
                 {
                     wiping.Worker.DoWork += new DoWorkEventHandler(this.OnWipingDoWork);
@@ -375,9 +376,9 @@ namespace Plexdata.FileWiper
                 if (added)
                 {
                     // Save all given base folders as pending for wiping.
-                    foreach (string current in fullpaths)
+                    foreach (String current in fullpaths)
                     {
-                        string fullpath = current.Replace("\"", "");
+                        String fullpath = current.Replace("\"", "");
 
                         Program.TraceLogger.Write("MainForm.Wiping", "--- AppendWipings() Try add pending base folder [" + fullpath + "]");
 
@@ -414,7 +415,7 @@ namespace Plexdata.FileWiper
             {
                 if (!this.IsPausing && !this.IsCanceling)
                 {
-                    int maximum = this.Settings.Processing.AllowParallel ? this.Settings.Processing.ThreadCount : 1;
+                    Int32 maximum = this.Settings.Processing.AllowParallel ? this.Settings.Processing.ThreadCount : 1;
 
                     while (this.activeWipings.Count < maximum && this.pendingWipings.Count > 0)
                     {
@@ -525,11 +526,11 @@ namespace Plexdata.FileWiper
 
         #region Private wiping handler implementation.
 
-        private void OnWipingDoWork(object sender, DoWorkEventArgs args)
+        private void OnWipingDoWork(Object sender, DoWorkEventArgs args)
         {
             Program.TraceLogger.Write("MainForm.Wiping", ">>> OnWipingDoWork()");
 
-            Dictionary<object, object> fileData = new Dictionary<object, object>();
+            Dictionary<Object, Object> fileData = new Dictionary<Object, Object>();
             WipingThread worker = sender as WipingThread;
             WipingListItem wiping = worker.Argument as WipingListItem;
             WipingItemStates result = wiping.State;
@@ -572,13 +573,12 @@ namespace Plexdata.FileWiper
 
                         foreach (FileSystemAccessRule current in collection)
                         {
-                            string key = current.IdentityReference.Value;
-                            string val = (current.IsInherited ? "Inherited: " : "Explicit: ") + current.FileSystemRights;
+                            String key = current.IdentityReference.Value;
+                            String val = (current.IsInherited ? "Inherited: " : "Explicit: ") + current.FileSystemRights;
 
-                            object tmp;
-                            if (fileData.TryGetValue(key, out tmp))
+                            if (fileData.TryGetValue(key, out Object tmp))
                             {
-                                fileData[key] = (tmp as string) + "; " + val;
+                                fileData[key] = (tmp as String) + "; " + val;
                             }
                             else
                             {
@@ -596,7 +596,7 @@ namespace Plexdata.FileWiper
                     using (FileStream stream = File.Open(wiping.FileInfo.FullName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                     {
                         // Execute every single repeat.
-                        for (int index = 0; index < algorithm.Repeats && !args.Cancel; index++)
+                        for (Int32 index = 0; index < algorithm.Repeats && !args.Cancel; index++)
                         {
                             // Wipe file content package-wise.
                             while (stream.Position < stream.Length && !args.Cancel)
@@ -675,8 +675,8 @@ namespace Plexdata.FileWiper
                         // don't pause and don't cancel this operation! 
 
                         // Wipe current file name and repeat it as often as necessary.
-                        string filename = wiping.FileInfo.FullName;
-                        for (int index = 0; index < algorithm.Repeats; index++)
+                        String filename = wiping.FileInfo.FullName;
+                        for (Int32 index = 0; index < algorithm.Repeats; index++)
                         {
                             filename = WipingAlgorithm.WipeEntry(filename);
                         }
@@ -693,7 +693,7 @@ namespace Plexdata.FileWiper
             catch (Exception exception)
             {
                 // Add all previously collected additional information to this exception.
-                foreach (object key in fileData.Keys)
+                foreach (Object key in fileData.Keys)
                 {
                     try
                     {
@@ -720,7 +720,7 @@ namespace Plexdata.FileWiper
             args.Result = result;
         }
 
-        private void OnWipingCompleted(object sender, RunWorkerCompletedEventArgs args)
+        private void OnWipingCompleted(Object sender, RunWorkerCompletedEventArgs args)
         {
             Program.TraceLogger.Write("MainForm.Wiping", ">>> OnWipingCompleted()");
 
@@ -732,8 +732,7 @@ namespace Plexdata.FileWiper
                 // Safety check to ensure nothing is wrong.
                 Debug.Assert(sender is WipingThread);
 
-                WipingListItem wiping = (sender as WipingThread).Argument as WipingListItem;
-                if (wiping != null)
+                if ((sender as WipingThread).Argument is WipingListItem wiping)
                 {
                     // Be aware and don't change the current item's state directly 
                     // because it raises an event!
@@ -787,26 +786,22 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnWipingSuspended(object sender, EventArgs args)
+        private void OnWipingSuspended(Object sender, EventArgs args)
         {
-            WipingThread worker = sender as WipingThread;
-            if (worker != null)
+            if (sender is WipingThread worker)
             {
-                WipingListItem wiping = worker.Argument as WipingListItem;
-                if (wiping != null)
+                if (worker.Argument is WipingListItem wiping)
                 {
                     wiping.HideProgress(WipingItemStates.Pausing);
                 }
             }
         }
 
-        private void OnWipingContinued(object sender, EventArgs args)
+        private void OnWipingContinued(Object sender, EventArgs args)
         {
-            WipingThread worker = sender as WipingThread;
-            if (worker != null)
+            if (sender is WipingThread worker)
             {
-                WipingListItem wiping = worker.Argument as WipingListItem;
-                if (wiping != null)
+                if (worker.Argument is WipingListItem wiping)
                 {
                     wiping.ShowProgress(WipingItemStates.Processing);
                 }
@@ -824,7 +819,7 @@ namespace Plexdata.FileWiper
 
                     this.UpdateStatusbar("Cleanup");
 
-                    foreach (string current in this.pendingBaseFolders)
+                    foreach (String current in this.pendingBaseFolders)
                     {
                         // TODO: Use a variable number of wiping of folder names.
                         this.CleanPendingFolder(current, 1);
@@ -844,7 +839,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void CleanPendingFolder(string folder, int repeats)
+        private void CleanPendingFolder(String folder, Int32 repeats)
         {
             Program.TraceLogger.Write("MainForm.Wiping", ">>> CleanPendingFolder()");
 
@@ -858,7 +853,7 @@ namespace Plexdata.FileWiper
 
             if (Directory.Exists(folder))
             {
-                foreach (string children in Directory.GetDirectories(folder))
+                foreach (String children in Directory.GetDirectories(folder))
                 {
                     this.CleanPendingFolder(children, repeats);
                 }
@@ -868,7 +863,7 @@ namespace Plexdata.FileWiper
                     Program.TraceLogger.Write("MainForm.Wiping", "--- CleanPendingFolder(): Wipe and delete pending folder [" + folder + "]");
 
                     // Wipe current folder name and repeat it as often as necessary.
-                    for (int index = 0; index < repeats; index++)
+                    for (Int32 index = 0; index < repeats; index++)
                     {
                         folder = WipingAlgorithm.WipeEntry(folder);
                     }
@@ -886,17 +881,16 @@ namespace Plexdata.FileWiper
 
         #region Private Drag & Drop handler implementation.
 
-        private void OnWipingListDragEnter(object sender, DragEventArgs args)
+        private void OnWipingListDragEnter(Object sender, DragEventArgs args)
         {
             try
             {
                 if (args.Data.GetDataPresent(DataFormats.FileDrop, false))
                 {
-                    string[] candidates = args.Data.GetData(DataFormats.FileDrop) as string[];
-                    if (candidates != null)
+                    if (args.Data.GetData(DataFormats.FileDrop) is String[] candidates)
                     {
-                        bool candrop = true;
-                        foreach (string current in candidates)
+                        Boolean candrop = true;
+                        foreach (String current in candidates)
                         {
                             // Check if current candidate is a folder. Files don't need 
                             // to be checked because they are allowed.
@@ -924,7 +918,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnWipingListDragDrop(object sender, DragEventArgs args)
+        private void OnWipingListDragDrop(Object sender, DragEventArgs args)
         {
             try
             {
@@ -933,8 +927,7 @@ namespace Plexdata.FileWiper
 
                 if (args.Data.GetDataPresent(DataFormats.FileDrop, false))
                 {
-                    string[] filepaths = args.Data.GetData(DataFormats.FileDrop) as string[];
-                    if (filepaths != null)
+                    if (args.Data.GetData(DataFormats.FileDrop) is String[] filepaths)
                     {
 #if !DEBUG
                         if (Program.ConfirmDestroyItems(filepaths, this))

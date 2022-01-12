@@ -23,22 +23,22 @@
  */
 
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Plexdata.FileWiper
 {
     public partial class MainForm : Form
     {
-        private const string TBB_SCALING_SMALL = "small";
-        private const string TBB_SCALING_MEDIUM = "medium";
-        private const string TBB_SCALING_LARGE = "large";
+        private const String TBB_SCALING_SMALL = "small";
+        private const String TBB_SCALING_MEDIUM = "medium";
+        private const String TBB_SCALING_LARGE = "large";
 
-        private Dictionary<string, Size> toolbarScalings = new Dictionary<string, Size>();
+        private readonly Dictionary<String, Size> toolbarScalings = new Dictionary<String, Size>();
 
-        private volatile bool IsToolbarLocked = false;
+        private volatile Boolean IsToolbarLocked = false;
 
         private void InitializeToolbar()
         {
@@ -65,7 +65,7 @@ namespace Plexdata.FileWiper
 
         private void UpdateToolbarState()
         {
-            bool enabled = this.IsWiping && !this.IsToolbarLocked;
+            Boolean enabled = this.IsWiping && !this.IsToolbarLocked;
             this.tbbBack.Enabled = enabled;
             this.tbbCancel.Enabled = enabled;
             this.tbbPause.Enabled = enabled && !this.IsPausing;
@@ -74,7 +74,7 @@ namespace Plexdata.FileWiper
             this.mainToolbar.Refresh();
         }
 
-        public static string ToolbarDefaultScaling
+        public static String ToolbarDefaultScaling
         {
             get
             {
@@ -84,22 +84,22 @@ namespace Plexdata.FileWiper
 
         #region Toolbar context menu event handler implementation.
 
-        private void OnMainToolbarMenuSmallImagesClick(object sender, EventArgs args)
+        private void OnMainToolbarMenuSmallImagesClick(Object sender, EventArgs args)
         {
             this.ScaleToolbarButtons(TBB_SCALING_SMALL);
         }
 
-        private void OnMainToolbarMenuMediumImagesClick(object sender, EventArgs args)
+        private void OnMainToolbarMenuMediumImagesClick(Object sender, EventArgs args)
         {
             this.ScaleToolbarButtons(TBB_SCALING_MEDIUM);
         }
 
-        private void OnMainToolbarMenuLargeImagesClick(object sender, EventArgs args)
+        private void OnMainToolbarMenuLargeImagesClick(Object sender, EventArgs args)
         {
             this.ScaleToolbarButtons(TBB_SCALING_LARGE);
         }
 
-        private void OnMainToolbarMenuShowTextClick(object sender, EventArgs args)
+        private void OnMainToolbarMenuShowTextClick(Object sender, EventArgs args)
         {
             // Toggle current state.
             this.ShowToolbarText(!this.mainToolbarMenuShowText.Checked);
@@ -109,32 +109,32 @@ namespace Plexdata.FileWiper
 
         #region Toolbar button click event handler implementation.
 
-        private void OnToolbarButtonExitClick(object sender, EventArgs args)
+        private void OnToolbarButtonExitClick(Object sender, EventArgs args)
         {
             this.UserCloseRequest();
         }
 
-        private void OnToolbarButtonOpenClick(object sender, EventArgs args)
+        private void OnToolbarButtonOpenClick(Object sender, EventArgs args)
         {
             this.tbbOpen.ShowDropDown();
         }
 
-        private void OnToolbarButtonOpenFilesClick(object sender, EventArgs args)
+        private void OnToolbarButtonOpenFilesClick(Object sender, EventArgs args)
         {
             this.PerformOpenAction(false);
         }
 
-        private void OnToolbarButtonOpenFoldersClick(object sender, EventArgs args)
+        private void OnToolbarButtonOpenFoldersClick(Object sender, EventArgs args)
         {
             this.PerformOpenAction(true);
         }
 
-        private void OnToolbarButtonBackgroundClick(object sender, EventArgs args)
+        private void OnToolbarButtonBackgroundClick(Object sender, EventArgs args)
         {
             this.ForceShowTray();
         }
 
-        private void OnToolbarButtonCancelClick(object sender, EventArgs args)
+        private void OnToolbarButtonCancelClick(Object sender, EventArgs args)
         {
             if (this.Settings.Behaviour.SuppressCancelQuestion)
             {
@@ -146,42 +146,42 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void OnToolbarButtonPauseClick(object sender, EventArgs args)
+        private void OnToolbarButtonPauseClick(Object sender, EventArgs args)
         {
             this.SuspendWipings();
         }
 
-        private void OnToolbarButtonContinueClick(object sender, EventArgs args)
+        private void OnToolbarButtonContinueClick(Object sender, EventArgs args)
         {
             this.ContinueWipings();
         }
 
-        private void OnToolbarButtonDetailsClick(object sender, EventArgs args)
+        private void OnToolbarButtonDetailsClick(Object sender, EventArgs args)
         {
             this.PerformDetailsView();
         }
 
-        private void OnToolbarButtonFavoritesClick(object sender, EventArgs args)
+        private void OnToolbarButtonFavoritesClick(Object sender, EventArgs args)
         {
             this.PerformFavoritesDialog();
         }
 
-        private void OnToolbarButtonSettingsClick(object sender, EventArgs args)
+        private void OnToolbarButtonSettingsClick(Object sender, EventArgs args)
         {
             this.PerformSettingsDialog();
         }
 
-        private void OnToolbarButtonAboutClick(object sender, EventArgs args)
+        private void OnToolbarButtonAboutClick(Object sender, EventArgs args)
         {
             this.PerformAboutBox();
         }
 
-        private void OnToolbarButtonAboutAboutClick(object sender, EventArgs args)
+        private void OnToolbarButtonAboutAboutClick(Object sender, EventArgs args)
         {
             this.PerformAboutBox();
         }
 
-        private void OnToolbarButtonAboutHelpClick(object sender, EventArgs args)
+        private void OnToolbarButtonAboutHelpClick(Object sender, EventArgs args)
         {
             this.PerformDisplayHelp();
         }
@@ -190,7 +190,7 @@ namespace Plexdata.FileWiper
 
         #region Toolbar button management handler implementation.
 
-        private void ShowToolbarText(bool show)
+        private void ShowToolbarText(Boolean show)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace Plexdata.FileWiper
             }
         }
 
-        private void ScaleToolbarButtons(string scaling)
+        private void ScaleToolbarButtons(String scaling)
         {
             scaling = scaling.ToLower();
 
