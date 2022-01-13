@@ -1,27 +1,39 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.Threading;
 using System.ComponentModel;
+using System.Threading;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     internal class WipingThread : BackgroundWorker
     {
         public event EventHandler<EventArgs> WorkerSuspended;
         public event EventHandler<EventArgs> WorkerContinued;
 
-        private GuiInvokeHelper invoker;
+        private readonly GuiInvokeHelper invoker;
         private Thread thread;
 
         public WipingThread()
@@ -31,8 +43,8 @@ namespace plexdata.FileWiper
             this.thread = null;
         }
 
-        private volatile bool paused = false;
-        public bool Paused
+        private volatile Boolean paused = false;
+        public Boolean Paused
         {
             get
             {
@@ -47,8 +59,8 @@ namespace plexdata.FileWiper
             }
         }
 
-        private volatile object argument = null;
-        public object Argument
+        private volatile Object argument = null;
+        public Object Argument
         {
             get
             {
@@ -69,7 +81,7 @@ namespace plexdata.FileWiper
             {
                 if (this.invoker.InvokeRequired)
                 {
-                    this.invoker.Invoke(this.WorkerSuspended, new object[] { this, EventArgs.Empty });
+                    this.invoker.Invoke(this.WorkerSuspended, new Object[] { this, EventArgs.Empty });
                 }
                 else
                 {
@@ -84,7 +96,7 @@ namespace plexdata.FileWiper
             {
                 if (this.invoker.InvokeRequired)
                 {
-                    this.invoker.Invoke(this.WorkerContinued, new object[] { this, EventArgs.Empty });
+                    this.invoker.Invoke(this.WorkerContinued, new Object[] { this, EventArgs.Empty });
                 }
                 else
                 {
@@ -133,19 +145,19 @@ namespace plexdata.FileWiper
 
             private readonly SynchronizationContext context;
             private readonly Thread thread;
-            private readonly object locker;
+            private readonly Object locker;
 
             public GuiInvokeHelper()
                 : base()
             {
                 this.context = SynchronizationContext.Current;
                 this.thread = Thread.CurrentThread;
-                this.locker = new object();
+                this.locker = new Object();
             }
 
             #region ISynchronizeInvoke member implementation section.
 
-            public bool InvokeRequired
+            public Boolean InvokeRequired
             {
                 get
                 {
@@ -154,18 +166,18 @@ namespace plexdata.FileWiper
             }
 
             [Obsolete("This method is not supported!", true)]
-            public IAsyncResult BeginInvoke(Delegate method, object[] args)
+            public IAsyncResult BeginInvoke(Delegate method, Object[] args)
             {
                 throw new NotSupportedException();
             }
 
             [Obsolete("This method is not supported!", true)]
-            public object EndInvoke(IAsyncResult result)
+            public Object EndInvoke(IAsyncResult result)
             {
                 throw new NotSupportedException();
             }
 
-            public object Invoke(Delegate method, object[] args)
+            public Object Invoke(Delegate method, Object[] args)
             {
                 if (method == null)
                 {
@@ -174,10 +186,10 @@ namespace plexdata.FileWiper
 
                 lock (this.locker)
                 {
-                    object result = null;
+                    Object result = null;
 
                     SendOrPostCallback invoker = new SendOrPostCallback(
-                        delegate(object data)
+                        delegate (Object data)
                         {
                             result = method.DynamicInvoke(args);
                         });
@@ -188,9 +200,9 @@ namespace plexdata.FileWiper
                 }
             }
 
-            public object Invoke(Delegate method)
+            public Object Invoke(Delegate method)
             {
-                return Invoke(method, null);
+                return this.Invoke(method, null);
             }
 
             #endregion // ISynchronizeInvoke member implementation section.

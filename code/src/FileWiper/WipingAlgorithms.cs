@@ -1,24 +1,36 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.IO;
-using System.Text;
-using System.ComponentModel;
-using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Security.Cryptography;
+using System.Text;
+using System.Xml.Serialization;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     [XmlInclude(typeof(ZeroAlgorithm))]
     [XmlInclude(typeof(OneAlgorithm))]
@@ -29,7 +41,7 @@ namespace plexdata.FileWiper
     [XmlInclude(typeof(GutmannAlgorithm))]
     public class WipingAlgorithms : ICloneable
     {
-        private List<WipingAlgorithm> algorithms;
+        private readonly List<WipingAlgorithm> algorithms;
         private WipingAlgorithm selected;
 
         public WipingAlgorithms()
@@ -89,7 +101,7 @@ namespace plexdata.FileWiper
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new WipingAlgorithms(this);
         }
@@ -99,19 +111,19 @@ namespace plexdata.FileWiper
 
     public abstract class WipingAlgorithm : ICloneable
     {
-        private const int DEFAULT_COUNT = 4 * 1024; // Use 4 KB as default buffer size.
+        private const Int32 DEFAULT_COUNT = 4 * 1024; // Use 4 KB as default buffer size.
 
         protected WipingAlgorithm()
             : this(null, 0)
         {
         }
 
-        protected WipingAlgorithm(string display)
+        protected WipingAlgorithm(String display)
             : this(display, 1)
         {
         }
 
-        protected WipingAlgorithm(string display, int repeats)
+        protected WipingAlgorithm(String display, Int32 repeats)
             : base()
         {
             this.Display = display;
@@ -119,12 +131,12 @@ namespace plexdata.FileWiper
             this.Repeats = repeats;
         }
 
-        public static int DefaultBufferSize
+        public static Int32 DefaultBufferSize
         {
             get { return DEFAULT_COUNT; }
         }
 
-        public static int RepeatsMinimum
+        public static Int32 RepeatsMinimum
         {
             get
             {
@@ -132,7 +144,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        public static int RepeatsMaximum
+        public static Int32 RepeatsMaximum
         {
             get
             {
@@ -141,15 +153,15 @@ namespace plexdata.FileWiper
         }
 
         [XmlIgnore]
-        public virtual string Display { get; protected set; }
+        public virtual String Display { get; protected set; }
 
         [XmlIgnore]
-        public virtual string Description { get; protected set; }
+        public virtual String Description { get; protected set; }
 
         [XmlAttribute]
-        public virtual int Repeats { get; set; }
+        public virtual Int32 Repeats { get; set; }
 
-        public static string WipeEntry(string fullpath)
+        public static String WipeEntry(String fullpath)
         {
             // Precondition checks!
             if (fullpath == null) { throw new ArgumentNullException("fullpath"); }
@@ -157,11 +169,11 @@ namespace plexdata.FileWiper
             if (fullpath == String.Empty) { throw new ArgumentException(null, "fullpath"); }
 
             // Determine type of given full path.
-            bool isDirectory =
+            Boolean isDirectory =
                 ((File.GetAttributes(fullpath) & FileAttributes.Directory) == FileAttributes.Directory);
 
             // Extract base path of given full path.
-            string basepath = Path.GetDirectoryName(fullpath);
+            String basepath = Path.GetDirectoryName(fullpath);
             if (String.IsNullOrEmpty(basepath))
             {
                 Exception exception = new Win32Exception(161); // ERROR_BAD_PATHNAME
@@ -170,9 +182,9 @@ namespace plexdata.FileWiper
             }
 
             // Generate the new file/folder name using a random file name.
-            int length = Path.GetFileName(fullpath).Length;
+            Int32 length = Path.GetFileName(fullpath).Length;
 
-            string newname = String.Empty;
+            String newname = String.Empty;
 
             while (newname.Length < length)
             {
@@ -182,7 +194,7 @@ namespace plexdata.FileWiper
             newname = newname.Substring(0, length);
 
             // Generate the new full path consisting of given base path and a random file/folder name.
-            string newpath = Path.Combine(basepath, newname);
+            String newpath = Path.Combine(basepath, newname);
 
             if (isDirectory)
             {
@@ -217,26 +229,26 @@ namespace plexdata.FileWiper
             this.WipeContent(stream, DEFAULT_COUNT);
         }
 
-        public virtual void WipeContent(FileStream stream, int count)
+        public virtual void WipeContent(FileStream stream, Int32 count)
         {
             if (stream == null) { throw new ArgumentNullException("stream"); }
             if (count <= 0) { throw new ArgumentOutOfRangeException("count"); }
 
             // Save current number of remaining bytes.
-            long remaining = stream.Length - stream.Position;
+            Int64 remaining = stream.Length - stream.Position;
 
             // Adjust given block size to possible data length. This is 
             // important if remaining file content is smaller than given 
             // block size.
-            count = (int)(remaining < count ? remaining : count);
+            count = (Int32)(remaining < count ? remaining : count);
 
-            byte[] buffer = this.GetBytes(count);
+            Byte[] buffer = this.GetBytes(count);
 
             // Adjust resulting buffer size to possible data length. This 
             // is important if "get bytes" changes given block size and 
             // remaining file content is smaller than that. The Gutmann 
             // method does this for example.
-            count = (int)(remaining < buffer.Length ? remaining : buffer.Length);
+            count = (Int32)(remaining < buffer.Length ? remaining : buffer.Length);
 
 #if SIMULATION
             stream.Read(buffer, 0, count);
@@ -247,7 +259,7 @@ namespace plexdata.FileWiper
             stream.Flush();
         }
 
-        public override string ToString()
+        public override String ToString()
         {
             if (!String.IsNullOrEmpty(this.Display))
             {
@@ -261,14 +273,14 @@ namespace plexdata.FileWiper
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return this.MemberwiseClone();
         }
 
         #endregion // ICloneable member implementation.
 
-        protected abstract byte[] GetBytes(int count);
+        protected abstract Byte[] GetBytes(Int32 count);
     }
 
     public sealed class ZeroAlgorithm : WipingAlgorithm
@@ -281,10 +293,10 @@ namespace plexdata.FileWiper
                 "this algorithm is very fast and it provides a good security.";
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[count];
-            for (int index = 0; index < result.Length; index++)
+            Byte[] result = new Byte[count];
+            for (Int32 index = 0; index < result.Length; index++)
             {
                 result[index] = 0x00;
             }
@@ -302,10 +314,10 @@ namespace plexdata.FileWiper
                 "this algorithm is very fast and it provides a good security.";
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[count];
-            for (int index = 0; index < result.Length; index++)
+            Byte[] result = new Byte[count];
+            for (Int32 index = 0; index < result.Length; index++)
             {
                 result[index] = 0xFF;
             }
@@ -315,7 +327,7 @@ namespace plexdata.FileWiper
 
     public sealed class ZeroOneAlgorithm : WipingAlgorithm
     {
-        bool toggle = false;
+        Boolean toggle = false;
 
         public ZeroOneAlgorithm()
             : base("Zero & One")
@@ -326,10 +338,10 @@ namespace plexdata.FileWiper
                 "a better security.";
         }
 
-        public override void WipeContent(FileStream stream, int count)
+        public override void WipeContent(FileStream stream, Int32 count)
         {
             // Save current position.
-            long position = stream.Position;
+            Int64 position = stream.Position;
             base.WipeContent(stream, count);
 
             this.toggle = !this.toggle;
@@ -341,12 +353,12 @@ namespace plexdata.FileWiper
             }
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[count];
-            for (int index = 0; index < result.Length; index++)
+            Byte[] result = new Byte[count];
+            for (Int32 index = 0; index < result.Length; index++)
             {
-                result[index] = (byte)(this.toggle ? 0xFF : 0x00);
+                result[index] = (Byte)(this.toggle ? 0xFF : 0x00);
             }
             return result;
         }
@@ -354,21 +366,21 @@ namespace plexdata.FileWiper
 
     public sealed class SimpleRandomAlgorithm : WipingAlgorithm
     {
-        private Random generator = null;
+        private readonly Random generator = null;
 
         public SimpleRandomAlgorithm()
             : base("Simple Random")
         {
-            this.generator = new Random((int)(DateTime.Now.Ticks & 0x00000000FFFFFFFF));
+            this.generator = new Random((Int32)(DateTime.Now.Ticks & 0x00000000FFFFFFFF));
             this.Description =
                 "This method wipes the file content with a series of random bytes using " +
                 "standard random number generator. Further, this algorithm is pretty fast " +
                 "and it provides a high security.";
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[count];
+            Byte[] result = new Byte[count];
             this.generator.NextBytes(result);
             return result;
         }
@@ -376,7 +388,7 @@ namespace plexdata.FileWiper
 
     public sealed class SecureRandomAlgorithm : WipingAlgorithm
     {
-        private RandomNumberGenerator generator = null;
+        private readonly RandomNumberGenerator generator = null;
 
         public SecureRandomAlgorithm()
             : base("Secure Random")
@@ -388,9 +400,9 @@ namespace plexdata.FileWiper
                 "fast and it provides a high security.";
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[count];
+            Byte[] result = new Byte[count];
             this.generator.GetNonZeroBytes(result);
             return result;
         }
@@ -406,9 +418,9 @@ namespace plexdata.FileWiper
                 "Further, this algorithm is slower but it provides a higher security.";
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[count];
+            Byte[] result = new Byte[count];
             StringBuilder builder = new StringBuilder(result.Length);
             while (builder.Length < result.Length)
             {
@@ -429,8 +441,8 @@ namespace plexdata.FileWiper
         // http://www.nber.org/sys-admin/overwritten-data-guttman.html
         // For more details about the Gutmann values see: 
         // http://en.wikipedia.org/wiki/gutmann_method
-        private static byte[,] GUTMANN_VALUES = 
-        { 
+        private static readonly Byte[,] GUTMANN_VALUES =
+        {
             { 0x55, 0x55, 0x55 }, { 0xAA, 0xAA, 0xAA }, { 0x92, 0x49, 0x24 },
             { 0x49, 0x24, 0x92 }, { 0x24, 0x92, 0x49 }, { 0x00, 0x00, 0x00 },
             { 0x11, 0x11, 0x11 }, { 0x22, 0x22, 0x22 }, { 0x33, 0x33, 0x33 },
@@ -442,18 +454,18 @@ namespace plexdata.FileWiper
             { 0x6D, 0xB6, 0xDB }, { 0xB6, 0xDB, 0x6D }, { 0xDB, 0x6D, 0xB6 },
         };
 
-        private static int RANDOM_REPEATS = 4;
+        private static readonly Int32 RANDOM_REPEATS = 4;
 
-        private static int GUTMANN_REPEATS = 27;
+        private static readonly Int32 GUTMANN_REPEATS = 27;
 
         #endregion // Gutmann values declaration section.
 
         /// <summary>
         /// Represents the number of block executions!
         /// </summary>
-        private int execution = 0;
+        private Int32 execution = 0;
 
-        private RandomNumberGenerator generator = null;
+        private readonly RandomNumberGenerator generator = null;
 
         public GutmannAlgorithm()
             : base("Gutmann Method")
@@ -469,7 +481,7 @@ namespace plexdata.FileWiper
         }
 
         [XmlAttribute]
-        public override int Repeats
+        public override Int32 Repeats
         {
             get
             {
@@ -485,10 +497,10 @@ namespace plexdata.FileWiper
             }
         }
 
-        public override void WipeContent(FileStream stream, int count)
+        public override void WipeContent(FileStream stream, Int32 count)
         {
             // Save current position.
-            long position = stream.Position;
+            Int64 position = stream.Position;
             base.WipeContent(stream, count);
 
             if (this.execution < GUTMANN_REPEATS + 2 * RANDOM_REPEATS)
@@ -506,9 +518,9 @@ namespace plexdata.FileWiper
             }
         }
 
-        protected override byte[] GetBytes(int count)
+        protected override Byte[] GetBytes(Int32 count)
         {
-            byte[] result = new byte[this.FixBufferCount(count)];
+            Byte[] result = new Byte[this.FixBufferCount(count)];
 
             // Firstly, execute all leading random writings.
             if (this.execution < RANDOM_REPEATS)
@@ -532,12 +544,12 @@ namespace plexdata.FileWiper
             return result;
         }
 
-        private void FillRandomBytes(byte[] buffer)
+        private void FillRandomBytes(Byte[] buffer)
         {
             this.generator.GetNonZeroBytes(buffer);
         }
 
-        private void FillGutmannBytes(int line, byte[] buffer)
+        private void FillGutmannBytes(Int32 line, Byte[] buffer)
         {
             if (line > GUTMANN_VALUES.GetUpperBound(0))
             {
@@ -547,7 +559,7 @@ namespace plexdata.FileWiper
             // Just a safety check...
             System.Diagnostics.Debug.Assert(buffer.Length % 3 == 0);
 
-            for (int index = 0; index < buffer.Length; index += 3)
+            for (Int32 index = 0; index < buffer.Length; index += 3)
             {
                 buffer[index + 0] = GUTMANN_VALUES[line, 0];
                 buffer[index + 1] = GUTMANN_VALUES[line, 1];
@@ -556,7 +568,7 @@ namespace plexdata.FileWiper
 
         }
 
-        private int FixBufferCount(int count)
+        private Int32 FixBufferCount(Int32 count)
         {
             // If Modulo operation produces a rest then 
             // the buffer size needs to be adjusted.

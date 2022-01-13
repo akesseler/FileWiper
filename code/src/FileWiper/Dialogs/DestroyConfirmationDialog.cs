@@ -1,71 +1,81 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.IO;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public partial class DestroyConfirmationDialog : Form
     {
-        private const string DEFAULT_CAPTION = "Confirmation";
+        private const String DEFAULT_CAPTION = "Confirmation";
 
-        private readonly string DEFAULT_MESSAGE =
+        private readonly String DEFAULT_MESSAGE =
             "Do you really want to continue?";
 
-        private readonly string MULTI_ITEM_MESSAGE =
+        private readonly String MULTI_ITEM_MESSAGE =
             "Do you really want to permanently destroy {0} elements?";
 
-        private readonly string SINGLE_FILE_MESSAGE =
+        private readonly String SINGLE_FILE_MESSAGE =
             "Do you really want to permanently destroy file \"{0}\"?";
 
-        private readonly string SINGLE_FOLDER_MESSAGE =
+        private readonly String SINGLE_FOLDER_MESSAGE =
             "Do you really want to permanently destroy folder \"{0}\" and its content?";
 
-        private readonly string MESSAGE_APPENDIX =
+        private readonly String MESSAGE_APPENDIX =
             "\n\nBe aware, this procedure is definitely irrevocable!\n\nPress "
             + "button No to abort or button Yes if you want to continue.";
 
         public DestroyConfirmationDialog()
-            : this(new string[0], String.Empty, DEFAULT_CAPTION)
+            : this(new String[0], String.Empty, DEFAULT_CAPTION)
         {
         }
 
-        public DestroyConfirmationDialog(string[] fullpaths)
+        public DestroyConfirmationDialog(String[] fullpaths)
             : this(fullpaths, String.Empty, DEFAULT_CAPTION)
         {
         }
 
-        public DestroyConfirmationDialog(string message)
-            : this(new string[0], message, DEFAULT_CAPTION)
+        public DestroyConfirmationDialog(String message)
+            : this(new String[0], message, DEFAULT_CAPTION)
         {
         }
 
-        public DestroyConfirmationDialog(string[] fullpaths, string message)
+        public DestroyConfirmationDialog(String[] fullpaths, String message)
             : this(fullpaths, message, DEFAULT_CAPTION)
         {
         }
 
-        public DestroyConfirmationDialog(string[] fullpaths, string message, string caption)
+        public DestroyConfirmationDialog(String[] fullpaths, String message, String caption)
             : base()
         {
             this.InitializeComponent();
 
             this.Icon = Properties.Resources.MainIcon;
-
-            if (caption == null) { throw new ArgumentNullException("caption"); }
-            this.Text = caption; // Caption can be empty...
+            this.Text = caption ?? throw new ArgumentNullException("caption"); // Caption can be empty...
 
             if (message == null) { throw new ArgumentNullException("message"); }
             if (fullpaths == null) { throw new ArgumentNullException("fullpaths"); }
@@ -73,12 +83,12 @@ namespace plexdata.FileWiper
             this.InitializeLayout(fullpaths, message);
         }
 
-        public DestroyConfirmationDialog(string message, string caption)
-            : this(new string[0], message, caption)
+        public DestroyConfirmationDialog(String message, String caption)
+            : this(new String[0], message, caption)
         {
         }
 
-        private void InitializeLayout(string[] fullpaths, string message)
+        private void InitializeLayout(String[] fullpaths, String message)
         {
             if (message == String.Empty)
             {
@@ -86,27 +96,27 @@ namespace plexdata.FileWiper
                 {
                     if (fullpaths.Length > 1)
                     {
-                        message = String.Format(MULTI_ITEM_MESSAGE, fullpaths.Length) + MESSAGE_APPENDIX;
+                        message = String.Format(this.MULTI_ITEM_MESSAGE, fullpaths.Length) + this.MESSAGE_APPENDIX;
                     }
                     else
                     {
                         if (Directory.Exists(fullpaths[0]))
                         {
-                            message = String.Format(SINGLE_FOLDER_MESSAGE, fullpaths[0]) + MESSAGE_APPENDIX;
+                            message = String.Format(this.SINGLE_FOLDER_MESSAGE, fullpaths[0]) + this.MESSAGE_APPENDIX;
                         }
                         else if (File.Exists(fullpaths[0]))
                         {
-                            message = String.Format(SINGLE_FILE_MESSAGE, Path.GetFileName(fullpaths[0])) + MESSAGE_APPENDIX;
+                            message = String.Format(this.SINGLE_FILE_MESSAGE, Path.GetFileName(fullpaths[0])) + this.MESSAGE_APPENDIX;
                         }
                         else
                         {
-                            message = DEFAULT_MESSAGE;
+                            message = this.DEFAULT_MESSAGE;
                         }
                     }
                 }
                 else
                 {
-                    message = DEFAULT_MESSAGE;
+                    message = this.DEFAULT_MESSAGE;
                 }
             }
 
@@ -114,7 +124,7 @@ namespace plexdata.FileWiper
             this.Size = this.GetPreferedDialogSize(this.lblMessage, message);
         }
 
-        private Size GetPreferedDialogSize(Control reference, string message)
+        private Size GetPreferedDialogSize(Control reference, String message)
         {
             Size result = this.Size;
             using (Graphics graphics = this.CreateGraphics())
@@ -126,8 +136,8 @@ namespace plexdata.FileWiper
                 Size current = reference.ClientRectangle.Size;
 
                 Size proposed = new Size(
-                    (int)(current.Width * 1.5),
-                    (int)(Screen.FromControl(reference).Bounds.Height * 0.7));
+                    (Int32)(current.Width * 1.5),
+                    (Int32)(Screen.FromControl(reference).Bounds.Height * 0.7));
 
                 Size prefered = TextRenderer.MeasureText(graphics, message, reference.Font, proposed, format);
 

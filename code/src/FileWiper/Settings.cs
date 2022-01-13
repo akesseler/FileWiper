@@ -1,28 +1,38 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.IO;
-using System.Xml;
-using System.Linq;
-using System.Drawing;
-using System.Reflection;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public class Settings : ICloneable
     {
@@ -66,7 +76,7 @@ namespace plexdata.FileWiper
 
         #region Public static property implementation.
 
-        public static string Filename
+        public static String Filename
         {
             get { return Path.ChangeExtension(Application.ExecutablePath, ".cfg"); }
         }
@@ -75,9 +85,9 @@ namespace plexdata.FileWiper
 
         #region Public static member implementation.
 
-        public static bool Save(string filename, Settings root)
+        public static Boolean Save(String filename, Settings root)
         {
-            bool success = false;
+            Boolean success = false;
             XmlSerializer serializer = null;
             TextWriter writer = null;
 
@@ -103,13 +113,13 @@ namespace plexdata.FileWiper
             return success;
         }
 
-        public static bool Load(string filename, out Settings root)
+        public static Boolean Load(String filename, out Settings root)
         {
-            bool success = false;
+            Boolean success = false;
             XmlSerializer serializer = null;
             TextReader reader = null;
 
-            root = default(Settings);
+            root = default;
 
             try
             {
@@ -141,7 +151,7 @@ namespace plexdata.FileWiper
             return success;
         }
 
-        public static bool IsVisibleOnAllScreens(Rectangle bounds)
+        public static Boolean IsVisibleOnAllScreens(Rectangle bounds)
         {
             if (bounds != null && !bounds.IsEmpty)
             {
@@ -160,7 +170,7 @@ namespace plexdata.FileWiper
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Settings(this);
         }
@@ -197,7 +207,7 @@ namespace plexdata.FileWiper
             this.DetailsBounds = new Rectangle(other.DetailsBounds.Location, other.DetailsBounds.Size);
             this.FavoritesBounds = new Rectangle(other.FavoritesBounds.Location, other.FavoritesBounds.Size);
             this.HelpBounds = new Rectangle(other.HelpBounds.Location, other.HelpBounds.Size);
-            this.ActiveSettings = other.ActiveSettings.Clone() as string;
+            this.ActiveSettings = other.ActiveSettings.Clone() as String;
             this.ToolbarScaling = other.ToolbarScaling;
             this.ToolbarText = other.ToolbarText;
         }
@@ -234,23 +244,23 @@ namespace plexdata.FileWiper
         /// <summary>
         /// Gets and sets last active settings page.
         /// </summary>
-        public string ActiveSettings { get; set; }
+        public String ActiveSettings { get; set; }
 
         /// <summary>
         /// Gets and sets last known toolbar button size.
         /// </summary>
-        public string ToolbarScaling { get; set; }
+        public String ToolbarScaling { get; set; }
 
         /// <summary>
         /// Gets and sets last known toolbar text visibility state.
         /// </summary>
-        public bool ToolbarText { get; set; }
+        public Boolean ToolbarText { get; set; }
 
         #endregion // Public property implementation.
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Maintain(this);
         }
@@ -278,13 +288,13 @@ namespace plexdata.FileWiper
 
         #region Public property implementation.
 
-        private List<string> folders = null;
-        public string[] Folders
+        private List<String> folders = null;
+        public String[] Folders
         {
             get { return this.folders.ToArray(); }
             set
             {
-                this.folders = new List<string>();
+                this.folders = new List<String>();
                 if (value != null && value.Length > 0)
                 {
                     this.folders.AddRange(value);
@@ -296,7 +306,7 @@ namespace plexdata.FileWiper
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Favorites(this);
         }
@@ -334,23 +344,23 @@ namespace plexdata.FileWiper
 
         #region Public property implementation.
 
-        public bool AllowAutoClose { get; set; }
+        public Boolean AllowAutoClose { get; set; }
 
-        public bool UseFullResources { get; set; }
+        public Boolean UseFullResources { get; set; }
 
-        public bool IncludeFolderNames { get; set; }
+        public Boolean IncludeFolderNames { get; set; }
 
-        public bool AutoPauseWiping { get; set; }
+        public Boolean AutoPauseWiping { get; set; }
 
-        public bool AllowAutoRelaunch { get; set; }
+        public Boolean AllowAutoRelaunch { get; set; }
 
-        public bool SuppressCancelQuestion { get; set; }
+        public Boolean SuppressCancelQuestion { get; set; }
 
         #endregion // Public property implementation.
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new Behaviour(this);
         }
@@ -381,7 +391,7 @@ namespace plexdata.FileWiper
 
         #region Public static property implementation.
 
-        public static int ThreadCountMinimum
+        public static Int32 ThreadCountMinimum
         {
             get
             {
@@ -389,7 +399,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        public static int ThreadCountMaximum
+        public static Int32 ThreadCountMaximum
         {
             get
             {
@@ -402,16 +412,16 @@ namespace plexdata.FileWiper
         #region Public property implementation.
 
         [XmlAttribute]
-        public bool AllowParallel { get; set; }
+        public Boolean AllowParallel { get; set; }
 
         [XmlAttribute]
-        public int ThreadCount { get; set; }
+        public Int32 ThreadCount { get; set; }
 
         #endregion // Public property implementation.
 
         #region ICloneable member implementation.
 
-        public object Clone()
+        public Object Clone()
         {
             return new WipingProcessing(this);
         }

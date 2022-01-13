@@ -1,32 +1,45 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using Microsoft.Win32;
+using System;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     internal interface IShutdownListener
     {
         void HandleSessionSwitch(SessionSwitchReason reason);
 
         // Return false to refuse session ending...
-        bool RequestSessionEnding(SessionEndReasons reason);
+        Boolean RequestSessionEnding(SessionEndReasons reason);
 
         void HandlePowerModeChanged(PowerModes mode);
     }
 
     internal class ShutdownTracker
     {
-        private object locked = new object();
+        private readonly Object locked = new Object();
         private IShutdownListener listener = null;
 
         public ShutdownTracker()
@@ -72,7 +85,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnSessionSwitch(object sender, SessionSwitchEventArgs args)
+        private void OnSessionSwitch(Object sender, SessionSwitchEventArgs args)
         {
             if (this.Listener != null)
             {
@@ -80,7 +93,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnSessionEnding(object sender, SessionEndingEventArgs args)
+        private void OnSessionEnding(Object sender, SessionEndingEventArgs args)
         {
             if (this.Listener != null)
             {
@@ -89,7 +102,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs args)
+        private void OnPowerModeChanged(Object sender, PowerModeChangedEventArgs args)
         {
             if (this.Listener != null)
             {

@@ -1,22 +1,34 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public partial class HelpDialog : Form
     {
@@ -25,7 +37,7 @@ namespace plexdata.FileWiper
         {
         }
 
-        public HelpDialog(bool hideOnClose)
+        public HelpDialog(Boolean hideOnClose)
             : base()
         {
             this.InitializeComponent();
@@ -33,12 +45,12 @@ namespace plexdata.FileWiper
             this.Text = AboutBox.Title + " " + this.Text;
             this.Icon = Properties.Resources.Help;
 
-            this.btnOK.Image = new Icon(Properties.Resources.Apply, new Size(16, 16)).ToBitmap();
+            this.btnClose.Image = new Icon(Properties.Resources.Apply, new Size(16, 16)).ToBitmap();
 
             this.HideOnClose = hideOnClose;
         }
 
-        public bool HideOnClose { get; set; }
+        public Boolean HideOnClose { get; set; }
 
         protected override void OnLoad(EventArgs args)
         {
@@ -79,7 +91,7 @@ namespace plexdata.FileWiper
             base.OnFormClosing(args);
         }
 
-        private void OnOkButtonClick(object sender, EventArgs args)
+        private void OnCloseButtonClick(Object sender, EventArgs args)
         {
             this.Close();
         }
@@ -131,8 +143,8 @@ namespace plexdata.FileWiper
             {
                 // Very smart because client rectangle is also adjusted! 
                 // See also: http://support.microsoft.com/kb/316574
-                const int WS_BORDER = unchecked((int)0x00800000);
-                const int WS_EX_STATICEDGE = unchecked((int)0x00020000);
+                const Int32 WS_BORDER = unchecked(0x00800000);
+                const Int32 WS_EX_STATICEDGE = unchecked(0x00020000);
 
                 CreateParams createParams = base.CreateParams;
                 createParams.ExStyle &= (~WS_EX_STATICEDGE);

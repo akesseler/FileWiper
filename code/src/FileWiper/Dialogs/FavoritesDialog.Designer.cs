@@ -1,4 +1,28 @@
-﻿namespace plexdata.FileWiper
+﻿/*
+ * MIT License
+ * 
+ * Copyright (c) 2022 plexdata.de
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+namespace Plexdata.FileWiper
 {
     partial class FavoritesDialog
     {
@@ -43,12 +67,12 @@
             this.cmsFavoritesList.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnOK
+            // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.No;
             this.btnClose.Location = new System.Drawing.Point(305, 231);
-            this.btnClose.Name = "btnOK";
+            this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 0;
             this.btnClose.Text = "&Close";
@@ -98,12 +122,14 @@
             this.lstFavoritesList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstFavoritesList.BackColor = System.Drawing.Color.White;
             this.lstFavoritesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colFolderName,
             this.colBaseFolder,
             this.colFolderState});
             this.lstFavoritesList.ContextMenuStrip = this.cmsFavoritesList;
             this.lstFavoritesList.FullRowSelect = true;
+            this.lstFavoritesList.HideSelection = false;
             this.lstFavoritesList.Location = new System.Drawing.Point(12, 12);
             this.lstFavoritesList.Name = "lstFavoritesList";
             this.lstFavoritesList.ShowItemToolTips = true;
@@ -133,20 +159,20 @@
             this.cmiAdd,
             this.cmiRemove});
             this.cmsFavoritesList.Name = "cmsFavoritesList";
-            this.cmsFavoritesList.Size = new System.Drawing.Size(153, 70);
+            this.cmsFavoritesList.Size = new System.Drawing.Size(118, 48);
             this.cmsFavoritesList.Opening += new System.ComponentModel.CancelEventHandler(this.OnFavoritesListMenuOpening);
             // 
             // cmiAdd
             // 
             this.cmiAdd.Name = "cmiAdd";
-            this.cmiAdd.Size = new System.Drawing.Size(152, 22);
+            this.cmiAdd.Size = new System.Drawing.Size(117, 22);
             this.cmiAdd.Text = "&Add";
             this.cmiAdd.Click += new System.EventHandler(this.OnAddButtonClick);
             // 
             // cmiRemove
             // 
             this.cmiRemove.Name = "cmiRemove";
-            this.cmiRemove.Size = new System.Drawing.Size(152, 22);
+            this.cmiRemove.Size = new System.Drawing.Size(117, 22);
             this.cmiRemove.Text = "&Remove";
             this.cmiRemove.Click += new System.EventHandler(this.OnRemoveButtonClick);
             // 
@@ -154,6 +180,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(392, 266);
             this.Controls.Add(this.lstFavoritesList);
             this.Controls.Add(this.btnRemove);

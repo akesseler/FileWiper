@@ -1,22 +1,34 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace plexdata.Utilities
+namespace Plexdata.Utilities
 {
     public class ErrorLogger : PlainLogger
     {
@@ -27,12 +39,12 @@ namespace plexdata.Utilities
         {
         }
 
-        public ErrorLogger(string filename)
+        public ErrorLogger(String filename)
             : this(filename, false)
         {
         }
 
-        public ErrorLogger(string filename, bool ensure)
+        public ErrorLogger(String filename, Boolean ensure)
             : base()
         {
             base.SetFilename(filename, ensure ? null : ".error");
@@ -47,7 +59,7 @@ namespace plexdata.Utilities
             this.Write(null, exception);
         }
 
-        public virtual void Write(string context, Exception exception)
+        public virtual void Write(String context, Exception exception)
         {
             try
             {
@@ -78,12 +90,12 @@ namespace plexdata.Utilities
         {
         }
 
-        public TraceLogger(string filename)
+        public TraceLogger(String filename)
             : this(filename, false)
         {
         }
 
-        public TraceLogger(string filename, bool ensure)
+        public TraceLogger(String filename, Boolean ensure)
             : base()
         {
             base.SetFilename(filename, ensure ? null : ".trace");
@@ -93,28 +105,28 @@ namespace plexdata.Utilities
 
         #region Public overwritten method section..
 
-        public override void Write(object value)
+        public override void Write(Object value)
         {
 #if TRACE
             base.Write(value);
 #endif // TRACE
         }
 
-        public override void Write(string context, object value)
+        public override void Write(String context, Object value)
         {
 #if TRACE
             base.Write(context, value);
 #endif // TRACE
         }
 
-        public override void Write(string message)
+        public override void Write(String message)
         {
 #if TRACE
             base.Write(message);
 #endif // TRACE
         }
 
-        public override void Write(string context, string message)
+        public override void Write(String context, String message)
         {
 #if TRACE
             base.Write(context, message);
@@ -128,7 +140,7 @@ namespace plexdata.Utilities
     {
         #region Private member value section.
 
-        private object critical = null;
+        private readonly Object critical = null;
 
         #endregion // Private member value section.
 
@@ -139,15 +151,15 @@ namespace plexdata.Utilities
         {
         }
 
-        public PlainLogger(string filename)
+        public PlainLogger(String filename)
             : this(filename, false)
         {
         }
 
-        public PlainLogger(string filename, bool ensure)
+        public PlainLogger(String filename, Boolean ensure)
             : base()
         {
-            this.critical = new object();
+            this.critical = new Object();
             this.SetFilename(filename, ensure ? null : ".log");
         }
 
@@ -155,28 +167,28 @@ namespace plexdata.Utilities
 
         #region Public property section.
 
-        public string Filename { get; private set; }
+        public String Filename { get; private set; }
 
         #endregion // Public property section.
 
         #region Public virtual method section.
 
-        public virtual void Write(object value)
+        public virtual void Write(Object value)
         {
             if (value != null) { this.WriteItem(this.BuildMessage(null, value.ToString())); }
         }
 
-        public virtual void Write(string context, object value)
+        public virtual void Write(String context, Object value)
         {
             if (value != null) { this.WriteItem(this.BuildMessage(context, value.ToString())); }
         }
 
-        public virtual void Write(string message)
+        public virtual void Write(String message)
         {
             this.WriteItem(this.BuildMessage(null, message));
         }
 
-        public virtual void Write(string context, string message)
+        public virtual void Write(String context, String message)
         {
             this.WriteItem(this.BuildMessage(context, message));
         }
@@ -185,7 +197,7 @@ namespace plexdata.Utilities
 
         #region Protected method section.
 
-        protected void SetFilename(string filename, string extension)
+        protected void SetFilename(String filename, String extension)
         {
             // Validate parameter.
             if (filename == null)
@@ -212,7 +224,7 @@ namespace plexdata.Utilities
             this.Filename = extension.Length == 0 ? filename : Path.ChangeExtension(filename, extension);
         }
 
-        protected string BuildMessage(string context, string message)
+        protected String BuildMessage(String context, String message)
         {
             try
             {
@@ -223,8 +235,8 @@ namespace plexdata.Utilities
                 // Build result message.
                 if (message.Length > 0)
                 {
-                    string processId = Process.GetCurrentProcess().Id.ToString().PadLeft(6, ' ');
-                    string timestamp = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss.ffff");
+                    String processId = Process.GetCurrentProcess().Id.ToString().PadLeft(6, ' ');
+                    String timestamp = DateTime.Now.ToString("yyyy-MM-dd, HH:mm:ss.ffff");
 
                     if (context.Length > 0)
                     {
@@ -247,7 +259,7 @@ namespace plexdata.Utilities
 
         #region Private method section.
 
-        private void WriteItem(string message)
+        private void WriteItem(String message)
         {
             try
             {

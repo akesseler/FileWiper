@@ -1,16 +1,28 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     partial class ExceptionView
     {
@@ -58,6 +70,7 @@ namespace plexdata.FileWiper
             // 
             this.tvcExceptionTree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.tvcExceptionTree.BackColor = System.Drawing.Color.White;
             this.tvcExceptionTree.Location = new System.Drawing.Point(12, 88);
             this.tvcExceptionTree.Name = "tvcExceptionTree";
             this.tvcExceptionTree.Size = new System.Drawing.Size(200, 233);
@@ -65,12 +78,12 @@ namespace plexdata.FileWiper
             this.tvcExceptionTree.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.OnTreeBeforeExpand);
             this.tvcExceptionTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.OnTreeAfterSelect);
             // 
-            // btnOK
+            // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Location = new System.Drawing.Point(497, 327);
-            this.btnClose.Name = "btnOK";
+            this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 4;
             this.btnClose.Text = "&Close";
@@ -78,7 +91,7 @@ namespace plexdata.FileWiper
             // 
             // txtExceptionDetails
             // 
-            this.txtExceptionDetails.BackColor = System.Drawing.SystemColors.Window;
+            this.txtExceptionDetails.BackColor = System.Drawing.Color.White;
             this.txtExceptionDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtExceptionDetails.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtExceptionDetails.Location = new System.Drawing.Point(0, 0);
@@ -160,6 +173,7 @@ namespace plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(584, 362);
             this.Controls.Add(this.picImage);

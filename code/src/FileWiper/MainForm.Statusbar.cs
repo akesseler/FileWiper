@@ -1,23 +1,34 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
+using Plexdata.Controls;
 using System;
-using System.Drawing;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
-using plexdata.Controls;
-
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public partial class MainForm : Form
     {
@@ -33,8 +44,10 @@ namespace plexdata.FileWiper
             this.sblMode.Text = PermissionCheck.IsRunAsAdmin ? "Administrator" : "Standard";
             this.sblPlatform.Text = PlatformCheck.Is64BitPlatform ? "64 Bit" : "32 Bit";
 
-            this.sbcProgress = new ToolStripProgressBar3D();
-            this.sbcProgress.Visible = false;
+            this.sbcProgress = new ToolStripProgressBar3D()
+            {
+                Visible = false
+            };
             this.mainStatusbar.Items.Add(this.sbcProgress);
         }
 
@@ -43,7 +56,7 @@ namespace plexdata.FileWiper
             this.UpdateStatusbar(String.Empty);
         }
 
-        private void UpdateStatusbar(string label)
+        private void UpdateStatusbar(String label)
         {
             if (this.IsCanceling)
             {
@@ -108,7 +121,7 @@ namespace plexdata.FileWiper
         {
         }
 
-        public ToolStripProgressBar3D(string name)
+        public ToolStripProgressBar3D(String name)
             : base(new ProgressBar3D(), name)
         {
             if (this.ProgressBar == null)
@@ -141,13 +154,13 @@ namespace plexdata.FileWiper
             get { return base.Control as ProgressBar3D; }
         }
 
-        public double Value
+        public Double Value
         {
             get { return this.ProgressBar.Value; }
             set { this.ProgressBar.Value = value; }
         }
 
-        public double Maximum
+        public Double Maximum
         {
             get { return this.ProgressBar.Maximum; }
             set { this.ProgressBar.Maximum = value; }

@@ -1,28 +1,40 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-using System;
-using System.IO;
-using System.Xml;
-using System.Text;
-using System.Drawing;
 using Microsoft.Win32;
+using System;
 using System.Diagnostics;
-using System.Windows.Forms;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.Drawing.Imaging;
-using System.Xml.Serialization;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     internal class ShellExtensionHandler
     {
@@ -33,7 +45,7 @@ namespace plexdata.FileWiper
             this.Filename = String.Empty;
         }
 
-        public static bool RegisterExtension(string filename)
+        public static Boolean RegisterExtension(String filename)
         {
             try
             {
@@ -65,7 +77,7 @@ namespace plexdata.FileWiper
             return false;
         }
 
-        public static bool UnregisterExtension()
+        public static Boolean UnregisterExtension()
         {
             try
             {
@@ -107,7 +119,7 @@ namespace plexdata.FileWiper
             return false;
         }
 
-        public static string ConvertToIconData(Icon icon)
+        public static String ConvertToIconData(Icon icon)
         {
             try
             {
@@ -134,7 +146,7 @@ namespace plexdata.FileWiper
             return String.Empty;
         }
 
-        public bool LoadFromResources(bool defaults)
+        public Boolean LoadFromResources(Boolean defaults)
         {
             try
             {
@@ -173,7 +185,7 @@ namespace plexdata.FileWiper
         /// <returns>
         /// True if export was successful and false otherwise.
         /// </returns>
-        public bool ExportToFile()
+        public Boolean ExportToFile()
         {
             try
             {
@@ -196,7 +208,7 @@ namespace plexdata.FileWiper
         /// <returns>
         /// True if export was successful and false otherwise.
         /// </returns>
-        public bool ExportToFile(string fullpath)
+        public Boolean ExportToFile(String fullpath)
         {
             try
             {
@@ -219,23 +231,23 @@ namespace plexdata.FileWiper
         /// <summary>
         /// Gets last used export file name.
         /// </summary>
-        public string Filename { get; private set; }
+        public String Filename { get; private set; }
 
-        public bool IsRegistered
+        public Boolean IsRegistered
         {
             get
             {
                 // Location: HKEY_LOCAL_MACHINE\SOFTWARE\plexdata\pdcmse\InstalledExtensions
                 try
                 {
-                    string classid = this.ClassID;
-                    string subkey = @"SOFTWARE\plexdata\pdcmse\InstalledExtensions";
+                    String classid = this.ClassID;
+                    String subkey = @"SOFTWARE\plexdata\pdcmse\InstalledExtensions";
 
                     using (RegistryKey key = Registry.LocalMachine.OpenSubKey(subkey))
                     {
                         if (key != null) // BUGFIX: Check returned key before accessing it.
                         {
-                            foreach (string value in key.GetValueNames())
+                            foreach (String value in key.GetValueNames())
                             {
                                 if (String.Compare(value, classid, true) == 0)
                                 {
@@ -259,13 +271,13 @@ namespace plexdata.FileWiper
         /// <summary>
         /// Gets current class ID loaded from resources file.
         /// </summary>
-        public string ClassID
+        public String ClassID
         {
             get
             {
-                const string OPEN = "{";
-                const string CLOSE = "}";
-                string result = String.Empty;
+                const String OPEN = "{";
+                const String CLOSE = "}";
+                String result = String.Empty;
 
                 if (this.Configuration != null)
                 {
@@ -284,7 +296,7 @@ namespace plexdata.FileWiper
         /// <summary>
         /// Gets or sets fully qualified path to the executable file.
         /// </summary>
-        public string Executable
+        public String Executable
         {
             get
             {
@@ -322,7 +334,7 @@ namespace plexdata.FileWiper
         /// <summary>
         /// Gets or sets Shell Extension label to be shown in the Windows Explorer.
         /// </summary>
-        public string Label
+        public String Label
         {
             get
             {
@@ -358,9 +370,9 @@ namespace plexdata.FileWiper
         }
 
         /// <summary>
-        /// Gets or sets Shell Extension help string to be shown in the Windows Explorer.
+        /// Gets or sets Shell Extension help String to be shown in the Windows Explorer.
         /// </summary>
-        public string HelpString
+        public String HelpString
         {
             get
             {
@@ -399,7 +411,7 @@ namespace plexdata.FileWiper
         /// Gets or sets Shell Extension icon to be shown in the Windows Explorer. 
         /// Please note using null or an empty string will disable icon usage!
         /// </summary>
-        public string IconData
+        public String IconData
         {
             get
             {
@@ -445,13 +457,13 @@ namespace plexdata.FileWiper
             }
         }
 
-        private static string ByteArrayToString(byte[] input)
+        private static String ByteArrayToString(Byte[] input)
         {
             if (input != null && input.Length > 0)
             {
                 StringBuilder result = new StringBuilder(input.Length * 2);
 
-                foreach (byte current in input)
+                foreach (Byte current in input)
                 {
                     result.AppendFormat("{0:X2}", current);
                 }
@@ -464,13 +476,14 @@ namespace plexdata.FileWiper
             }
         }
 
-        private static byte[] StringToByteArray(string input)
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
+        private static Byte[] StringToByteArray(String input)
         {
             if (!String.IsNullOrEmpty(input))
             {
-                byte[] result = new byte[input.Length / 2];
+                Byte[] result = new Byte[input.Length / 2];
 
-                for (int index = 0; index < input.Length; index += 2)
+                for (Int32 index = 0; index < input.Length; index += 2)
                 {
                     result[index / 2] = Convert.ToByte(input.Substring(index, 2), 16);
                 }
@@ -479,11 +492,11 @@ namespace plexdata.FileWiper
             }
             else
             {
-                return new byte[0];
+                return new Byte[0];
             }
         }
 
-        private bool InitFromRegistry()
+        private Boolean InitFromRegistry()
         {
             // [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\CLSID\<clsid>\Settings]
             // "Name"="<name>"
@@ -500,12 +513,12 @@ namespace plexdata.FileWiper
 
             try
             {
-                string subkey = String.Format(@"SOFTWARE\Classes\CLSID\{0}\Settings\MenuItemEntry0", this.ClassID);
+                String subkey = String.Format(@"SOFTWARE\Classes\CLSID\{0}\Settings\MenuItemEntry0", this.ClassID);
                 using (RegistryKey key = Registry.LocalMachine.OpenSubKey(subkey))
                 {
-                    this.Label = key.GetValue("Label") as string;
-                    this.HelpString = key.GetValue("HelpString") as string;
-                    this.IconData = ByteArrayToString(key.GetValue("IconData") as byte[]);
+                    this.Label = key.GetValue("Label") as String;
+                    this.HelpString = key.GetValue("HelpString") as String;
+                    this.IconData = ByteArrayToString(key.GetValue("IconData") as Byte[]);
                     return true;
                 }
             }
@@ -520,16 +533,16 @@ namespace plexdata.FileWiper
         #region Shell Extension import declaration section.
 
         [DllImport("pdcmse32.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "RegisterExtensionW", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern void RegisterExtension32(IntPtr hWnd, IntPtr hInstance, string szParameter, int nShow);
+        private static extern void RegisterExtension32(IntPtr hWnd, IntPtr hInstance, String szParameter, Int32 nShow);
 
         [DllImport("pdcmse32.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "UnregisterExtensionW", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern void UnregisterExtension32(IntPtr hWnd, IntPtr hInstance, string szParameter, int nShow);
+        private static extern void UnregisterExtension32(IntPtr hWnd, IntPtr hInstance, String szParameter, Int32 nShow);
 
         [DllImport("pdcmse64.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "RegisterExtensionW", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern void RegisterExtension64(IntPtr hWnd, IntPtr hInstance, string szParameter, int nShow);
+        private static extern void RegisterExtension64(IntPtr hWnd, IntPtr hInstance, String szParameter, Int32 nShow);
 
         [DllImport("pdcmse64.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "UnregisterExtensionW", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern void UnregisterExtension64(IntPtr hWnd, IntPtr hInstance, string szParameter, int nShow);
+        private static extern void UnregisterExtension64(IntPtr hWnd, IntPtr hInstance, String szParameter, Int32 nShow);
 
         #endregion // Shell Extension import declaration section.
     }
@@ -542,13 +555,13 @@ namespace plexdata.FileWiper
         }
 
         [XmlElement("Author")]
-        public string Author { get; set; }
+        public String Author { get; set; }
 
         [XmlElement("Description")]
-        public string Description { get; set; }
+        public String Description { get; set; }
 
         [XmlElement("LastSaved")]
-        public string LastSaved { get; set; }
+        public String LastSaved { get; set; }
 
         [XmlArray("ShellExtensionList")]
         public ShellExtensionEntry[] ShellExtensionList { get; set; }
@@ -561,16 +574,16 @@ namespace plexdata.FileWiper
         }
 
         [XmlElement("ClassID")]
-        public string ClassID { get; set; }
+        public String ClassID { get; set; }
 
         [XmlElement("Name")]
-        public string Name { get; set; }
+        public String Name { get; set; }
 
         [XmlElement("Description")]
-        public string Description { get; set; }
+        public String Description { get; set; }
 
         [XmlElement("Locations")]
-        public string Locations { get; set; }
+        public String Locations { get; set; }
 
         [XmlArray("MenuItemList")]
         public MenuItemEntry[] MenuItemList { get; set; }
@@ -583,25 +596,25 @@ namespace plexdata.FileWiper
         }
 
         [XmlElement("Label")]
-        public string Label { get; set; }
+        public String Label { get; set; }
 
         [XmlElement("Executable")]
-        public string Executable { get; set; }
+        public String Executable { get; set; }
 
         [XmlElement("Parameter")]
-        public string Parameter { get; set; }
+        public String Parameter { get; set; }
 
         [XmlElement("HelpString")]
-        public string HelpString { get; set; }
+        public String HelpString { get; set; }
 
         [XmlElement("IconFile")]
-        public string IconFile { get; set; }
+        public String IconFile { get; set; }
 
         [XmlElement("IconData")]
-        public string IconData { get; set; }
+        public String IconData { get; set; }
 
         [XmlElement("MultiSelect")]
-        public string MultiSelect { get; set; }
+        public String MultiSelect { get; set; }
 
         [XmlArray("MenuItemList")]
         public MenuItemEntry[] MenuItemList { get; set; }

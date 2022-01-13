@@ -1,16 +1,28 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     partial class MainForm
     {
@@ -91,7 +103,7 @@ namespace plexdata.FileWiper
             this.wipingListMenuRemoveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.wipingListMenuRemoveFinished = new System.Windows.Forms.ToolStripMenuItem();
             this.wipingListMenuRemoveCanceled = new System.Windows.Forms.ToolStripMenuItem();
-            this.wipingList = new plexdata.FileWiper.WipingListView();
+            this.wipingList = new Plexdata.FileWiper.WipingListView();
             this.trayIconMenu.SuspendLayout();
             this.mainToolbar.SuspendLayout();
             this.mainToolbarMenu.SuspendLayout();
@@ -400,7 +412,7 @@ namespace plexdata.FileWiper
             // tbbAboutAbout
             // 
             this.tbbAboutAbout.Name = "tbbAboutAbout";
-            this.tbbAboutAbout.Size = new System.Drawing.Size(152, 22);
+            this.tbbAboutAbout.Size = new System.Drawing.Size(126, 22);
             this.tbbAboutAbout.Text = "&About";
             this.tbbAboutAbout.Click += new System.EventHandler(this.OnToolbarButtonAboutAboutClick);
             // 
@@ -408,12 +420,13 @@ namespace plexdata.FileWiper
             // 
             this.tbbAboutHelp.Name = "tbbAboutHelp";
             this.tbbAboutHelp.ShortcutKeyDisplayString = "(F1)";
-            this.tbbAboutHelp.Size = new System.Drawing.Size(152, 22);
+            this.tbbAboutHelp.Size = new System.Drawing.Size(126, 22);
             this.tbbAboutHelp.Text = "&Help";
             this.tbbAboutHelp.Click += new System.EventHandler(this.OnToolbarButtonAboutHelpClick);
             // 
             // mainStatusbar
             // 
+            this.mainStatusbar.BackColor = System.Drawing.Color.White;
             this.mainStatusbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sblGeneral,
             this.sblMode,
@@ -553,12 +566,14 @@ namespace plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.wipingList);
             this.Controls.Add(this.mainStatusbar);
             this.Controls.Add(this.mainToolbar);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "File Wiper";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
             this.trayIconMenu.ResumeLayout(false);

@@ -1,31 +1,43 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.IO;
-using System.Drawing;
-using System.Reflection;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public partial class SettingsDialog : Form
     {
-        private List<Icon> icons = null;
-        private ShellExtensionHandler extension = null;
+        private readonly List<Icon> icons = null;
+        private readonly ShellExtensionHandler extension = null;
 
         public SettingsDialog()
             : this(null)
@@ -77,7 +89,7 @@ namespace plexdata.FileWiper
         {
             // Try choosing last active settings page. If impossible 
             // then the first page is chosen automatically!
-            string active = this.Settings.Maintain.ActiveSettings;
+            String active = this.Settings.Maintain.ActiveSettings;
             if (!String.IsNullOrEmpty(active))
             {
                 foreach (TabPage page in this.tabSettings.TabPages)
@@ -164,7 +176,7 @@ namespace plexdata.FileWiper
             base.OnFormClosing(args);
         }
 
-        private void OnDefaultButtonClick(object sender, EventArgs args)
+        private void OnDefaultButtonClick(Object sender, EventArgs args)
         {
             if (this.tabSettings.SelectedTab == this.tcpBehaviour)
             {
@@ -184,26 +196,24 @@ namespace plexdata.FileWiper
 
         #region Dialog event handler (behaviour settings) implementation.
 
-        private void OnCheckboxMouseEnter(object sender, EventArgs args)
+        private void OnCheckboxMouseEnter(Object sender, EventArgs args)
         {
-            CheckBox control = sender as CheckBox;
-            if (control != null && !control.Focused) { control.Focus(); }
+            if (sender is CheckBox control && !control.Focused) { control.Focus(); }
         }
 
-        private void OnCheckboxGotFocus(object sender, EventArgs args)
+        private void OnCheckboxGotFocus(Object sender, EventArgs args)
         {
-            CheckBox control = sender as CheckBox;
-            if (control != null && !String.IsNullOrEmpty(control.Tag as string))
+            if (sender is CheckBox control && !String.IsNullOrEmpty(control.Tag as String))
             {
-                this.txtBehaviourDescription.Text = control.Tag as string;
+                this.txtBehaviourDescription.Text = control.Tag as String;
             }
         }
 
-        private void OnAllowAutoRelaunchClick(object sender, EventArgs args)
+        private void OnAllowAutoRelaunchClick(Object sender, EventArgs args)
         {
             if (this.chkAllowAutoRelaunch.Checked)
             {
-                string message = "Enabling this option may cause some irritations while " +
+                String message = "Enabling this option may cause some irritations while " +
                     "executing the program. This exactly means that the operating system " +
                     "will ask for extending current privileges without an appropriated " +
                     "context as soon as it becomes necessary to clean-up files which require " +
@@ -224,12 +234,12 @@ namespace plexdata.FileWiper
 
         #region Dialog event handler (wiping settings) implementation.
 
-        private void OnParallelProcessingCheckedChanged(object sender, EventArgs args)
+        private void OnParallelProcessingCheckedChanged(Object sender, EventArgs args)
         {
             this.numParallelWipings.Enabled = this.chkParallelProcessing.Checked;
         }
 
-        private void OnAlgorithmComboBoxSelectedIndexChanged(object sender, EventArgs args)
+        private void OnAlgorithmComboBoxSelectedIndexChanged(Object sender, EventArgs args)
         {
             this.Settings.Algorithms.Selected = this.cmbAlgorithmAlgorithm.SelectedItem as WipingAlgorithm;
             if (this.Settings.Algorithms.Selected != null)
@@ -239,10 +249,9 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnRepeatsNumericSpinValueChanged(object sender, EventArgs args)
+        private void OnRepeatsNumericSpinValueChanged(Object sender, EventArgs args)
         {
-            WipingAlgorithm selected = this.cmbAlgorithmAlgorithm.SelectedItem as WipingAlgorithm;
-            if (selected != null)
+            if (this.cmbAlgorithmAlgorithm.SelectedItem is WipingAlgorithm selected)
             {
                 selected.Repeats = this.GetValue(this.numAlgorithmRepeats);
 
@@ -256,12 +265,12 @@ namespace plexdata.FileWiper
 
         #region Dialog event handler (shell extension) implementation.
 
-        private void OnEnableIconUsageCheckedChanged(object sender, EventArgs args)
+        private void OnEnableIconUsageCheckedChanged(Object sender, EventArgs args)
         {
             this.lstIconShow.Enabled = this.chkEnableIcon.Checked;
         }
 
-        private void OnRegisterButtonClick(object sender, EventArgs args)
+        private void OnRegisterButtonClick(Object sender, EventArgs args)
         {
             if (this.SaveExtensionSettings())
             {
@@ -269,7 +278,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnUnregisterButtonClick(object sender, EventArgs args)
+        private void OnUnregisterButtonClick(Object sender, EventArgs args)
         {
             if (this.extension.IsRegistered)
             {
@@ -277,7 +286,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnIconShowDrawItem(object sender, DrawListViewItemEventArgs args)
+        private void OnIconShowDrawItem(Object sender, DrawListViewItemEventArgs args)
         {
             try
             {
@@ -363,18 +372,18 @@ namespace plexdata.FileWiper
 
         #region Private helper function implementation.
 
-        private bool ValidateSettings()
+        private Boolean ValidateSettings()
         {
             // Implement settings validation, if applicable.
             return true;
         }
 
-        private int GetValue(NumericUpDown numBox)
+        private Int32 GetValue(NumericUpDown numBox)
         {
             return Convert.ToInt32(numBox.Value);
         }
 
-        private void SetValue(NumericUpDown numBox, int value)
+        private void SetValue(NumericUpDown numBox, Int32 value)
         {
             if (value < numBox.Minimum)
             {
@@ -391,7 +400,7 @@ namespace plexdata.FileWiper
 
         #region Private helper function (behaviour settings) implementation.
 
-        private bool LoadBehaviourSettings()
+        private Boolean LoadBehaviourSettings()
         {
             try
             {
@@ -412,7 +421,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private bool SaveBehaviourSettings()
+        private Boolean SaveBehaviourSettings()
         {
             try
             {
@@ -433,7 +442,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private bool DefaultBehaviourSettings()
+        private Boolean DefaultBehaviourSettings()
         {
             this.Settings.Behaviour = new Behaviour();
             return this.LoadBehaviourSettings();
@@ -443,7 +452,7 @@ namespace plexdata.FileWiper
 
         #region Private helper function (wiping settings) implementation.
 
-        private bool LoadWipingSettings()
+        private Boolean LoadWipingSettings()
         {
             try
             {
@@ -470,7 +479,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private bool SaveWipingSettings()
+        private Boolean SaveWipingSettings()
         {
             try
             {
@@ -489,7 +498,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private bool DefaultWipingSettings()
+        private Boolean DefaultWipingSettings()
         {
             this.Settings.Processing = new WipingProcessing();
             this.Settings.Algorithms = new WipingAlgorithms();
@@ -500,12 +509,12 @@ namespace plexdata.FileWiper
 
         #region Private helper function (shell extension) implementation.
 
-        private bool LoadExtensionSettings()
+        private Boolean LoadExtensionSettings()
         {
             return this.LoadExtensionSettings(false);
         }
 
-        private bool LoadExtensionSettings(bool defaults)
+        private Boolean LoadExtensionSettings(Boolean defaults)
         {
             try
             {
@@ -514,16 +523,16 @@ namespace plexdata.FileWiper
                     this.txtDisplayText.Text = this.extension.Label;
                     this.txtHelpString.Text = this.extension.HelpString;
 
-                    string icondata = this.extension.IconData;
+                    String icondata = this.extension.IconData;
                     if (!String.IsNullOrEmpty(icondata))
                     {
                         this.chkEnableIcon.Checked = true;
 
                         // Try preselect icon from shell extension settings.
-                        string current = this.extension.IconData;
-                        for (int index = 0; index < this.icons.Count; index++)
+                        String current = this.extension.IconData;
+                        for (Int32 index = 0; index < this.icons.Count; index++)
                         {
-                            string helper = ShellExtensionHandler.ConvertToIconData(this.icons[index]);
+                            String helper = ShellExtensionHandler.ConvertToIconData(this.icons[index]);
                             if (String.Compare(helper, current, true) == 0)
                             {
                                 this.lstIconShow.Items[index].Selected = true;
@@ -549,11 +558,11 @@ namespace plexdata.FileWiper
             return false;
         }
 
-        private bool SaveExtensionSettings()
+        private Boolean SaveExtensionSettings()
         {
             try
             {
-                string display = this.txtDisplayText.Text.Trim();
+                String display = this.txtDisplayText.Text.Trim();
                 if (!String.IsNullOrEmpty(display))
                 {
                     this.extension.Label = display;
@@ -589,7 +598,7 @@ namespace plexdata.FileWiper
             return false;
         }
 
-        private bool DefaultExtensionSettings()
+        private Boolean DefaultExtensionSettings()
         {
             return this.LoadExtensionSettings(true);
         }
@@ -616,16 +625,18 @@ namespace plexdata.FileWiper
                 this.lstIconShow.View = View.Tile;
                 this.lstIconShow.TileSize = new Size(55, 55);
 
-                this.lstIconShow.LargeImageList = new ImageList(this.components);
-                this.lstIconShow.LargeImageList.ColorDepth = ColorDepth.Depth32Bit;
-                this.lstIconShow.LargeImageList.ImageSize = new Size(48, 48);
-                this.lstIconShow.LargeImageList.TransparentColor = Color.Transparent;
+                this.lstIconShow.LargeImageList = new ImageList(this.components)
+                {
+                    ColorDepth = ColorDepth.Depth32Bit,
+                    ImageSize = new Size(48, 48),
+                    TransparentColor = Color.Transparent
+                };
 
                 Size size = this.lstIconShow.LargeImageList.ImageSize;
                 foreach (Icon icon in this.icons)
                 {
                     this.lstIconShow.LargeImageList.Images.Add(new Icon(icon, size));
-                    int index = this.lstIconShow.LargeImageList.Images.Count - 1;
+                    Int32 index = this.lstIconShow.LargeImageList.Images.Count - 1;
                     this.lstIconShow.Items.Add(new ListViewItem(String.Empty, index));
                 }
 
@@ -641,14 +652,14 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void HandleRegistration(bool register)
+        private void HandleRegistration(Boolean register)
         {
             Cursor cursor = this.Cursor;
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                string filename = this.extension.Filename;
+                String filename = this.extension.Filename;
 
                 if (!PermissionCheck.IsRunAsAdmin)
                 {
@@ -696,21 +707,21 @@ namespace plexdata.FileWiper
 
         private void DrawIconShowFocus(Graphics graphics, Rectangle rectangle, Color darkColor, Color lightColor)
         {
-            int x = rectangle.X;
-            int y = rectangle.Y;
-            int width = rectangle.Width - 1;
-            int height = rectangle.Height - 1;
-            int radius = 2;
+            Int32 x = rectangle.X;
+            Int32 y = rectangle.Y;
+            Int32 width = rectangle.Width - 1;
+            Int32 height = rectangle.Height - 1;
+            Int32 radius = 2;
 
-            int xw = x + width;
-            int yh = y + height;
-            int xwr = xw - radius;
-            int yhr = yh - radius;
-            int xr = x + radius;
-            int yr = y + radius;
-            int r2 = radius * 2;
-            int xwr2 = xw - r2;
-            int yhr2 = yh - r2;
+            Int32 xw = x + width;
+            Int32 yh = y + height;
+            Int32 xwr = xw - radius;
+            Int32 yhr = yh - radius;
+            Int32 xr = x + radius;
+            Int32 yr = y + radius;
+            Int32 r2 = radius * 2;
+            Int32 xwr2 = xw - r2;
+            Int32 yhr2 = yh - r2;
 
             using (GraphicsPath path = new GraphicsPath())
             {
@@ -795,8 +806,8 @@ namespace plexdata.FileWiper
             {
                 // Very smart because client rectangle is also adjusted! 
                 // See also: http://support.microsoft.com/kb/316574
-                const int WS_BORDER = unchecked((int)0x00800000);
-                const int WS_EX_STATICEDGE = unchecked((int)0x00020000);
+                const Int32 WS_BORDER = unchecked(0x00800000);
+                const Int32 WS_EX_STATICEDGE = unchecked(0x00020000);
 
                 CreateParams createParams = base.CreateParams;
                 createParams.ExStyle &= (~WS_EX_STATICEDGE);
@@ -815,7 +826,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnLinkClicked(object sender, LinkClickedEventArgs args)
+        private void OnLinkClicked(Object sender, LinkClickedEventArgs args)
         {
             Process.Start(args.LinkText);
         }
@@ -846,7 +857,7 @@ namespace plexdata.FileWiper
 
     internal class FocusCheckBox : CheckBox
     {
-        protected override bool ShowFocusCues
+        protected override Boolean ShowFocusCues
         {
             get
             {

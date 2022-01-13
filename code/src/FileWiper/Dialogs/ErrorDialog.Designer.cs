@@ -1,16 +1,28 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     partial class ErrorDialog
     {
@@ -56,7 +68,7 @@ namespace plexdata.FileWiper
             // 
             // buttonPanel
             // 
-            this.buttonPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonPanel.BackColor = System.Drawing.Color.White;
             this.buttonPanel.Controls.Add(this.clipboardLink);
             this.buttonPanel.Controls.Add(this.closeButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -81,13 +93,14 @@ namespace plexdata.FileWiper
             // 
             // closeButton
             // 
-            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Dock = System.Windows.Forms.DockStyle.Right;
             this.closeButton.Location = new System.Drawing.Point(361, 8);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 0;
             this.closeButton.Text = "&Close";
+            this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.OnCloseButtonClick);
             // 
             // messageIcon
@@ -122,7 +135,7 @@ namespace plexdata.FileWiper
             // 
             // errorText
             // 
-            this.errorText.BackColor = System.Drawing.SystemColors.Window;
+            this.errorText.BackColor = System.Drawing.Color.White;
             this.errorText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.errorText.Location = new System.Drawing.Point(8, 0);
             this.errorText.Multiline = true;
@@ -136,7 +149,7 @@ namespace plexdata.FileWiper
             // 
             // errorPanel
             // 
-            this.errorPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.errorPanel.BackColor = System.Drawing.Color.White;
             this.errorPanel.Controls.Add(this.errorText);
             this.errorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.errorPanel.Location = new System.Drawing.Point(0, 55);
@@ -149,6 +162,8 @@ namespace plexdata.FileWiper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.CancelButton = this.closeButton;
             this.ClientSize = new System.Drawing.Size(444, 292);
             this.Controls.Add(this.errorPanel);
             this.Controls.Add(this.buttonPanel);

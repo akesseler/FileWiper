@@ -1,23 +1,35 @@
 /*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Globalization;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
+using System.Windows.Forms;
 
-namespace plexdata.Controls
+namespace Plexdata.Controls
 {
     public class ProgressBar3D : Control
     {
@@ -62,8 +74,8 @@ namespace plexdata.Controls
 
         #endregion //Public property change event declaration section.
 
-        private StringFormat horzFormat;
-        private StringFormat vertFormat;
+        private readonly StringFormat horzFormat;
+        private readonly StringFormat vertFormat;
 
         public ProgressBar3D()
             : base()
@@ -75,13 +87,17 @@ namespace plexdata.Controls
             this.BackColor = Color.Transparent;
 
             // Setup private values.
-            this.horzFormat = new StringFormat();
-            this.horzFormat.Alignment = StringAlignment.Center;
-            this.horzFormat.LineAlignment = StringAlignment.Center;
+            this.horzFormat = new StringFormat()
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
 
-            this.vertFormat = new StringFormat(StringFormatFlags.DirectionVertical);
-            this.vertFormat.Alignment = StringAlignment.Center;
-            this.vertFormat.LineAlignment = StringAlignment.Center;
+            this.vertFormat = new StringFormat(StringFormatFlags.DirectionVertical)
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
 
             // Setup Progress properties.
             this.Value = 33D;
@@ -143,7 +159,7 @@ namespace plexdata.Controls
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public override string Text
+        public override String Text
         {
             get
             {
@@ -157,8 +173,8 @@ namespace plexdata.Controls
                     if (this.Percentage)
                     {
                         // Avoid division by zero...
-                        double divisor = this.Maximum != 0 ? this.Maximum : 1;
-                        double result = Math.Round(
+                        Double divisor = this.Maximum != 0 ? this.Maximum : 1;
+                        Double result = Math.Round(
                             (this.Value * 100 / divisor),
                             this.Digits, MidpointRounding.AwayFromZero);
 
@@ -166,7 +182,7 @@ namespace plexdata.Controls
                     }
                     else
                     {
-                        string format = "F" + this.Digits.ToString();
+                        String format = "F" + this.Digits.ToString();
                         return this.Value.ToString(format, NumberFormatInfo.CurrentInfo);
                     }
                 }
@@ -193,11 +209,11 @@ namespace plexdata.Controls
 
         #region Public property implementation section.
 
-        private double value = 33D;
+        private Double value = 33D;
         [DefaultValue(33D)]
         [Category("Progress")]
         [RefreshProperties(RefreshProperties.All)]
-        public double Value
+        public Double Value
         {
             get { return this.value; }
             set
@@ -210,19 +226,16 @@ namespace plexdata.Controls
                     this.value = value;
                     this.Invalidate();
 
-                    if (this.ValueChanged != null)
-                    {
-                        this.ValueChanged(this, EventArgs.Empty);
-                    }
+                    this.ValueChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private double steps = 1D;
+        private Double steps = 1D;
         [DefaultValue(1D)]
         [Category("Progress")]
         [RefreshProperties(RefreshProperties.All)]
-        public double Steps
+        public Double Steps
         {
             get { return this.steps; }
             set
@@ -231,19 +244,17 @@ namespace plexdata.Controls
                 {
                     this.steps = value;
                     this.Invalidate();
-                    if (this.StepsChanged != null)
-                    {
-                        this.StepsChanged(this, EventArgs.Empty);
-                    }
+
+                    this.StepsChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private double maximum = 100D;
+        private Double maximum = 100D;
         [DefaultValue(100D)]
         [Category("Progress")]
         [RefreshProperties(RefreshProperties.All)]
-        public double Maximum
+        public Double Maximum
         {
             get { return this.maximum; }
             set
@@ -254,19 +265,17 @@ namespace plexdata.Controls
                 {
                     this.maximum = value;
                     this.Invalidate();
-                    if (this.MaximumChanged != null)
-                    {
-                        this.MaximumChanged(this, EventArgs.Empty);
-                    }
+
+                    this.MaximumChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private int digits = 0;
+        private Int32 digits = 0;
         [DefaultValue(0)]
         [Category("Progress")]
         [RefreshProperties(RefreshProperties.All)]
-        public int Digits
+        public Int32 Digits
         {
             get { return this.digits; }
             set
@@ -278,19 +287,17 @@ namespace plexdata.Controls
                 {
                     this.digits = value;
                     this.Invalidate();
-                    if (this.DigitsChanged != null)
-                    {
-                        this.DigitsChanged(this, EventArgs.Empty);
-                    }
+
+                    this.DigitsChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private bool textEnabled;
+        private Boolean textEnabled;
         [DefaultValue(true)]
         [Category("Appearance")]
         [RefreshProperties(RefreshProperties.All)]
-        public bool TextEnabled
+        public Boolean TextEnabled
         {
             get { return this.textEnabled; }
             set
@@ -299,19 +306,17 @@ namespace plexdata.Controls
                 {
                     this.textEnabled = value;
                     this.Invalidate();
-                    if (this.TextEnabledChanged != null)
-                    {
-                        this.TextEnabledChanged(this, EventArgs.Empty);
-                    }
+
+                    this.TextEnabledChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private bool nullTextEnabled;
+        private Boolean nullTextEnabled;
         [DefaultValue(true)]
         [Category("Appearance")]
         [RefreshProperties(RefreshProperties.All)]
-        public bool NullTextEnabled
+        public Boolean NullTextEnabled
         {
             get { return this.nullTextEnabled; }
             set
@@ -320,19 +325,17 @@ namespace plexdata.Controls
                 {
                     this.nullTextEnabled = value;
                     this.Invalidate();
-                    if (this.NullTextEnabledChanged != null)
-                    {
-                        this.NullTextEnabledChanged(this, EventArgs.Empty);
-                    }
+
+                    this.NullTextEnabledChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private bool vertical;
+        private Boolean vertical;
         [DefaultValue(false)]
         [Category("Appearance")]
         [RefreshProperties(RefreshProperties.All)]
-        public bool Vertical
+        public Boolean Vertical
         {
             get { return this.vertical; }
             set
@@ -341,19 +344,17 @@ namespace plexdata.Controls
                 {
                     this.vertical = value;
                     this.Invalidate();
-                    if (this.VerticalChanged != null)
-                    {
-                        this.VerticalChanged(this, EventArgs.Empty);
-                    }
+
+                    this.VerticalChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private bool textVertical;
+        private Boolean textVertical;
         [DefaultValue(false)]
         [Category("Appearance")]
         [RefreshProperties(RefreshProperties.All)]
-        public bool TextVertical
+        public Boolean TextVertical
         {
             get { return this.textVertical; }
             set
@@ -362,19 +363,17 @@ namespace plexdata.Controls
                 {
                     this.textVertical = value;
                     this.Invalidate();
-                    if (this.TextVerticalChanged != null)
-                    {
-                        this.TextVerticalChanged(this, EventArgs.Empty);
-                    }
+
+                    this.TextVerticalChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private bool percentage;
+        private Boolean percentage;
         [DefaultValue(true)]
         [Category("Appearance")]
         [RefreshProperties(RefreshProperties.All)]
-        public bool Percentage
+        public Boolean Percentage
         {
             get { return this.percentage; }
             set
@@ -383,10 +382,8 @@ namespace plexdata.Controls
                 {
                     this.percentage = value;
                     this.Invalidate();
-                    if (this.PercentageChanged != null)
-                    {
-                        this.PercentageChanged(this, EventArgs.Empty);
-                    }
+
+                    this.PercentageChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -404,10 +401,8 @@ namespace plexdata.Controls
                 {
                     this.foreColorDark = value;
                     this.Invalidate();
-                    if (this.ForeColorDarkChanged != null)
-                    {
-                        this.ForeColorDarkChanged(this, EventArgs.Empty);
-                    }
+
+                    this.ForeColorDarkChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -425,10 +420,8 @@ namespace plexdata.Controls
                 {
                     this.foreColorLight = value;
                     this.Invalidate();
-                    if (this.ForeColorLightChanged != null)
-                    {
-                        this.ForeColorLightChanged(this, EventArgs.Empty);
-                    }
+
+                    this.ForeColorLightChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -446,10 +439,8 @@ namespace plexdata.Controls
                 {
                     this.backColorDark = value;
                     this.Invalidate();
-                    if (this.BackColorDarkChanged != null)
-                    {
-                        this.BackColorDarkChanged(this, EventArgs.Empty);
-                    }
+
+                    this.BackColorDarkChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -467,10 +458,8 @@ namespace plexdata.Controls
                 {
                     this.backColorLight = value;
                     this.Invalidate();
-                    if (this.BackColorLightChanged != null)
-                    {
-                        this.BackColorLightChanged(this, EventArgs.Empty);
-                    }
+
+                    this.BackColorLightChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -488,10 +477,8 @@ namespace plexdata.Controls
                 {
                     this.textColorDark = value;
                     this.Invalidate();
-                    if (this.TextColorDarkChanged != null)
-                    {
-                        this.TextColorDarkChanged(this, EventArgs.Empty);
-                    }
+
+                    this.TextColorDarkChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -509,10 +496,8 @@ namespace plexdata.Controls
                 {
                     this.textColorLight = value;
                     this.Invalidate();
-                    if (this.TextColorLightChanged != null)
-                    {
-                        this.TextColorLightChanged(this, EventArgs.Empty);
-                    }
+
+                    this.TextColorLightChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -530,19 +515,17 @@ namespace plexdata.Controls
                 {
                     this.borderColor = value;
                     this.Invalidate();
-                    if (this.BorderColorChanged != null)
-                    {
-                        this.BorderColorChanged(this, EventArgs.Empty);
-                    }
+
+                    this.BorderColorChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
 
-        private bool redirectHitTest;
+        private Boolean redirectHitTest;
         [Category("Behavior")]
         [DefaultValue(false)]
         [Description("Enable this property to forward all non-client hit test messages to the control's parent control.")]
-        public bool RedirectHitTest
+        public Boolean RedirectHitTest
         {
             get { return this.redirectHitTest; }
             set
@@ -558,7 +541,7 @@ namespace plexdata.Controls
 
         #region Overwritten method implementation section.
 
-        public override string ToString()
+        public override String ToString()
         {
             return
                 "Value: " + this.Value.ToString("N0", NumberFormatInfo.CurrentInfo) +
@@ -575,7 +558,7 @@ namespace plexdata.Controls
             this.Increment(this.Steps);
         }
 
-        public void Increment(double steps)
+        public void Increment(Double steps)
         {
             this.Value += steps;
         }
@@ -587,8 +570,8 @@ namespace plexdata.Controls
         protected override void OnPaint(PaintEventArgs args)
         {
             // TODO: Make radius configurable, calculate inset from radius and darw foreground using rounded edges.
-            const int inset = 2; // A single inset value to control the sizing of the inner rect.
-            const int radius = 0;
+            const Int32 inset = 2; // A single inset value to control the sizing of the inner rect.
+            const Int32 radius = 0;
 
             try
             {
@@ -639,8 +622,8 @@ namespace plexdata.Controls
 
         protected override void WndProc(ref Message message)
         {
-            const int WM_NCHITTEST = 0x0084;
-            const int HTTRANSPARENT = (-1);
+            const Int32 WM_NCHITTEST = 0x0084;
+            const Int32 HTTRANSPARENT = (-1);
 
             if (message.Msg == WM_NCHITTEST && this.RedirectHitTest)
             {
@@ -656,7 +639,7 @@ namespace plexdata.Controls
 
         #region Private method implementation section.
 
-        private void DrawBackground(Graphics graphics, Rectangle bounds, int radius, float sigma)
+        private void DrawBackground(Graphics graphics, Rectangle bounds, Int32 radius, Single sigma)
         {
             // Vertical direction means the opposite gradient mode!
             LinearGradientMode gradient =
@@ -675,7 +658,7 @@ namespace plexdata.Controls
                 pen.EndCap = LineCap.Round;
                 pen.StartCap = LineCap.Round;
 
-                int offset = Convert.ToInt32(Math.Ceiling(pen.Width));
+                Int32 offset = Convert.ToInt32(Math.Ceiling(pen.Width));
                 Rectangle rect = Rectangle.Inflate(bounds, -offset, -offset);
 
                 if (radius > 0)
@@ -698,7 +681,7 @@ namespace plexdata.Controls
             }
 
             // Text on background uses a different color!
-            string label = this.Text;
+            String label = this.Text;
             if (!String.IsNullOrEmpty(label))
             {
                 StringFormat format = this.horzFormat;
@@ -711,27 +694,27 @@ namespace plexdata.Controls
             }
         }
 
-        private void DrawForeground(Graphics graphics, Rectangle bounds, int inset, float sigma)
+        private void DrawForeground(Graphics graphics, Rectangle bounds, Int32 inset, Single sigma)
         {
             // Vertical direction means the opposite gradient mode!
             LinearGradientMode gradient =
                 this.Vertical ? LinearGradientMode.Horizontal : LinearGradientMode.Vertical;
 
-            double val = this.Value;
-            double div = this.Maximum > 0 ? this.Maximum : 1;
+            Double val = this.Value;
+            Double div = this.Maximum > 0 ? this.Maximum : 1;
 
             // Deflate inner rect.
             Rectangle filled = Rectangle.Inflate(bounds, -inset, -inset);
 
             if (this.Vertical)
             {
-                filled.Height = (int)(filled.Height * val / div);
+                filled.Height = (Int32)(filled.Height * val / div);
                 filled.Y = bounds.Height - (filled.Height + inset);
                 if (filled.Height == 0 && this.Value != 0) { filled.Height = 1; }
             }
             else
             {
-                filled.Width = (int)(filled.Width * val / div);
+                filled.Width = (Int32)(filled.Width * val / div);
                 if (filled.Width == 0 && this.Value != 0) { filled.Width = 1; }
             }
 
@@ -745,7 +728,7 @@ namespace plexdata.Controls
                 }
             }
 
-            string label = this.Text;
+            String label = this.Text;
             if (!String.IsNullOrEmpty(label))
             {
                 StringFormat format = this.horzFormat;
@@ -761,7 +744,7 @@ namespace plexdata.Controls
             }
         }
 
-        private bool CanDrawProgress(int radius)
+        private Boolean CanDrawProgress(Int32 radius)
         {
             // BUG: Text size not yet included in calculation. 
             // If text is enabled then current text width (size) 

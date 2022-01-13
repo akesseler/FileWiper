@@ -1,24 +1,35 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
+using Plexdata.Utilities;
 using System;
-using System.Drawing;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
-using plexdata.Utilities;
-
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public partial class MainForm : Form
     {
@@ -41,19 +52,19 @@ namespace plexdata.FileWiper
                 this.MaxOffset = iconSize.Width - this.Width;
             }
 
-            public bool MoveRight { get; set; }
+            public Boolean MoveRight { get; set; }
 
-            public int MaxOffset { get; private set; }
+            public Int32 MaxOffset { get; private set; }
 
-            public int Delta { get; private set; }
+            public Int32 Delta { get; private set; }
 
-            public int Left { get; set; }
+            public Int32 Left { get; set; }
 
-            public int Top { get; private set; }
+            public Int32 Top { get; private set; }
 
-            public int Width { get; private set; }
+            public Int32 Width { get; private set; }
 
-            public int Height { get; private set; }
+            public Int32 Height { get; private set; }
 
             public Rectangle BoundsWiping
             {
@@ -125,7 +136,7 @@ namespace plexdata.FileWiper
 
         private void UpdateTrayIconMenuState()
         {
-            bool wiping = this.IsWiping;
+            Boolean wiping = this.IsWiping;
             this.trayIconMenuCancel.Enabled = wiping;
             this.trayIconMenuPause.Enabled = wiping && !this.IsPausing;
             this.trayIconMenuContinue.Enabled = wiping && this.IsPausing;
@@ -151,16 +162,16 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void TrayIconChangeTooltip(double wipedFileSize, double totalFileSize)
+        private void TrayIconChangeTooltip(Double wipedFileSize, Double totalFileSize)
         {
             this.TrayIconChangeTooltip(wipedFileSize, totalFileSize, 0);
         }
 
-        private void TrayIconChangeTooltip(double wipedFileSize, double totalFileSize, int digits)
+        private void TrayIconChangeTooltip(Double wipedFileSize, Double totalFileSize, Int32 digits)
         {
             try
             {
-                double progress = Math.Round(
+                Double progress = Math.Round(
                     // Avoid division by zero for maximum value.
                     (wipedFileSize * 100 / Math.Max(totalFileSize, 1)),
                     // Math.Round() causes an ArgumentOutOfRangeException 
@@ -168,7 +179,7 @@ namespace plexdata.FileWiper
                     Math.Max(Math.Min(digits, 15), 0),
                     MidpointRounding.AwayFromZero);
 
-                string tooltip = String.Format(
+                String tooltip = String.Format(
                     "{0}: {1}%, Wiped {2}, Total {3}",
                     Application.ProductName,
                     progress.ToString("N0"),
@@ -188,12 +199,12 @@ namespace plexdata.FileWiper
 
         #region Tray icon context menu event handler implementation.
 
-        private void OnTrayIconMenuOpening(object sender, CancelEventArgs args)
+        private void OnTrayIconMenuOpening(Object sender, CancelEventArgs args)
         {
             this.UpdateTrayIconMenuState();
         }
 
-        private void OnTrayIconMouseClick(object sender, MouseEventArgs args)
+        private void OnTrayIconMouseClick(Object sender, MouseEventArgs args)
         {
             if (args.Button == MouseButtons.Left)
             {
@@ -201,17 +212,17 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnTrayIconMenuContinueClick(object sender, EventArgs args)
+        private void OnTrayIconMenuContinueClick(Object sender, EventArgs args)
         {
             this.ContinueWipings();
         }
 
-        private void OnTrayIconMenuPauseClick(object sender, EventArgs args)
+        private void OnTrayIconMenuPauseClick(Object sender, EventArgs args)
         {
             this.SuspendWipings();
         }
 
-        private void OnTrayIconMenuCancelClick(object sender, EventArgs args)
+        private void OnTrayIconMenuCancelClick(Object sender, EventArgs args)
         {
             this.ForceShowForm();
             if (this.Settings.Behaviour.SuppressCancelQuestion)
@@ -224,7 +235,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnTrayIconMenuShowClick(object sender, EventArgs args)
+        private void OnTrayIconMenuShowClick(Object sender, EventArgs args)
         {
             this.ForceShowForm();
             if (this.Settings.Behaviour.AutoPauseWiping)
@@ -233,7 +244,7 @@ namespace plexdata.FileWiper
             }
         }
 
-        private void OnTrayIconMenuAboutClick(object sender, EventArgs args)
+        private void OnTrayIconMenuAboutClick(Object sender, EventArgs args)
         {
             this.PerformAboutBox();
         }
@@ -242,7 +253,7 @@ namespace plexdata.FileWiper
 
         #region Tray icon update timer event handler implementation.
 
-        private void OnTrayIconUpdaterTick(object sender, EventArgs args)
+        private void OnTrayIconUpdaterTick(Object sender, EventArgs args)
         {
             // Once again spending a lot of hours to find out how to draw an icon on a bitmap 
             // without having an ugly result? But unfortunately, without success! Damn bitmap. 

@@ -1,16 +1,28 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     partial class SettingsDialog
     {
@@ -44,14 +56,22 @@ namespace plexdata.FileWiper
             this.btnDefault = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.tabSettings = new plexdata.FileWiper.TabControlEx();
+            this.tabSettings = new Plexdata.FileWiper.TabControlEx();
             this.tcpBehaviour = new System.Windows.Forms.TabPage();
+            this.chkIncludeFolderNames = new Plexdata.FileWiper.FocusCheckBox();
+            this.txtBehaviourDescription = new Plexdata.FileWiper.RichTextBoxEx();
+            this.lblBehaviourDescription = new System.Windows.Forms.Label();
+            this.chkAllowAutoRelaunch = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkSuppressCancelQuestion = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkAutoPauseWiping = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkUseFullResources = new Plexdata.FileWiper.FocusCheckBox();
+            this.chkAllowAutoClose = new Plexdata.FileWiper.FocusCheckBox();
             this.tcpWipingSettings = new System.Windows.Forms.TabPage();
             this.grpAlgorithm = new System.Windows.Forms.GroupBox();
             this.cmbAlgorithmAlgorithm = new System.Windows.Forms.ComboBox();
             this.numAlgorithmRepeats = new System.Windows.Forms.NumericUpDown();
             this.lblAlgorithmDescription = new System.Windows.Forms.Label();
-            this.txtAlgorithmDescription = new plexdata.FileWiper.RichTextBoxEx();
+            this.txtAlgorithmDescription = new Plexdata.FileWiper.RichTextBoxEx();
             this.lblAlgorithmRepeats = new System.Windows.Forms.Label();
             this.lblAlgorithmAlgorithm = new System.Windows.Forms.Label();
             this.grpParallelProcessing = new System.Windows.Forms.GroupBox();
@@ -68,14 +88,6 @@ namespace plexdata.FileWiper
             this.lblWarning = new System.Windows.Forms.Label();
             this.lblDisplayText = new System.Windows.Forms.Label();
             this.chkEnableIcon = new System.Windows.Forms.CheckBox();
-            this.chkIncludeFolderNames = new plexdata.FileWiper.FocusCheckBox();
-            this.txtBehaviourDescription = new plexdata.FileWiper.RichTextBoxEx();
-            this.lblBehaviourDescription = new System.Windows.Forms.Label();
-            this.chkAllowAutoRelaunch = new plexdata.FileWiper.FocusCheckBox();
-            this.chkSuppressCancelQuestion = new plexdata.FileWiper.FocusCheckBox();
-            this.chkAutoPauseWiping = new plexdata.FileWiper.FocusCheckBox();
-            this.chkUseFullResources = new plexdata.FileWiper.FocusCheckBox();
-            this.chkAllowAutoClose = new plexdata.FileWiper.FocusCheckBox();
             this.tabSettings.SuspendLayout();
             this.tcpBehaviour.SuspendLayout();
             this.tcpWipingSettings.SuspendLayout();
@@ -154,6 +166,100 @@ namespace plexdata.FileWiper
             this.tcpBehaviour.Text = "Behaviour";
             this.tcpBehaviour.UseVisualStyleBackColor = true;
             // 
+            // chkIncludeFolderNames
+            // 
+            this.chkIncludeFolderNames.AutoSize = true;
+            this.chkIncludeFolderNames.Location = new System.Drawing.Point(9, 54);
+            this.chkIncludeFolderNames.Name = "chkIncludeFolderNames";
+            this.chkIncludeFolderNames.Size = new System.Drawing.Size(129, 17);
+            this.chkIncludeFolderNames.TabIndex = 2;
+            this.chkIncludeFolderNames.Tag = resources.GetString("chkIncludeFolderNames.Tag");
+            this.chkIncludeFolderNames.Text = "Include Folder Names";
+            this.chkIncludeFolderNames.UseVisualStyleBackColor = true;
+            // 
+            // txtBehaviourDescription
+            // 
+            this.txtBehaviourDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBehaviourDescription.BackColor = System.Drawing.Color.White;
+            this.txtBehaviourDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBehaviourDescription.Location = new System.Drawing.Point(9, 167);
+            this.txtBehaviourDescription.Name = "txtBehaviourDescription";
+            this.txtBehaviourDescription.ReadOnly = true;
+            this.txtBehaviourDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.txtBehaviourDescription.Size = new System.Drawing.Size(305, 83);
+            this.txtBehaviourDescription.TabIndex = 7;
+            this.txtBehaviourDescription.TabStop = false;
+            this.txtBehaviourDescription.Text = "";
+            // 
+            // lblBehaviourDescription
+            // 
+            this.lblBehaviourDescription.AutoSize = true;
+            this.lblBehaviourDescription.Location = new System.Drawing.Point(6, 151);
+            this.lblBehaviourDescription.Name = "lblBehaviourDescription";
+            this.lblBehaviourDescription.Size = new System.Drawing.Size(60, 13);
+            this.lblBehaviourDescription.TabIndex = 6;
+            this.lblBehaviourDescription.Text = "Description";
+            // 
+            // chkAllowAutoRelaunch
+            // 
+            this.chkAllowAutoRelaunch.AutoSize = true;
+            this.chkAllowAutoRelaunch.Location = new System.Drawing.Point(9, 100);
+            this.chkAllowAutoRelaunch.Name = "chkAllowAutoRelaunch";
+            this.chkAllowAutoRelaunch.Size = new System.Drawing.Size(125, 17);
+            this.chkAllowAutoRelaunch.TabIndex = 4;
+            this.chkAllowAutoRelaunch.Tag = resources.GetString("chkAllowAutoRelaunch.Tag");
+            this.chkAllowAutoRelaunch.Text = "Allow Auto Relaunch";
+            this.chkAllowAutoRelaunch.UseVisualStyleBackColor = true;
+            // 
+            // chkSuppressCancelQuestion
+            // 
+            this.chkSuppressCancelQuestion.AutoSize = true;
+            this.chkSuppressCancelQuestion.Location = new System.Drawing.Point(9, 123);
+            this.chkSuppressCancelQuestion.Name = "chkSuppressCancelQuestion";
+            this.chkSuppressCancelQuestion.Size = new System.Drawing.Size(151, 17);
+            this.chkSuppressCancelQuestion.TabIndex = 5;
+            this.chkSuppressCancelQuestion.Tag = resources.GetString("chkSuppressCancelQuestion.Tag");
+            this.chkSuppressCancelQuestion.Text = "Suppress Cancel Question";
+            this.chkSuppressCancelQuestion.UseVisualStyleBackColor = true;
+            // 
+            // chkAutoPauseWiping
+            // 
+            this.chkAutoPauseWiping.AutoSize = true;
+            this.chkAutoPauseWiping.Location = new System.Drawing.Point(9, 77);
+            this.chkAutoPauseWiping.Name = "chkAutoPauseWiping";
+            this.chkAutoPauseWiping.Size = new System.Drawing.Size(117, 17);
+            this.chkAutoPauseWiping.TabIndex = 3;
+            this.chkAutoPauseWiping.Tag = "Enable this option to perform an automatically pausing of file wiping as soon as " +
+    "the main window of the program becomes visible.";
+            this.chkAutoPauseWiping.Text = "Auto Pause Wiping";
+            this.chkAutoPauseWiping.UseVisualStyleBackColor = true;
+            // 
+            // chkUseFullResources
+            // 
+            this.chkUseFullResources.AutoSize = true;
+            this.chkUseFullResources.Location = new System.Drawing.Point(9, 31);
+            this.chkUseFullResources.Name = "chkUseFullResources";
+            this.chkUseFullResources.Size = new System.Drawing.Size(118, 17);
+            this.chkUseFullResources.TabIndex = 1;
+            this.chkUseFullResources.Tag = resources.GetString("chkUseFullResources.Tag");
+            this.chkUseFullResources.Text = "Use Full Resources";
+            this.chkUseFullResources.UseVisualStyleBackColor = true;
+            // 
+            // chkAllowAutoClose
+            // 
+            this.chkAllowAutoClose.AutoSize = true;
+            this.chkAllowAutoClose.Location = new System.Drawing.Point(9, 8);
+            this.chkAllowAutoClose.Name = "chkAllowAutoClose";
+            this.chkAllowAutoClose.Size = new System.Drawing.Size(105, 17);
+            this.chkAllowAutoClose.TabIndex = 0;
+            this.chkAllowAutoClose.Tag = "Enable this option if you want to automatically close the program as soon as wipi" +
+    "ng has finished. But note, the program is only closed if it is running minimized" +
+    " and in background.";
+            this.chkAllowAutoClose.Text = "Allow Auto Close";
+            this.chkAllowAutoClose.UseVisualStyleBackColor = true;
+            // 
             // tcpWipingSettings
             // 
             this.tcpWipingSettings.Controls.Add(this.grpAlgorithm);
@@ -216,6 +322,8 @@ namespace plexdata.FileWiper
             this.txtAlgorithmDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAlgorithmDescription.BackColor = System.Drawing.Color.White;
+            this.txtAlgorithmDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtAlgorithmDescription.Location = new System.Drawing.Point(72, 72);
             this.txtAlgorithmDescription.Name = "txtAlgorithmDescription";
             this.txtAlgorithmDescription.ReadOnly = true;
@@ -309,6 +417,7 @@ namespace plexdata.FileWiper
             this.lstIconShow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstIconShow.BackColor = System.Drawing.Color.White;
             this.lstIconShow.HideSelection = false;
             this.lstIconShow.Location = new System.Drawing.Point(112, 100);
             this.lstIconShow.MultiSelect = false;
@@ -321,6 +430,7 @@ namespace plexdata.FileWiper
             // 
             this.txtHelpString.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtHelpString.BackColor = System.Drawing.Color.White;
             this.txtHelpString.Location = new System.Drawing.Point(112, 74);
             this.txtHelpString.Name = "txtHelpString";
             this.txtHelpString.Size = new System.Drawing.Size(200, 20);
@@ -361,6 +471,7 @@ namespace plexdata.FileWiper
             // 
             this.txtDisplayText.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDisplayText.BackColor = System.Drawing.Color.White;
             this.txtDisplayText.Location = new System.Drawing.Point(112, 48);
             this.txtDisplayText.Name = "txtDisplayText";
             this.txtDisplayText.Size = new System.Drawing.Size(200, 20);
@@ -398,102 +509,11 @@ namespace plexdata.FileWiper
             this.chkEnableIcon.UseVisualStyleBackColor = true;
             this.chkEnableIcon.CheckedChanged += new System.EventHandler(this.OnEnableIconUsageCheckedChanged);
             // 
-            // chkIncludeFolderNames
-            // 
-            this.chkIncludeFolderNames.AutoSize = true;
-            this.chkIncludeFolderNames.Location = new System.Drawing.Point(9, 54);
-            this.chkIncludeFolderNames.Name = "chkIncludeFolderNames";
-            this.chkIncludeFolderNames.Size = new System.Drawing.Size(129, 17);
-            this.chkIncludeFolderNames.TabIndex = 2;
-            this.chkIncludeFolderNames.Tag = resources.GetString("chkIncludeFolderNames.Tag");
-            this.chkIncludeFolderNames.Text = "Include Folder Names";
-            this.chkIncludeFolderNames.UseVisualStyleBackColor = true;
-            // 
-            // txtBehaviourDescription
-            // 
-            this.txtBehaviourDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBehaviourDescription.Location = new System.Drawing.Point(9, 167);
-            this.txtBehaviourDescription.Name = "txtBehaviourDescription";
-            this.txtBehaviourDescription.ReadOnly = true;
-            this.txtBehaviourDescription.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.txtBehaviourDescription.Size = new System.Drawing.Size(305, 83);
-            this.txtBehaviourDescription.TabIndex = 7;
-            this.txtBehaviourDescription.TabStop = false;
-            this.txtBehaviourDescription.Text = "";
-            // 
-            // lblBehaviourDescription
-            // 
-            this.lblBehaviourDescription.AutoSize = true;
-            this.lblBehaviourDescription.Location = new System.Drawing.Point(6, 151);
-            this.lblBehaviourDescription.Name = "lblBehaviourDescription";
-            this.lblBehaviourDescription.Size = new System.Drawing.Size(60, 13);
-            this.lblBehaviourDescription.TabIndex = 6;
-            this.lblBehaviourDescription.Text = "Description";
-            // 
-            // chkAllowAutoRelaunch
-            // 
-            this.chkAllowAutoRelaunch.AutoSize = true;
-            this.chkAllowAutoRelaunch.Location = new System.Drawing.Point(9, 100);
-            this.chkAllowAutoRelaunch.Name = "chkAllowAutoRelaunch";
-            this.chkAllowAutoRelaunch.Size = new System.Drawing.Size(125, 17);
-            this.chkAllowAutoRelaunch.TabIndex = 4;
-            this.chkAllowAutoRelaunch.Tag = resources.GetString("chkAllowAutoRelaunch.Tag");
-            this.chkAllowAutoRelaunch.Text = "Allow Auto Relaunch";
-            this.chkAllowAutoRelaunch.UseVisualStyleBackColor = true;
-            // 
-            // chkSuppressCancelQuestion
-            // 
-            this.chkSuppressCancelQuestion.AutoSize = true;
-            this.chkSuppressCancelQuestion.Location = new System.Drawing.Point(9, 123);
-            this.chkSuppressCancelQuestion.Name = "chkSuppressCancelQuestion";
-            this.chkSuppressCancelQuestion.Size = new System.Drawing.Size(151, 17);
-            this.chkSuppressCancelQuestion.TabIndex = 5;
-            this.chkSuppressCancelQuestion.Tag = resources.GetString("chkSuppressCancelQuestion.Tag");
-            this.chkSuppressCancelQuestion.Text = "Suppress Cancel Question";
-            this.chkSuppressCancelQuestion.UseVisualStyleBackColor = true;
-            // 
-            // chkAutoPauseWiping
-            // 
-            this.chkAutoPauseWiping.AutoSize = true;
-            this.chkAutoPauseWiping.Location = new System.Drawing.Point(9, 77);
-            this.chkAutoPauseWiping.Name = "chkAutoPauseWiping";
-            this.chkAutoPauseWiping.Size = new System.Drawing.Size(117, 17);
-            this.chkAutoPauseWiping.TabIndex = 3;
-            this.chkAutoPauseWiping.Tag = "Enable this option to perform an automatically pausing of file wiping as soon as " +
-    "the main window of the program becomes visible.";
-            this.chkAutoPauseWiping.Text = "Auto Pause Wiping";
-            this.chkAutoPauseWiping.UseVisualStyleBackColor = true;
-            // 
-            // chkUseFullResources
-            // 
-            this.chkUseFullResources.AutoSize = true;
-            this.chkUseFullResources.Location = new System.Drawing.Point(9, 31);
-            this.chkUseFullResources.Name = "chkUseFullResources";
-            this.chkUseFullResources.Size = new System.Drawing.Size(118, 17);
-            this.chkUseFullResources.TabIndex = 1;
-            this.chkUseFullResources.Tag = resources.GetString("chkUseFullResources.Tag");
-            this.chkUseFullResources.Text = "Use Full Resources";
-            this.chkUseFullResources.UseVisualStyleBackColor = true;
-            // 
-            // chkAllowAutoClose
-            // 
-            this.chkAllowAutoClose.AutoSize = true;
-            this.chkAllowAutoClose.Location = new System.Drawing.Point(9, 8);
-            this.chkAllowAutoClose.Name = "chkAllowAutoClose";
-            this.chkAllowAutoClose.Size = new System.Drawing.Size(105, 17);
-            this.chkAllowAutoClose.TabIndex = 0;
-            this.chkAllowAutoClose.Tag = "Enable this option if you want to automatically close the program as soon as wipi" +
-    "ng has finished. But note, the program is only closed if it is running minimized" +
-    " and in background.";
-            this.chkAllowAutoClose.Text = "Allow Auto Close";
-            this.chkAllowAutoClose.UseVisualStyleBackColor = true;
-            // 
             // SettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(353, 339);
             this.Controls.Add(this.btnDefault);
@@ -525,7 +545,7 @@ namespace plexdata.FileWiper
 
         #endregion
 
-        private plexdata.FileWiper.TabControlEx tabSettings;
+        private Plexdata.FileWiper.TabControlEx tabSettings;
         private System.Windows.Forms.TabPage tcpWipingSettings;
         private System.Windows.Forms.TabPage tcpShellExtension;
         private System.Windows.Forms.Button btnDefault;
@@ -544,7 +564,7 @@ namespace plexdata.FileWiper
         private System.Windows.Forms.ComboBox cmbAlgorithmAlgorithm;
         private System.Windows.Forms.NumericUpDown numAlgorithmRepeats;
         private System.Windows.Forms.Label lblAlgorithmDescription;
-        private plexdata.FileWiper.RichTextBoxEx txtAlgorithmDescription;
+        private Plexdata.FileWiper.RichTextBoxEx txtAlgorithmDescription;
         private System.Windows.Forms.Label lblAlgorithmRepeats;
         private System.Windows.Forms.Label lblAlgorithmAlgorithm;
         private System.Windows.Forms.GroupBox grpParallelProcessing;
@@ -552,13 +572,13 @@ namespace plexdata.FileWiper
         private System.Windows.Forms.NumericUpDown numParallelWipings;
         private System.Windows.Forms.CheckBox chkParallelProcessing;
         private System.Windows.Forms.TabPage tcpBehaviour;
-        private plexdata.FileWiper.FocusCheckBox chkIncludeFolderNames;
-        private plexdata.FileWiper.RichTextBoxEx txtBehaviourDescription;
+        private Plexdata.FileWiper.FocusCheckBox chkIncludeFolderNames;
+        private Plexdata.FileWiper.RichTextBoxEx txtBehaviourDescription;
         private System.Windows.Forms.Label lblBehaviourDescription;
-        private plexdata.FileWiper.FocusCheckBox chkAllowAutoRelaunch;
-        private plexdata.FileWiper.FocusCheckBox chkSuppressCancelQuestion;
-        private plexdata.FileWiper.FocusCheckBox chkAutoPauseWiping;
-        private plexdata.FileWiper.FocusCheckBox chkUseFullResources;
-        private plexdata.FileWiper.FocusCheckBox chkAllowAutoClose;
+        private Plexdata.FileWiper.FocusCheckBox chkAllowAutoRelaunch;
+        private Plexdata.FileWiper.FocusCheckBox chkSuppressCancelQuestion;
+        private Plexdata.FileWiper.FocusCheckBox chkAutoPauseWiping;
+        private Plexdata.FileWiper.FocusCheckBox chkUseFullResources;
+        private Plexdata.FileWiper.FocusCheckBox chkAllowAutoClose;
     }
 }

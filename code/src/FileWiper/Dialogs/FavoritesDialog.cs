@@ -1,34 +1,46 @@
 ﻿/*
- * Copyright (C)  2013  Axel Kesseler
+ * MIT License
  * 
- * This software is free and you can use it for any purpose. Furthermore, 
- * you are free to copy, to modify and/or to redistribute this software.
+ * Copyright (c) 2022 plexdata.de
  * 
- * In addition, this software is distributed in the hope that it will be 
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 using System;
-using System.IO;
-using System.Drawing;
-using System.Reflection;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
-namespace plexdata.FileWiper
+namespace Plexdata.FileWiper
 {
     public partial class FavoritesDialog : Form
     {
-        private static string DEFAULT_IMAGE_KEY = "::default::";
-        private static string PATH_SEPARATOR = Path.DirectorySeparatorChar.ToString();
+        private static readonly String DEFAULT_IMAGE_KEY = "::default::";
+        private static readonly String PATH_SEPARATOR = Path.DirectorySeparatorChar.ToString();
 
-        private string lastFolder = String.Empty;
-        private bool canSaveData = false;
+        private String lastFolder = String.Empty;
+        private Boolean canSaveData = false;
 
         #region Constructor section.
 
@@ -49,9 +61,11 @@ namespace plexdata.FileWiper
             try
             {
                 // Get and use the folder icon.
-                this.lstFavoritesList.SmallImageList = new ImageList();
-                this.lstFavoritesList.SmallImageList.ImageSize = new Size(16, 16);
-                this.lstFavoritesList.SmallImageList.ColorDepth = ColorDepth.Depth32Bit;
+                this.lstFavoritesList.SmallImageList = new ImageList()
+                {
+                    ImageSize = new Size(16, 16),
+                    ColorDepth = ColorDepth.Depth32Bit
+                };
                 this.lstFavoritesList.SmallImageList.Images.Add(DEFAULT_IMAGE_KEY, this.GetFolderIcon(true));
             }
             catch (Exception exception)
@@ -81,7 +95,7 @@ namespace plexdata.FileWiper
                 this.StartPosition = FormStartPosition.CenterParent;
             }
 
-            foreach (string current in Program.MainForm.Settings.Favorites.Folders)
+            foreach (String current in Program.MainForm.Settings.Favorites.Folders)
             {
                 this.AddItem(current);
             }
@@ -98,10 +112,10 @@ namespace plexdata.FileWiper
 
             if (this.canSaveData)
             {
-                List<string> folders = new List<string>();
+                List<String> folders = new List<String>();
                 foreach (ListViewItem current in this.lstFavoritesList.Items)
                 {
-                    string folder = current.Tag as string;
+                    String folder = current.Tag as String;
                     Debug.Assert(folder != null);
                     folders.Add(folder);
                 }
@@ -117,13 +131,15 @@ namespace plexdata.FileWiper
 
         #region Private event handler section.
 
-        private void OnAddButtonClick(object sender, EventArgs args)
+        private void OnAddButtonClick(Object sender, EventArgs args)
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.ShowNewFolderButton = false;
-            dialog.Description = "Choose a folder to be added to the list of wiping favorites.";
-            dialog.SelectedPath = this.lastFolder;
-            dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+            FolderBrowserDialog dialog = new FolderBrowserDialog()
+            {
+                ShowNewFolderButton = false,
+                Description = "Choose a folder to be added to the list of wiping favorites.",
+                SelectedPath = this.lastFolder,
+                RootFolder = Environment.SpecialFolder.MyComputer
+            };
 
             if (DialogResult.OK == dialog.ShowDialog(this))
             {
@@ -133,7 +149,7 @@ namespace plexdata.FileWiper
             this.UpdateStates();
         }
 
-        private void OnRemoveButtonClick(object sender, EventArgs args)
+        private void OnRemoveButtonClick(Object sender, EventArgs args)
         {
             if (this.lstFavoritesList.SelectedItems.Count > 0)
             {
@@ -146,22 +162,22 @@ namespace plexdata.FileWiper
             this.UpdateStates();
         }
 
-        private void OnExecuteButtonClick(object sender, EventArgs args)
+        private void OnExecuteButtonClick(Object sender, EventArgs args)
         {
             this.canSaveData = true;
         }
 
-        private void OnCloseButtonClick(object sender, EventArgs args)
+        private void OnCloseButtonClick(Object sender, EventArgs args)
         {
             this.canSaveData = true;
         }
 
-        private void OnFavoritesListSelectedIndexChanged(object sender, EventArgs args)
+        private void OnFavoritesListSelectedIndexChanged(Object sender, EventArgs args)
         {
             this.UpdateStates();
         }
 
-        private void OnFavoritesListKeyDown(object sender, KeyEventArgs args)
+        private void OnFavoritesListKeyDown(Object sender, KeyEventArgs args)
         {
             if (args.Control && args.KeyCode == Keys.A)
             {
@@ -173,7 +189,7 @@ namespace plexdata.FileWiper
 
         }
 
-        private void OnFavoritesListMenuOpening(object sender, CancelEventArgs args)
+        private void OnFavoritesListMenuOpening(Object sender, CancelEventArgs args)
         {
             this.cmiRemove.Enabled = this.lstFavoritesList.SelectedItems.Count > 0;
 
@@ -189,18 +205,18 @@ namespace plexdata.FileWiper
             this.btnExecute.Enabled = this.lstFavoritesList.Items.Count > 0;
         }
 
-        private bool CanAddItem(string pathname)
+        private Boolean CanAddItem(String pathname)
         {
             if (!String.IsNullOrEmpty(pathname))
             {
                 if (Directory.Exists(pathname) && pathname.CompareTo(Path.GetPathRoot(pathname)) != 0)
                 {
-                    string helper = pathname;
+                    String helper = pathname;
                     if (!helper.EndsWith(PATH_SEPARATOR)) { helper += PATH_SEPARATOR; }
 
                     foreach (ListViewItem current in this.lstFavoritesList.Items)
                     {
-                        string existing = current.Tag as string;
+                        String existing = current.Tag as String;
                         Debug.Assert(existing != null);
 
                         if (!existing.EndsWith(PATH_SEPARATOR)) { existing += PATH_SEPARATOR; }
@@ -212,7 +228,7 @@ namespace plexdata.FileWiper
                         }
                         else
                         {
-                            string message = String.Empty;
+                            String message = String.Empty;
 
                             if (existing.StartsWith(helper))
                             {
@@ -252,7 +268,7 @@ namespace plexdata.FileWiper
             return false;
         }
 
-        private void AddItem(string pathname)
+        private void AddItem(String pathname)
         {
             if (this.CanAddItem(pathname))
             {
@@ -267,7 +283,7 @@ namespace plexdata.FileWiper
             this.colFolderState.Width = -2;
         }
 
-        private void SetItem(ListViewItem item, string pathname)
+        private void SetItem(ListViewItem item, String pathname)
         {
             item.SubItems.Clear();
             item.Text = Path.GetFileName(pathname);
@@ -279,8 +295,8 @@ namespace plexdata.FileWiper
             try
             {
                 DirectoryInfo info = new DirectoryInfo(pathname);
-                int folders = info.GetDirectories().Length;
-                int files = info.GetFiles().Length;
+                Int32 folders = info.GetDirectories().Length;
+                Int32 files = info.GetFiles().Length;
                 item.ToolTipText = String.Format(
                     "Created: {0}\nFolders: {1}\nFiles: {2}",
                     info.CreationTime.ToString(),
@@ -297,26 +313,26 @@ namespace plexdata.FileWiper
             }
         }
 
-        private Icon GetFolderIcon(bool small)
+        private Icon GetFolderIcon(Boolean small)
         {
-            const int FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
-            const int SHGFI_ICON = 0x100;
-            const int SHGFI_LARGEICON = 0x0;
-            const int SHGFI_SMALLICON = 0x1;
-            const int SHGFI_USEFILEATTRIBUTES = 0x10;
+            const Int32 FILE_ATTRIBUTE_DIRECTORY = 0x00000010;
+            const Int32 SHGFI_ICON = 0x100;
+            const Int32 SHGFI_LARGEICON = 0x0;
+            const Int32 SHGFI_SMALLICON = 0x1;
+            const Int32 SHGFI_USEFILEATTRIBUTES = 0x10;
 
             Icon result = null;
             SHFILEINFO info = new SHFILEINFO();
             try
             {
-                int size = Marshal.SizeOf(info);
-                int attr = FILE_ATTRIBUTE_DIRECTORY;
-                int flags = SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | (small ? SHGFI_SMALLICON : SHGFI_LARGEICON);
+                Int32 size = Marshal.SizeOf(info);
+                Int32 attr = FILE_ATTRIBUTE_DIRECTORY;
+                Int32 flags = SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | (small ? SHGFI_SMALLICON : SHGFI_LARGEICON);
 
                 // Use wildcard instead of a real folder name.
                 SHGetFileInfo("*", attr, ref info, size, flags);
 
-                int error = Marshal.GetLastWin32Error();
+                Int32 error = Marshal.GetLastWin32Error();
 
                 result = (Icon)Icon.FromHandle(info.hIcon).Clone();
 
@@ -348,18 +364,18 @@ namespace plexdata.FileWiper
         {
             public IntPtr hIcon;
             public IntPtr nIcon;
-            public uint attributes;
+            public UInt32 attributes;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)] // MAX_PATH
-            public string displayName;
+            public String displayName;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string typeName;
+            public String typeName;
         };
 
         [DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true, PreserveSig = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr SHGetFileInfo(string fullpath, int fileAttributes, ref SHFILEINFO fileInfo, int sizeFileInfo, int flags);
+        private static extern IntPtr SHGetFileInfo(String fullpath, Int32 fileAttributes, ref SHFILEINFO fileInfo, Int32 sizeFileInfo, Int32 flags);
 
         [DllImport("user32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, PreserveSig = true)]
-        private static extern bool DestroyIcon(IntPtr hIcon);
+        private static extern Boolean DestroyIcon(IntPtr hIcon);
 
         #endregion // Win32 API function declarations.
     }

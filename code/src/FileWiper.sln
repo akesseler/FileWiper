@@ -1,12 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWiper", "FileWiper\FileWiper.csproj", "{F578F705-0A62-4ADD-A4E3-A35E631FDF0A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cmd", "cmd", "{F57EB1AB-BC90-45E5-9051-AE801AA31C9B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B52AA42E-8016-4EB2-A549-ABE4FC31C9C6}"
 	ProjectSection(SolutionItems) = preProject
-		clean_all.cmd = clean_all.cmd
+		.editorconfig = .editorconfig
+		clean.cmd = clean.cmd
 		copy_release.cmd = copy_release.cmd
+		HISTORY.md = HISTORY.md
+		README.md = README.md
+		TODOs.md = TODOs.md
 	EndProjectSection
 EndProject
 Global
@@ -28,5 +34,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2E522C06-8908-4C1F-9C3B-E3DA05D403EA}
 	EndGlobalSection
 EndGlobal
